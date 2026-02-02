@@ -36,55 +36,29 @@
 2. Scroll to **Your apps**
 3. Click the **Web** icon (`</>`)
 4. Register app as `tsp-web`
-5. Copy the config object:
-
-```javascript
-const firebaseConfig = {
-  apiKey: "AIzaSy...",
-  authDomain: "tsp-ideas-hub.firebaseapp.com",
-  projectId: "tsp-ideas-hub",
-  storageBucket: "tsp-ideas-hub.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abc123"
-};
-```
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBZkzGNKb9u6rLPakz-i2vlzLGyokuSvuk",
-  authDomain: "tsp-ideas-hub.firebaseapp.com",
-  projectId: "tsp-ideas-hub",
-  storageBucket: "tsp-ideas-hub.firebasestorage.app",
-  messagingSenderId: "276826956909",
-  appId: "1:276826956909:web:a2207c7be0b79dd33a4b64",
-  measurementId: "G-P9PEB7VPJM"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
----
-
-## Step 5: Add Config to App
-
-1. Open `tsp-ideas-hub-firebase.html`
-2. Find this section near the top:
+5. Copy the config object (replace placeholders with your values):
 
 ```javascript
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
-  ...
+  authDomain: "tsp-ideas-hub.firebaseapp.com",
+  projectId: "tsp-ideas-hub",
+  storageBucket: "tsp-ideas-hub.firebasestorage.app",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
 ```
 
-3. Replace with YOUR values from Step 4
-4. Save
+**Note:** Do not commit real API keys to the repo. The app uses the compat SDK; paste your values into `tsp-ideas-hub-firebase.html` and `public/index.html` (see Step 5).
+
+---
+
+## Step 5: Add Config to App
+
+1. Open `tsp-ideas-hub-firebase.html` and `public/index.html` (both are the same app; the latter is what gets deployed).
+2. Find the `firebaseConfig` object near the top of each file.
+3. Replace placeholder values with YOUR values from Step 4.
+4. Save both files (or copy from one to the other).
 
 ---
 
@@ -98,9 +72,23 @@ const firebaseConfig = {
 
 ---
 
-## Step 7: Security Rules (Before Sharing)
+## Step 7: Deploy Firestore Rules (and Hosting)
 
-Go to **Firestore Database → Rules** and paste:
+From the project root, deploy rules and the app:
+
+```bash
+firebase deploy
+```
+
+This deploys Firestore rules from `firestore.rules`, Storage rules, and the web app from the `public` folder. Your app will be live at `https://tsp-ideas-hub.web.app` (or your project’s hosting URL).
+
+To deploy only Firestore rules: `firebase deploy --only firestore`
+
+---
+
+## Step 8: Security Rules in Console (Alternative)
+
+You can also manage rules in the Firebase Console. Go to **Firestore Database → Rules** and paste:
 
 ```javascript
 rules_version = '2';
@@ -124,16 +112,16 @@ Click **Publish**.
 
 ---
 
-## Optional: Host on Firebase (Free URL)
+## Optional: First-time Firebase CLI
+
+If you haven’t used Firebase CLI yet:
 
 ```bash
 npm install -g firebase-tools
 firebase login
-firebase init hosting
-firebase deploy
 ```
 
-You'll get: `https://tsp-ideas-hub.web.app`
+Hosting is already configured in `firebase.json`; run `firebase deploy` to publish the app and rules. You’ll get: `https://tsp-ideas-hub.web.app`
 
 ---
 
