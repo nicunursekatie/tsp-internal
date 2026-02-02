@@ -7,6 +7,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script>
+    // Expose React for UMD bundles (e.g. lucide-react) that expect lowercase global
+    window.react = window.React;
+    window['react-dom'] = window.ReactDOM;
+  </script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script>
 
@@ -44,14 +49,10 @@
       appId: "1:276826956909:web:a2207c7be0b79dd33a4b64"
     };
 
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    // Make available globally for React components
-    window.firebaseAuth = auth;
-    window.firebaseDb = db;
+    // Initialize Firebase (assign to window only to avoid duplicate declarations when Babel-compiled script runs in global scope)
+    firebase.initializeApp(firebaseConfig);
+    window.firebaseAuth = firebase.auth();
+    window.firebaseDb = firebase.firestore();
   </script>
 
   <script type="text/babel">
