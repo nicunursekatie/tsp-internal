@@ -48,7 +48,27 @@ const firebaseConfig = {
   appId: "1:123456789:web:abc123"
 };
 ```
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBZkzGNKb9u6rLPakz-i2vlzLGyokuSvuk",
+  authDomain: "tsp-ideas-hub.firebaseapp.com",
+  projectId: "tsp-ideas-hub",
+  storageBucket: "tsp-ideas-hub.firebasestorage.app",
+  messagingSenderId: "276826956909",
+  appId: "1:276826956909:web:a2207c7be0b79dd33a4b64",
+  measurementId: "G-P9PEB7VPJM"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 ---
 
 ## Step 5: Add Config to App
