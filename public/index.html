@@ -801,7 +801,7 @@
     const IdeaSubmissionForm = ({ setCurrentView }) => {
       const { user } = useAuth();
       const { submitIdea } = useIdeas();
-      const [formData, setFormData] = useState({ title: '', description: '', whyItMatters: '', whoNeeded: '', resources: '', timeline: '', risks: '', missionAlignment: '' });
+      const [formData, setFormData] = useState({ title: '', description: '', targetDate: '' });
       const [submitted, setSubmitted] = useState(false);
       const [loading, setLoading] = useState(false);
 
@@ -829,7 +829,7 @@
       }
 
       return (
-        <div className="p-6 max-w-3xl mx-auto">
+        <div className="p-6 max-w-2xl mx-auto">
           <div className="mb-8">
             <h1 className="text-2xl font-bold text-gray-800">Submit an Idea</h1>
             <p className="text-gray-600">Share your idea with the team. Ideas with 2+ seconds advance to review.</p>
@@ -838,49 +838,23 @@
           <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Title <span className="text-red-500">*</span></label>
-              <input type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" placeholder="Brief, descriptive title" required />
+              <input type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent" style={{ '--tw-ring-color': '#47b3cb' }} placeholder="What's your idea?" required />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Description <span className="text-red-500">*</span></label>
-              <textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" rows={4} placeholder="Detailed explanation of your idea" required />
+              <textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent" rows={5} placeholder="Describe your idea and why it matters..." required />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Why It Matters <span className="text-red-500">*</span></label>
-              <textarea value={formData.whyItMatters} onChange={(e) => setFormData({ ...formData, whyItMatters: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" rows={3} placeholder="How does this help TSP's mission?" required />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Who's Needed</label>
-                <input type="text" value={formData.whoNeeded} onChange={(e) => setFormData({ ...formData, whoNeeded: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" placeholder="e.g., 2 volunteers, marketing team" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Resources Required</label>
-                <input type="text" value={formData.resources} onChange={(e) => setFormData({ ...formData, resources: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" placeholder="e.g., $500 budget, new software" />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Timeline</label>
-                <input type="text" value={formData.timeline} onChange={(e) => setFormData({ ...formData, timeline: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" placeholder="e.g., 2 weeks, Q2 2026" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Risks/Concerns</label>
-                <input type="text" value={formData.risks} onChange={(e) => setFormData({ ...formData, risks: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" placeholder="Potential challenges or downsides" />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Mission Alignment</label>
-              <textarea value={formData.missionAlignment} onChange={(e) => setFormData({ ...formData, missionAlignment: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent" rows={2} placeholder="How does this align with TSP's core mission?" />
+              <label className="block text-sm font-medium text-gray-700 mb-1">Target Date <span className="text-gray-400 font-normal">(optional)</span></label>
+              <input type="date" value={formData.targetDate} onChange={(e) => setFormData({ ...formData, targetDate: e.target.value })} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent" />
+              <p className="text-xs text-gray-500 mt-1">If this idea is time-sensitive or has a deadline</p>
             </div>
 
             <div className="flex gap-4 pt-4">
               <button type="button" onClick={() => setCurrentView('dashboard')} className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">Cancel</button>
-              <button type="submit" disabled={loading} className="flex-1 bg-amber-500 hover:bg-amber-600 disabled:bg-amber-300 text-white font-semibold py-2 rounded-lg transition-colors flex items-center justify-center gap-2">
+              <button type="submit" disabled={loading} className="flex-1 text-white font-semibold py-2 rounded-lg transition-colors flex items-center justify-center gap-2" style={{ backgroundColor: loading ? '#5a9aad' : '#007e8c' }}>
                 {loading && <Loader2 className="animate-spin" size={18} />} Submit Idea
               </button>
             </div>
@@ -949,7 +923,6 @@
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
             <div className="lg:col-span-2 space-y-6">
               <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"><h2 className="font-semibold text-gray-800 mb-3">Description</h2><p className="text-gray-600 whitespace-pre-wrap">{idea.description}</p></div>
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"><h2 className="font-semibold text-gray-800 mb-3">Why It Matters</h2><p className="text-gray-600 whitespace-pre-wrap">{idea.whyItMatters}</p></div>
 
               {idea.decision && (
                 <div className={`rounded-xl p-6 ${idea.decision.type === 'approved' ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
@@ -1004,24 +977,24 @@
             </div>
 
             <div className="space-y-6">
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                <h3 className="font-semibold text-gray-800 mb-4">Details</h3>
-                <div className="space-y-3 text-sm">
-                  {idea.whoNeeded && <div><span className="text-gray-500">Who's Needed:</span><p className="text-gray-800">{idea.whoNeeded}</p></div>}
-                  {idea.resources && <div><span className="text-gray-500">Resources:</span><p className="text-gray-800">{idea.resources}</p></div>}
-                  {idea.timeline && <div><span className="text-gray-500">Timeline:</span><p className="text-gray-800">{idea.timeline}</p></div>}
-                  {idea.risks && <div><span className="text-gray-500">Risks:</span><p className="text-gray-800">{idea.risks}</p></div>}
+              {idea.targetDate && (
+                <div className="rounded-xl p-4 border" style={{ backgroundColor: '#f0f9fa', borderColor: '#47b3cb' }}>
+                  <div className="flex items-center gap-2" style={{ color: '#007e8c' }}>
+                    <Calendar size={18} />
+                    <span className="font-medium">Target Date</span>
+                  </div>
+                  <p className="mt-1" style={{ color: '#236383' }}>{new Date(idea.targetDate).toLocaleDateString()}</p>
                 </div>
-              </div>
+              )}
               <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                 <h3 className="font-semibold text-gray-800 mb-4">Seconds ({idea.seconds?.length || 0}/2 needed)</h3>
                 <div className="space-y-2">
-                  {(idea.seconds || []).map(s => <div key={s.userId} className="flex items-center gap-2 text-sm"><ThumbsUp size={14} className="text-indigo-500" /><span>{s.userName}</span></div>)}
+                  {(idea.seconds || []).map(s => <div key={s.userId} className="flex items-center gap-2 text-sm"><ThumbsUp size={14} style={{ color: '#007e8c' }} /><span>{s.userName}</span></div>)}
                   {(!idea.seconds || idea.seconds.length === 0) && <p className="text-gray-500 text-sm">No seconds yet</p>}
                 </div>
               </div>
               {idea.owner && <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"><h3 className="font-semibold text-gray-800 mb-3">Owner</h3><div className="flex items-center gap-2"><div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center"><User size={16} className="text-green-600" /></div><span className="font-medium text-gray-800">{idea.owner.name}</span></div></div>}
-              {(idea.status === 'submitted' || idea.status === 'feedback') && idea.feedbackDeadline && <div className="bg-amber-50 border border-amber-200 rounded-xl p-4"><div className="flex items-center gap-2 text-amber-700"><Clock size={18} /><span className="font-medium">Feedback Deadline</span></div><p className="text-amber-600 mt-1">{new Date(idea.feedbackDeadline).toLocaleDateString()}</p></div>}
+              {(idea.status === 'submitted' || idea.status === 'feedback') && idea.feedbackDeadline && <div className="rounded-xl p-4" style={{ backgroundColor: '#fef7eb', border: '1px solid #fbad3f' }}><div className="flex items-center gap-2" style={{ color: '#c47f00' }}><Clock size={18} /><span className="font-medium">Feedback Deadline</span></div><p style={{ color: '#996300' }} className="mt-1">{new Date(idea.feedbackDeadline).toLocaleDateString()}</p></div>}
             </div>
           </div>
 
