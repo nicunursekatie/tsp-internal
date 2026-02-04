@@ -22,6 +22,13 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
+    /* Brand Colors:
+       Primary: #236383 (dark blue)
+       Secondary: #007e8c (teal)
+       Accent: #47b3cb (light teal)
+       Highlight: #fbad3f (orange)
+       Alert: #a31c41 (burgundy)
+    */
   </style>
 </head>
 <body>
@@ -127,7 +134,20 @@
             // Get user profile from Firestore
             const profileDoc = await db.collection('users').doc(firebaseUser.uid).get();
             if (profileDoc.exists) {
-              const profile = { id: firebaseUser.uid, ...profileDoc.data() };
+              const profileData = profileDoc.data();
+
+              // Auto-upgrade Katie to admin if not already set
+              const isKatie = profileData.email?.toLowerCase() === 'katie@thesandwichproject.org';
+              if (isKatie && (!profileData.isAdmin || profileData.approved === undefined)) {
+                await db.collection('users').doc(firebaseUser.uid).update({
+                  isAdmin: true,
+                  approved: true
+                });
+                profileData.isAdmin = true;
+                profileData.approved = true;
+              }
+
+              const profile = { id: firebaseUser.uid, ...profileData };
               setUser(profile);
               setUserProfile(profile);
             }
@@ -152,10 +172,14 @@
       const register = async (name, email, password, role = 'team_member') => {
         try {
           const credential = await auth.createUserWithEmailAndPassword(email, password);
+          // Katie is auto-approved and admin; all others need approval
+          const isKatie = email.toLowerCase() === 'katie@thesandwichproject.org';
           await db.collection('users').doc(credential.user.uid).set({
             name,
             email,
             role,
+            isAdmin: isKatie,
+            approved: isKatie, // Only Katie is auto-approved
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
           return { success: true };
@@ -175,8 +199,19 @@
 
       const logout = () => auth.signOut();
 
+      const approveUser = async (userId) => {
+        await db.collection('users').doc(userId).update({ approved: true });
+      };
+
+      const rejectUser = async (userId) => {
+        // Delete the user document (they'll need to re-register if rejected)
+        await db.collection('users').doc(userId).delete();
+      };
+
+      const pendingUsers = users.filter(u => u.approved === false);
+
       return (
-        <AuthContext.Provider value={{ user, users, loading, register, login, logout }}>
+        <AuthContext.Provider value={{ user, users, pendingUsers, loading, register, login, logout, approveUser, rejectUser }}>
           {children}
         </AuthContext.Provider>
       );
@@ -417,10 +452,10 @@
       };
 
       return (
-        <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center p-4">
+        <div className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(135deg, #e8f4f8 0%, #d4eef3 100%)' }}>
           <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
             <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-amber-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: '#236383' }}>
                 <span className="text-3xl">🥪</span>
               </div>
               <h1 className="text-2xl font-bold text-gray-800">The Sandwich Project</h1>
@@ -436,7 +471,8 @@
                       type="text"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent"
+                      style={{ '--tw-ring-color': '#47b3cb' }}
                       placeholder="Your full name"
                     />
                   </div>
@@ -445,13 +481,16 @@
                     <select
                       value={formData.role}
                       onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent"
                     >
                       <option value="team_member">Team Member</option>
                       <option value="core_team">Core Team</option>
                       <option value="ed">Executive Director</option>
                     </select>
                   </div>
+                  <p className="text-xs text-gray-500 bg-gray-50 p-2 rounded">
+                    ⓘ New accounts require admin approval before you can access the Ideas Hub.
+                  </p>
                 </>
               )}
 
@@ -461,7 +500,7 @@
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent"
                   placeholder="you@example.com"
                   required
                 />
@@ -473,7 +512,7 @@
                   type="password"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent"
                   placeholder="••••••••"
                   required
                   minLength={6}
@@ -489,7 +528,10 @@
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-amber-300 text-white font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+                className="w-full text-white font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+                style={{ backgroundColor: loading ? '#5a9aad' : '#007e8c' }}
+                onMouseOver={(e) => !loading && (e.target.style.backgroundColor = '#006674')}
+                onMouseOut={(e) => !loading && (e.target.style.backgroundColor = '#007e8c')}
               >
                 {loading && <Loader2 className="animate-spin" size={18} />}
                 {isLogin ? 'Sign In' : 'Create Account'}
@@ -500,7 +542,8 @@
               {isLogin ? "Don't have an account?" : 'Already have an account?'}
               <button
                 onClick={() => setIsLogin(!isLogin)}
-                className="text-amber-600 font-semibold ml-2 hover:underline"
+                className="font-semibold ml-2 hover:underline"
+                style={{ color: '#007e8c' }}
               >
                 {isLogin ? 'Sign up' : 'Sign in'}
               </button>
@@ -514,13 +557,17 @@
     // COMPONENTS: Sidebar
     // ============================================================================
 
+    // Shield icon for admin
+    const Shield = ({ size, className }) => <Icon size={size} className={className} d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM12 8v4M12 16h.01" />;
+
     const Sidebar = ({ currentView, setCurrentView }) => {
-      const { user, logout } = useAuth();
+      const { user, logout, pendingUsers } = useAuth();
       const { ideas, appeals } = useIdeas();
 
       const pendingAppeals = appeals.filter(a => a.status === 'pending').length;
       const inFeedback = ideas.filter(i => i.status === 'submitted').length;
       const readyForReview = ideas.filter(i => i.status === 'seconded').length;
+      const pendingUserCount = pendingUsers?.length || 0;
 
       const navItems = [
         { id: 'dashboard', label: 'Dashboard', icon: Home },
@@ -532,16 +579,21 @@
         { id: 'archive', label: 'Archive', icon: Archive }
       ];
 
+      // Admin-only nav items
+      if (user?.isAdmin) {
+        navItems.push({ id: 'admin', label: 'User Approvals', icon: Shield, badge: pendingUserCount });
+      }
+
       return (
-        <div className="w-64 bg-gray-900 min-h-screen flex flex-col">
-          <div className="p-4 border-b border-gray-800">
+        <div className="w-64 bg-white min-h-screen flex flex-col border-r border-gray-200">
+          <div className="p-4 border-b border-gray-200" style={{ backgroundColor: '#236383' }}>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
                 <span className="text-xl">🥪</span>
               </div>
               <div>
                 <h1 className="text-white font-bold">TSP Ideas</h1>
-                <p className="text-gray-400 text-xs">Decision Hub</p>
+                <p className="text-white/70 text-xs">Decision Hub</p>
               </div>
             </div>
           </div>
@@ -554,14 +606,15 @@
                     onClick={() => setCurrentView(item.id)}
                     className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
                       currentView === item.id
-                        ? 'bg-amber-500 text-white'
-                        : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                        ? 'text-white'
+                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                     }`}
+                    style={currentView === item.id ? { backgroundColor: '#007e8c' } : {}}
                   >
                     <item.icon size={18} />
                     <span className="flex-1 text-left">{item.label}</span>
                     {item.badge > 0 && (
-                      <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                      <span className="text-white text-xs px-2 py-0.5 rounded-full" style={{ backgroundColor: '#a31c41' }}>
                         {item.badge}
                       </span>
                     )}
@@ -571,19 +624,21 @@
             </ul>
           </nav>
 
-          <div className="p-4 border-t border-gray-800">
+          <div className="p-4 border-t border-gray-200">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center">
-                <User size={16} className="text-gray-400" />
+              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: '#47b3cb' }}>
+                <User size={16} className="text-white" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-white text-sm font-medium truncate">{user?.name}</p>
-                <p className="text-gray-500 text-xs capitalize">{user?.role?.replace('_', ' ')}</p>
+                <p className="text-gray-800 text-sm font-medium truncate">{user?.name}</p>
+                <p className="text-gray-500 text-xs capitalize">
+                  {user?.isAdmin ? 'Admin' : user?.role?.replace('_', ' ')}
+                </p>
               </div>
             </div>
             <button
               onClick={logout}
-              className="w-full flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors"
+              className="w-full flex items-center gap-2 px-3 py-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <LogOut size={16} />
               <span>Sign Out</span>
@@ -1125,6 +1180,144 @@
       );
     };
 
+    // Admin view for approving/rejecting users
+    const AdminApprovalView = () => {
+      const { pendingUsers, approveUser, rejectUser, users } = useAuth();
+      const [actionLoading, setActionLoading] = useState(null);
+
+      const handleApprove = async (userId) => {
+        setActionLoading(userId);
+        await approveUser(userId);
+        setActionLoading(null);
+      };
+
+      const handleReject = async (userId) => {
+        if (!confirm('Are you sure you want to reject this user? They will need to register again.')) return;
+        setActionLoading(userId);
+        await rejectUser(userId);
+        setActionLoading(null);
+      };
+
+      const approvedUsers = users.filter(u => u.approved !== false);
+
+      return (
+        <div className="p-6">
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold text-gray-800">User Management</h1>
+            <p className="text-gray-600">Approve or reject new user registrations</p>
+          </div>
+
+          <div className="mb-8">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Clock size={20} style={{ color: '#fbad3f' }} />
+              Pending Approval ({pendingUsers.length})
+            </h2>
+            {pendingUsers.length === 0 ? (
+              <div className="bg-white rounded-xl p-8 text-center border border-gray-100">
+                <CheckCircle size={40} className="mx-auto mb-3 text-green-500" />
+                <p className="text-gray-500">No pending users to approve</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {pendingUsers.map(u => (
+                  <div key={u.id} className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#47b3cb' }}>
+                        <User size={20} className="text-white" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-800">{u.name}</p>
+                        <p className="text-sm text-gray-500">{u.email}</p>
+                        <p className="text-xs text-gray-400 capitalize">Requested: {u.role?.replace('_', ' ')}</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleApprove(u.id)}
+                        disabled={actionLoading === u.id}
+                        className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:bg-green-300 flex items-center gap-2"
+                      >
+                        {actionLoading === u.id ? <Loader2 className="animate-spin" size={16} /> : <CheckCircle size={16} />}
+                        Approve
+                      </button>
+                      <button
+                        onClick={() => handleReject(u.id)}
+                        disabled={actionLoading === u.id}
+                        className="px-4 py-2 border text-white rounded-lg hover:opacity-80 disabled:opacity-50"
+                        style={{ backgroundColor: '#a31c41' }}
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div>
+            <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Users size={20} style={{ color: '#007e8c' }} />
+              Active Users ({approvedUsers.length})
+            </h2>
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+              <table className="w-full">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Name</th>
+                    <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Email</th>
+                    <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Role</th>
+                    <th className="text-left px-4 py-3 text-sm font-medium text-gray-600">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {approvedUsers.map(u => (
+                    <tr key={u.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-3 text-gray-800">{u.name}</td>
+                      <td className="px-4 py-3 text-gray-600">{u.email}</td>
+                      <td className="px-4 py-3 text-gray-600 capitalize">{u.role?.replace('_', ' ')}</td>
+                      <td className="px-4 py-3">
+                        {u.isAdmin && (
+                          <span className="px-2 py-1 rounded-full text-xs font-medium text-white" style={{ backgroundColor: '#236383' }}>
+                            Admin
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // Pending approval screen for non-approved users
+    const PendingApprovalScreen = () => {
+      const { logout, user } = useAuth();
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md text-center">
+            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: '#fbad3f' }}>
+              <Clock size={40} className="text-white" />
+            </div>
+            <h1 className="text-2xl font-bold text-gray-800 mb-2">Account Pending Approval</h1>
+            <p className="text-gray-600 mb-6">
+              Thanks for signing up, {user?.name}! Your account is awaiting approval from an administrator. You'll be able to access the Ideas Hub once approved.
+            </p>
+            <button
+              onClick={logout}
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <LogOut size={18} />
+              Sign Out
+            </button>
+          </div>
+        </div>
+      );
+    };
+
     // ============================================================================
     // MAIN APP
     // ============================================================================
@@ -1146,7 +1339,8 @@
         active: <ActiveIdeas setSelectedIdea={setSelectedIdea} setCurrentView={setCurrentView} />,
         appeals: <AppealsView />,
         archive: <ArchiveView setSelectedIdea={setSelectedIdea} setCurrentView={setCurrentView} />,
-        detail: <IdeaDetail idea={selectedIdea} setCurrentView={setCurrentView} setSelectedIdea={setSelectedIdea} />
+        detail: <IdeaDetail idea={selectedIdea} setCurrentView={setCurrentView} setSelectedIdea={setSelectedIdea} />,
+        admin: <AdminApprovalView />
       };
 
       return <div className="flex min-h-screen bg-gray-50"><Sidebar currentView={currentView} setCurrentView={setCurrentView} /><div className="flex-1 overflow-auto">{views[currentView]}</div></div>;
@@ -1157,7 +1351,14 @@
     // ============================================================================
 
     const App = () => <AuthProvider><IdeasProvider><AppContent /></IdeasProvider></AuthProvider>;
-    const AppContent = () => { const { user, loading } = useAuth(); if (loading) return <div className="min-h-screen bg-gray-50 flex items-center justify-center"><Loader2 className="animate-spin text-amber-500" size={40} /></div>; return user ? <MainApp /> : <AuthForm />; };
+    const AppContent = () => {
+      const { user, loading } = useAuth();
+      if (loading) return <div className="min-h-screen bg-gray-50 flex items-center justify-center"><Loader2 className="animate-spin" size={40} style={{ color: '#007e8c' }} /></div>;
+      if (!user) return <AuthForm />;
+      // Check if user is approved (admins and existing users without the field are auto-approved)
+      if (user.approved === false) return <PendingApprovalScreen />;
+      return <MainApp />;
+    };
 
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
