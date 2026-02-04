@@ -14,6 +14,10 @@
   </script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script>
+  <script>
+    // UMD build exposes LucideReact (capital L); our code uses lucideReact
+    window.lucideReact = window.LucideReact;
+  </script>
 
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
