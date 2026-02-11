@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sandwich Project — Food Safety Guide for Volunteers</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  /* ── BRAND PALETTE ── */
+  :root {
+    --brand-navy: #236383;
+    --brand-teal: #47B3CB;
+    --brand-deep-teal: #007E8C;
+    --brand-gold: #FBAD3F;
+    --brand-crimson: #A31C41;
+
+    /* Derived tints */
+    --teal-light: #e8f6f9;
+    --teal-border: #a3dce8;
+    --deep-teal-light: #e5f3f5;
+    --deep-teal-border: #7fc5ce;
+    --gold-light: #fef5e4;
+    --gold-border: #fdd68a;
+    --crimson-light: #fceef1;
+    --crimson-border: #e8899a;
+    --navy-light: #2d7a9e;
+
+    /* Neutrals */
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--gray-900);
+    background: var(--gray-50);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ──── HEADER ──── */
+  .header {
+    background: linear-gradient(135deg, var(--brand-navy) 0%, var(--navy-light) 60%, var(--brand-deep-teal) 100%);
+    color: white;
+    padding: 2.5rem 2rem 2.25rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 60%; height: 200%;
+    background: radial-gradient(ellipse, rgba(71,179,203,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0; right: 0;
+    height: 36px;
+    background: var(--gray-50);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+  .header-org {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+  }
+  .header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+  }
+  .header .subtitle {
+    font-size: 1.05rem;
+    font-weight: 500;
+    opacity: 0.9;
+  }
+  .header .tagline {
+    display: inline-block;
+    margin-top: 1rem;
+    background: var(--brand-gold);
+    color: var(--gray-900);
+    padding: 0.4rem 1.4rem;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(251,173,63,0.3);
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem 3rem;
+  }
+
+  /* ──── CRITICAL ALERT ──── */
+  .critical-alert {
+    background: var(--crimson-light);
+    border: 2px solid var(--crimson-border);
+    border-left: 5px solid var(--brand-crimson);
+    border-radius: 12px;
+    padding: 1.4rem 1.6rem;
+    margin: 2rem 0 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .critical-alert .alert-icon {
+    width: 40px; height: 40px;
+    background: var(--brand-crimson);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .critical-alert h3 {
+    color: var(--brand-crimson);
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .critical-alert p {
+    font-size: 0.9rem;
+    color: var(--gray-700);
+    line-height: 1.55;
+  }
+  .critical-alert .temp-highlight {
+    display: inline-block;
+    background: var(--brand-crimson);
+    color: white;
+    font-weight: 700;
+    padding: 0.1em 0.5em;
+    border-radius: 5px;
+    font-size: 0.9rem;
+  }
+
+  /* ──── TEMPERATURE VISUAL ──── */
+  .temp-strip {
+    display: flex;
+    align-items: stretch;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 0 0 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    border: 1px solid var(--gray-200);
+  }
+  .temp-zone {
+    flex: 1;
+    padding: 1.2rem 1.5rem;
+    text-align: center;
+  }
+  .temp-zone.safe {
+    background: linear-gradient(135deg, var(--teal-light), #d4f0f5);
+    border-right: 3px solid var(--brand-teal);
+  }
+  .temp-zone.danger {
+    background: linear-gradient(135deg, var(--crimson-light), #f9dde3);
+  }
+  .temp-zone .zone-icon { font-size: 1.6rem; margin-bottom: 0.2rem; }
+  .temp-zone .zone-label {
+    font-weight: 800;
+    font-size: 1.35rem;
+    margin-bottom: 0.1rem;
+  }
+  .temp-zone.safe .zone-label { color: var(--brand-deep-teal); }
+  .temp-zone.danger .zone-label { color: var(--brand-crimson); }
+  .temp-zone .zone-desc {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--gray-500);
+  }
+
+  /* ──── FLOW STEPS ──── */
+  .flow-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin: 0 0 1.5rem;
+  }
+  .flow-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .flow-badge.shop { background: var(--teal-light); color: var(--brand-teal); }
+  .flow-badge.make { background: var(--gold-light); color: #b87a10; }
+  .flow-badge.deliver { background: var(--deep-teal-light); color: var(--brand-deep-teal); }
+  .flow-badge .badge-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: white;
+  }
+  .flow-badge.shop .badge-num { background: var(--brand-teal); }
+  .flow-badge.make .badge-num { background: var(--brand-gold); color: var(--gray-900); }
+  .flow-badge.deliver .badge-num { background: var(--brand-deep-teal); }
+  .flow-arrow {
+    font-size: 1.2rem;
+    color: var(--gray-300);
+  }
+
+  /* ──── SECTION CARDS ──── */
+  .section-card {
+    background: white;
+    border-radius: 14px;
+    padding: 0;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.03);
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 1.15rem 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+  .section-icon {
+    width: 44px; height: 44px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    color: white;
+  }
+  .section-header h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+  .section-header .step-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    opacity: 0.7;
+  }
+  .section-body {
+    padding: 0 1.6rem 1.4rem;
+  }
+
+  /* Section color themes */
+  .section-card.shop { border: 1px solid var(--teal-border); }
+  .section-card.shop .section-header { background: var(--teal-light); }
+  .section-card.shop .section-icon { background: var(--brand-teal); }
+  .section-card.shop h2 { color: var(--brand-navy); }
+  .section-card.shop .step-label { color: var(--brand-teal); }
+
+  .section-card.make { border: 1px solid var(--gold-border); }
+  .section-card.make .section-header { background: var(--gold-light); }
+  .section-card.make .section-icon { background: var(--brand-gold); color: var(--gray-900); }
+  .section-card.make h2 { color: var(--brand-navy); }
+  .section-card.make .step-label { color: #b87a10; }
+
+  .section-card.deliver { border: 1px solid var(--deep-teal-border); }
+  .section-card.deliver .section-header { background: var(--deep-teal-light); }
+  .section-card.deliver .section-icon { background: var(--brand-deep-teal); }
+  .section-card.deliver h2 { color: var(--brand-navy); }
+  .section-card.deliver .step-label { color: var(--brand-deep-teal); }
+
+  /* ──── RULE ITEMS ──── */
+  .rule-list { list-style: none; padding: 0; }
+  .rule-item {
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.65rem 0;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .rule-item:last-child { border-bottom: none; }
+  .rule-icon {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+  .section-card.shop .rule-icon { background: var(--teal-light); color: var(--brand-teal); }
+  .section-card.make .rule-icon { background: var(--gold-light); color: #b87a10; }
+  .section-card.deliver .rule-icon { background: var(--deep-teal-light); color: var(--brand-deep-teal); }
+
+  .rule-text {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--gray-700);
+    padding-top: 0.2rem;
+  }
+  .rule-text strong { color: var(--gray-900); font-weight: 600; }
+  .rule-text .warning { color: var(--brand-crimson); font-weight: 700; }
+
+  /* ──── CALLOUT BOX ──── */
+  .callout {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.75rem 1rem;
+    border-radius: 9px;
+    margin: 0.65rem 0 0.2rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+  .callout.crimson {
+    background: var(--crimson-light);
+    border: 1.5px solid var(--crimson-border);
+    color: var(--brand-crimson);
+  }
+  .callout.teal {
+    background: var(--deep-teal-light);
+    border: 1.5px solid var(--deep-teal-border);
+    color: var(--brand-deep-teal);
+  }
+  .callout-icon { font-size: 1rem; }
+
+  /* ──── MOTTO BANNER ──── */
+  .motto-banner {
+    background: linear-gradient(135deg, var(--brand-crimson) 0%, #8a1533 100%);
+    color: white;
+    text-align: center;
+    padding: 1.5rem 2rem;
+    border-radius: 14px;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .motto-banner::before {
+    content: '';
+    position: absolute;
+    top: -30%; right: -10%;
+    width: 40%; height: 160%;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .motto-banner h3 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 0.35rem;
+  }
+  .motto-banner p {
+    font-size: 0.88rem;
+    opacity: 0.9;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* ──── FOOTER ──── */
+  .footer {
+    text-align: center;
+    padding: 1rem 0 0;
+    font-size: 0.8rem;
+    color: var(--gray-500);
+  }
+  .footer a {
+    color: var(--brand-navy);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .footer a:hover { text-decoration: underline; }
+
+  /* ──── PRINT ──── */
+  @media print {
+    body { background: white; font-size: 11pt; }
+    .container { max-width: 100%; padding: 0; }
+    .header { padding: 1.5rem 1rem 1rem; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .header::after { display: none; }
+    .section-card { break-inside: avoid; box-shadow: none; }
+    .motto-banner { break-inside: avoid; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .temp-strip { break-inside: avoid; box-shadow: none; }
+    .temp-zone.safe, .temp-zone.danger { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.5rem; }
+    .temp-strip { flex-direction: column; }
+    .temp-zone.safe { border-right: none; border-bottom: 3px solid var(--brand-teal); }
+    .flow-header { flex-wrap: wrap; }
+    .section-header { padding: 1rem 1.25rem; }
+    .section-body { padding: 0 1.25rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════ HEADER ════ -->
+<div class="header">
+  <div class="header-org">The Sandwich Project</div>
+  <h1>Food Safety Guide</h1>
+  <div class="subtitle">Sandwich Preparation, Storage & Delivery for Volunteers</div>
+  <div class="tagline">Know the Drill, Always Chill</div>
+</div>
+
+<div class="container">
+
+  <!-- ════ CRITICAL ALERT ════ -->
+  <div class="critical-alert">
+    <div class="alert-icon">!</div>
+    <div>
+      <h3>Why This Matters</h3>
+      <p>
+        Recipients may be <strong>immunocompromised, children, or elderly</strong> — they are more likely to become ill from mishandled food. You can't always tell by taste or smell. Deli meat must <strong>always</strong> be kept at or below <span class="temp-highlight">39 °F</span> and never at 80° or above.
+      </p>
+    </div>
+  </div>
+
+  <!-- ════ TEMPERATURE VISUAL ════ -->
+  <div class="temp-strip">
+    <div class="temp-zone safe">
+      <div class="zone-icon">✅</div>
+      <div class="zone-label">39 °F or below</div>
+      <div class="zone-desc">SAFE — Refrigerator temperature</div>
+    </div>
+    <div class="temp-zone danger">
+      <div class="zone-icon">🚫</div>
+      <div class="zone-label">Above 40 °F</div>
+      <div class="zone-desc">DANGER ZONE — Bacteria multiply rapidly</div>
+    </div>
+  </div>
+
+  <!-- ════ FLOW STEPS ════ -->
+  <div class="flow-header">
+    <div class="flow-badge shop">
+      <span class="badge-num">1</span> Shop
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-badge make">
+      <span class="badge-num">2</span> Make
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-badge deliver">
+      <span class="badge-num">3</span> Deliver
+    </div>
+  </div>
+
+  <!-- ════ SECTION 1: SHOP ════ -->
+  <div class="section-card shop">
+    <div class="section-header">
+      <div class="section-icon">🛒</div>
+      <div>
+        <div class="step-label">Step 1</div>
+        <h2>Shopping for Ingredients</h2>
+      </div>
+    </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li class="rule-item">
+          <div class="rule-icon">🧊</div>
+          <div class="rule-text"><strong>Transport meat and cheese in coolers with ice.</strong> Go directly home or to the office and immediately refrigerate.</div>
+        </li>
+        <li class="rule-item">
+          <div class="rule-icon">⭐</div>
+          <div class="rule-text"><strong>Purchase the same quality ingredients</strong> that you would feed your own family!</div>
+        </li>
+        <li class="rule-item">
+          <div class="rule-icon">📦</div>
+          <div class="rule-text"><strong>Do not use over-the-counter deli sliced meats</strong> — use packaged meat only (with preservatives).</div>
+        </li>
+        <li class="rule-item">
+          <div class="rule-icon">📅</div>
+          <div class="rule-text">The <strong>"use by" date</strong> for all ingredients must be <strong>at least 10 days after purchase.</strong></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ════ SECTION 2: MAKE ════ -->
+  <div class="section-card make">
+    <div class="section-header">
+      <div class="section-icon">🥪</div>
+      <div>
+        <div class="step-label">Step 2</div>
+        <h2>Making & Storing Sandwiches</h2>
+      </div>
+    </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li class="rule-item">
+          <div class="rule-icon">💇</div>
+          <div class="rule-text">Use a <strong>ponytail holder or hairnet</strong> for long hair.</div>
+        </li>
+        <li class="rule-item">
+          <div class="rule-icon">🧼</div>
+          <div class="rule-text"><strong>Wash hands with soap and warm water</strong> — do not use hand sanitizer. Put on gloves and change them if you touch anything other than food.</div>
+        </li>
+        <li class="rule-item">
+          <div class="rule-icon">🥜</div>
+          <div class="rule-text"><strong>Keep products with nuts away</strong> from the deli prep area.</div>
+        </li>
+        <li class="rule-item">
+          <div class="rule-icon">🧹</div>
+          <div class="rule-text"><strong>Clean and cover all counters.</strong> Lay food-safe table coverings once participants are at the table and ready to prepare sandwiches.</div>
+        </li>
+        <li class="rule-item">
+          <div class="rule-icon">❄️</div>
+          <div class="rule-text"><strong>Keep meat and cheese refrigerated at all times.</strong> <em>Remove one package of meat and cheese per table at a time.</em></div>
+        </li>
+        <li class="rule-item">
+          <div class="rule-icon">🏷️</div>
+          <div class="rule-text"><strong>Place a completed label</strong> on the loaf bag.</div>
+        </li>
+        <li class="rule-item">
+          <div class="rule-icon">↩️</div>
+          <div class="rule-text"><strong>Immediately return completed loaves to the refrigerator</strong> before starting another loaf. <em>All loaves must be at refrigerator temperature before packing in coolers.</em></div>
+        </li>
+        <li class="rule-item">
+          <div class="rule-icon">🌬️</div>
+          <div class="rule-text"><strong>Never overpack the refrigerator.</strong> Air must circulate.</div>
+        </li>
+      </ul>
+      <div class="callout crimson">
+        <span class="callout-icon">⚠️</span>
+        No hand sanitizer — soap and water only!
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ SECTION 3: DELIVER ════ -->
+  <div class="section-card deliver">
+    <div class="section-header">
+      <div class="section-icon">🚗</div>
+      <div>
+        <div class="step-label">Step 3</div>
+        <h2>Transporting Sandwiches</h2>
+      </div>
+    </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li class="rule-item">
+          <div class="rule-icon">🧊</div>
+          <div class="rule-text">For delivery, <strong>use coolers with ice packs.</strong></div>
+        </li>
+        <li class="rule-item">
+          <div class="rule-icon">🌡️</div>
+          <div class="rule-text">Sandwiches must be <strong>chilled (never frozen)</strong> in the refrigerator to <strong>less than 39°</strong> before being placed in coolers.</div>
+        </li>
+        <li class="rule-item">
+          <div class="rule-icon">🚫</div>
+          <div class="rule-text"><span class="warning">Never put warm sandwiches into a cooler.</span> Coolers <strong>maintain</strong> temperature — they do NOT make things colder.</div>
+        </li>
+        <li class="rule-item">
+          <div class="rule-icon">🔒</div>
+          <div class="rule-text"><strong>Close coolers immediately</strong> to keep sandwiches at less than 39°.</div>
+        </li>
+        <li class="rule-item">
+          <div class="rule-icon">🏷️</div>
+          <div class="rule-text"><strong>Use the correct label</strong> at the host home. <strong>Labels are mandatory.</strong></div>
+        </li>
+      </ul>
+      <div class="callout crimson">
+        <span class="callout-icon">❌</span>
+        NEVER freeze sandwiches.
+      </div>
+      <div class="callout teal">
+        <span class="callout-icon">💡</span>
+        Remember: Coolers keep cold food cold — they don't make warm food cold.
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ MOTTO BANNER ════ -->
+  <div class="motto-banner">
+    <h3>WHEN IN DOUBT, THROW IT OUT!</h3>
+    <p>If you're unsure whether food has been properly handled or stored, it's always safer to discard it.</p>
+  </div>
+
+  <!-- ════ FOOTER ════ -->
+  <div class="footer">
+    <p>Reference: <a href="https://www.usda.gov" target="_blank">USDA Food Safety</a> · Additional info at <a href="https://thesandwichproject.org" target="_blank">thesandwichproject.org</a></p>
+  </div>
+
+</div>
+</body>
+</html>
