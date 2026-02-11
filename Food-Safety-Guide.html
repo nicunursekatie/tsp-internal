@@ -343,6 +343,34 @@
   }
   .callout-icon { font-size: 1rem; }
 
+  /* ──── TABS ──── */
+  .tab-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0 0 1.5rem;
+    justify-content: center;
+  }
+  .tab-btn {
+    padding: 0.65rem 1.6rem;
+    border: 2px solid var(--gray-200);
+    border-radius: 100px;
+    background: white;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--gray-500);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { border-color: var(--brand-teal); color: var(--brand-navy); }
+  .tab-btn.active {
+    background: var(--brand-navy);
+    border-color: var(--brand-navy);
+    color: white;
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
   /* ──── MOTTO BANNER ──── */
   .motto-banner {
     background: linear-gradient(135deg, var(--brand-crimson) 0%, #8a1533 100%);
@@ -399,6 +427,8 @@
     .motto-banner { break-inside: avoid; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .temp-strip { break-inside: avoid; box-shadow: none; }
     .temp-zone.safe, .temp-zone.danger { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .tab-panel { display: block !important; }
+    .tab-bar { display: none; }
   }
 
   @media (max-width: 600px) {
@@ -448,154 +478,305 @@
     </div>
   </div>
 
-  <!-- ════ FLOW STEPS ════ -->
-  <div class="flow-header">
-    <div class="flow-badge shop">
-      <span class="badge-num">1</span> Shop
-    </div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-badge make">
-      <span class="badge-num">2</span> Make
-    </div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-badge deliver">
-      <span class="badge-num">3</span> Deliver
-    </div>
+  <!-- ════ TAB SWITCHER ════ -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('group')">Group Events</button>
+    <button class="tab-btn" onclick="switchTab('individual')">Individuals & Families</button>
   </div>
 
-  <!-- ════ SECTION 1: SHOP ════ -->
-  <div class="section-card shop">
-    <div class="section-header">
-      <div class="section-icon">🛒</div>
-      <div>
-        <div class="step-label">Step 1</div>
-        <h2>Shopping for Ingredients</h2>
-      </div>
-    </div>
-    <div class="section-body">
-      <ul class="rule-list">
-        <li class="rule-item">
-          <div class="rule-icon">🧊</div>
-          <div class="rule-text"><strong>Pack a cooler with ice packs before heading to the store.</strong></div>
-        </li>
-        <li class="rule-item">
-          <div class="rule-icon">🚗</div>
-          <div class="rule-text"><strong>Place meat and cheese in the cooler for the trip home.</strong> Go directly home or to the office and immediately refrigerate.</div>
-        </li>
-        <li class="rule-item">
-          <div class="rule-icon">⭐</div>
-          <div class="rule-text"><strong>Purchase the same quality ingredients</strong> that you would feed your own family!</div>
-        </li>
-        <li class="rule-item">
-          <div class="rule-icon">📦</div>
-          <div class="rule-text"><strong>Do not use any meat or cheese sliced at the deli counter</strong> — use prepackaged products only.</div>
-        </li>
-        <li class="rule-item">
-          <div class="rule-icon">📅</div>
-          <div class="rule-text">The <strong>"use by" date</strong> for all ingredients must be <strong>at least 7 days after the date you'll be dropping off your sandwiches at our host home.</strong></div>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <!-- ══════════════════════════════════════════ -->
+  <!-- ════ TAB: GROUP EVENTS ════ -->
+  <!-- ══════════════════════════════════════════ -->
+  <div id="tab-group" class="tab-panel active">
 
-  <!-- ════ SECTION 2: MAKE ════ -->
-  <div class="section-card make">
-    <div class="section-header">
-      <div class="section-icon">🥪</div>
-      <div>
-        <div class="step-label">Step 2</div>
-        <h2>Making & Storing Sandwiches</h2>
-      </div>
+    <div class="flow-header">
+      <div class="flow-badge shop"><span class="badge-num">1</span> Shop</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-badge make"><span class="badge-num">2</span> Make</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-badge deliver"><span class="badge-num">3</span> Deliver</div>
     </div>
-    <div class="section-body">
-      <ul class="rule-list">
-        <li class="rule-item">
-          <div class="rule-icon">💇</div>
-          <div class="rule-text"><strong>First, restrain all hair</strong> — use a ponytail holder, hairnet, or hat. Pin back bangs. <strong>Beard nets are required</strong> for facial hair.</div>
-        </li>
-        <li class="rule-item">
-          <div class="rule-icon">🧹</div>
-          <div class="rule-text"><strong>Clean and cover all counters.</strong> Lay food-safe table coverings once participants are at the table and ready to prepare sandwiches.</div>
-        </li>
-        <li class="rule-item">
-          <div class="rule-icon">🥜</div>
-          <div class="rule-text"><strong>If making both PBJ's and deli sandwiches, keep products with nuts away</strong> from the deli prep area.</div>
-        </li>
-        <li class="rule-item">
-          <div class="rule-icon">🧼</div>
-          <div class="rule-text"><strong>Wash hands with soap and warm water just before making sandwiches</strong> — after your area is set up and hair is restrained. Do not use hand sanitizer.</div>
-        </li>
-        <li class="rule-item">
-          <div class="rule-icon">🧤</div>
-          <div class="rule-text"><strong>Put on gloves</strong> and change them if you touch anything other than food.</div>
-        </li>
-      </ul>
-      <div style="text-align:center; margin:1rem 0;">
-        <img src="handsanitizerinfographic.png" alt="Hand sanitizer doesn't kill all germs — especially norovirus and C. diff. Always use soap and water." style="max-width:340px; width:100%; border-radius:10px;">
-      </div>
-      <ul class="rule-list">
-        <li class="rule-item">
-          <div class="rule-icon">❄️</div>
-          <div class="rule-text"><strong>Keep meat and cheese refrigerated at all times.</strong> <em>Remove one package of meat and cheese per table at a time.</em></div>
-        </li>
-        <li class="rule-item">
-          <div class="rule-icon">🏷️</div>
-          <div class="rule-text"><strong>Place an official TSP label on each loaf bag.</strong> Use the deli label for deli sandwiches (fill in the date, number of sandwiches, and type of meat) or the PBJ label for peanut butter & jelly.</div>
-        </li>
-        <li class="rule-item">
-          <div class="rule-icon">↩️</div>
-          <div class="rule-text"><strong>Immediately return completed loaves to the refrigerator</strong> before starting another loaf. <em>All loaves must be at refrigerator temperature before packing in coolers.</em></div>
-        </li>
-        <li class="rule-item">
-          <div class="rule-icon">🌬️</div>
-          <div class="rule-text"><strong>Never overpack the refrigerator.</strong> Air must circulate.</div>
-        </li>
-      </ul>
-    </div>
-  </div>
 
-  <!-- ════ SECTION 3: DELIVER ════ -->
-  <div class="section-card deliver">
-    <div class="section-header">
-      <div class="section-icon">🚗</div>
-      <div>
-        <div class="step-label">Step 3</div>
-        <h2>Transporting Sandwiches</h2>
+    <!-- SHOP — Groups -->
+    <div class="section-card shop">
+      <div class="section-header">
+        <div class="section-icon">🛒</div>
+        <div>
+          <div class="step-label">Step 1</div>
+          <h2>Shopping for Ingredients</h2>
+        </div>
+      </div>
+      <div class="section-body">
+        <ul class="rule-list">
+          <li class="rule-item">
+            <div class="rule-icon">🧊</div>
+            <div class="rule-text"><strong>Pack coolers with ice packs before heading to the store.</strong></div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🚗</div>
+            <div class="rule-text"><strong>Place meat and cheese in the coolers for transport.</strong> Go directly to the event location or office and immediately refrigerate.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">⭐</div>
+            <div class="rule-text"><strong>Purchase the same quality ingredients</strong> that you would feed your own family!</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">📦</div>
+            <div class="rule-text"><strong>Do not use any meat or cheese sliced at the deli counter</strong> — use prepackaged products only.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">📅</div>
+            <div class="rule-text">The <strong>"use by" date</strong> for all ingredients must be <strong>at least 7 days after the date sandwiches will be dropped off at the host home.</strong></div>
+          </li>
+        </ul>
       </div>
     </div>
-    <div class="section-body">
-      <ul class="rule-list">
-        <li class="rule-item">
-          <div class="rule-icon">🧊</div>
-          <div class="rule-text">For delivery, <strong>use coolers with ice packs.</strong></div>
-        </li>
-        <li class="rule-item">
-          <div class="rule-icon">🌡️</div>
-          <div class="rule-text">Sandwiches must be <strong>chilled</strong> in the refrigerator to <strong>below 39°F</strong> before being placed in coolers.</div>
-        </li>
-        <li class="rule-item">
-          <div class="rule-icon">🚫</div>
-          <div class="rule-text"><span class="warning">Never put warm sandwiches into a cooler.</span> Coolers <strong>maintain</strong> temperature — they do NOT make things colder.</div>
-        </li>
-        <li class="rule-item">
-          <div class="rule-icon">🔒</div>
-          <div class="rule-text"><strong>Close coolers immediately</strong> to keep sandwiches below 39°F.</div>
-        </li>
-        <li class="rule-item">
-          <div class="rule-icon">🏷️</div>
-          <div class="rule-text"><strong>Use the correct label</strong> at the host home. <strong>Labels are mandatory.</strong></div>
-        </li>
-      </ul>
-      <div class="callout crimson">
-        <span class="callout-icon">❌</span>
-        Do NOT freeze sandwiches. In hot weather, a brief 15–20 min freezer chill is OK — but never long enough to freeze.
+
+    <!-- MAKE — Groups -->
+    <div class="section-card make">
+      <div class="section-header">
+        <div class="section-icon">🥪</div>
+        <div>
+          <div class="step-label">Step 2</div>
+          <h2>Making & Storing Sandwiches</h2>
+        </div>
       </div>
-      <div class="callout teal">
-        <span class="callout-icon">💡</span>
-        Remember: Coolers keep cold food cold — they don't make warm food cold.
+      <div class="section-body">
+        <ul class="rule-list">
+          <li class="rule-item">
+            <div class="rule-icon">💇</div>
+            <div class="rule-text"><strong>First, restrain all hair</strong> — use a ponytail holder, hairnet, or hat. Pin back bangs. <strong>Beard nets are required</strong> for facial hair.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🧹</div>
+            <div class="rule-text"><strong>Clean and cover all counters.</strong> Lay food-safe table coverings once participants are at the table and ready to prepare sandwiches.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🥜</div>
+            <div class="rule-text"><strong>If making both PBJ's and deli sandwiches, keep products with nuts away</strong> from the deli prep area.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🧼</div>
+            <div class="rule-text"><strong>Wash hands with soap and warm water just before making sandwiches</strong> — after your area is set up and hair is restrained. Do not use hand sanitizer.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🧤</div>
+            <div class="rule-text"><strong>Put on gloves</strong> and change them if you touch anything other than food.</div>
+          </li>
+        </ul>
+        <div style="text-align:center; margin:1rem 0;">
+          <img src="handsanitizerinfographic.png" alt="Hand sanitizer doesn't kill all germs — especially norovirus and C. diff. Always use soap and water." style="max-width:340px; width:100%; border-radius:10px;">
+        </div>
+        <ul class="rule-list">
+          <li class="rule-item">
+            <div class="rule-icon">❄️</div>
+            <div class="rule-text"><strong>Keep meat and cheese refrigerated at all times.</strong> <em>Remove one package of meat and cheese per table at a time.</em></div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🏷️</div>
+            <div class="rule-text"><strong>Place an official TSP label on each loaf bag at the event.</strong> Use the deli label for deli sandwiches (fill in the date, number of sandwiches, and type of meat) or the PBJ label for peanut butter & jelly.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">↩️</div>
+            <div class="rule-text"><strong>Immediately return completed loaves to the refrigerator</strong> before starting another loaf. <em>All loaves must be at refrigerator temperature before packing in coolers.</em></div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🌬️</div>
+            <div class="rule-text"><strong>Never overpack the refrigerator.</strong> Air must circulate.</div>
+          </li>
+        </ul>
       </div>
     </div>
-  </div>
+
+    <!-- DELIVER — Groups -->
+    <div class="section-card deliver">
+      <div class="section-header">
+        <div class="section-icon">🚗</div>
+        <div>
+          <div class="step-label">Step 3</div>
+          <h2>Transporting Sandwiches</h2>
+        </div>
+      </div>
+      <div class="section-body">
+        <ul class="rule-list">
+          <li class="rule-item">
+            <div class="rule-icon">🧊</div>
+            <div class="rule-text">For delivery, <strong>use coolers with ice packs.</strong></div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🌡️</div>
+            <div class="rule-text">Sandwiches must be <strong>chilled</strong> in the refrigerator to <strong>below 39°F</strong> before being placed in coolers.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🚫</div>
+            <div class="rule-text"><span class="warning">Never put warm sandwiches into a cooler.</span> Coolers <strong>maintain</strong> temperature — they do NOT make things colder.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🔒</div>
+            <div class="rule-text"><strong>Close coolers immediately</strong> to keep sandwiches below 39°F.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🏷️</div>
+            <div class="rule-text"><strong>Verify every loaf bag has an official TSP label</strong> before delivering to the host home.</div>
+          </li>
+        </ul>
+        <div class="callout crimson">
+          <span class="callout-icon">❌</span>
+          Do NOT freeze sandwiches. In hot weather, a brief 15–20 min freezer chill is OK — but never long enough to freeze.
+        </div>
+        <div class="callout teal">
+          <span class="callout-icon">💡</span>
+          Remember: Coolers keep cold food cold — they don't make warm food cold.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tab-group -->
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- ════ TAB: INDIVIDUALS & FAMILIES ════ -->
+  <!-- ══════════════════════════════════════════ -->
+  <div id="tab-individual" class="tab-panel">
+
+    <div class="flow-header">
+      <div class="flow-badge shop"><span class="badge-num">1</span> Shop</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-badge make"><span class="badge-num">2</span> Make</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-badge deliver"><span class="badge-num">3</span> Drop Off</div>
+    </div>
+
+    <!-- SHOP — Individuals -->
+    <div class="section-card shop">
+      <div class="section-header">
+        <div class="section-icon">🛒</div>
+        <div>
+          <div class="step-label">Step 1</div>
+          <h2>Shopping for Ingredients</h2>
+        </div>
+      </div>
+      <div class="section-body">
+        <ul class="rule-list">
+          <li class="rule-item">
+            <div class="rule-icon">🧊</div>
+            <div class="rule-text"><strong>Pack a cooler with ice packs before heading to the store.</strong></div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🚗</div>
+            <div class="rule-text"><strong>Place meat and cheese in the cooler for the trip home.</strong> Go directly home and immediately refrigerate.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">⭐</div>
+            <div class="rule-text"><strong>Purchase the same quality ingredients</strong> that you would feed your own family!</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">📦</div>
+            <div class="rule-text"><strong>Do not use any meat or cheese sliced at the deli counter</strong> — use prepackaged products only.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">📅</div>
+            <div class="rule-text">The <strong>"use by" date</strong> for all ingredients must be <strong>at least 7 days after the date you'll be dropping off your sandwiches at the host home.</strong></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- MAKE — Individuals -->
+    <div class="section-card make">
+      <div class="section-header">
+        <div class="section-icon">🏠</div>
+        <div>
+          <div class="step-label">Step 2</div>
+          <h2>Making & Storing Sandwiches at Home</h2>
+        </div>
+      </div>
+      <div class="section-body">
+        <ul class="rule-list">
+          <li class="rule-item">
+            <div class="rule-icon">💇</div>
+            <div class="rule-text"><strong>First, restrain all hair</strong> — use a ponytail holder, hairnet, or hat. Pin back bangs. <strong>Beard nets are required</strong> for facial hair.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🧹</div>
+            <div class="rule-text"><strong>Clean and cover your counter.</strong> Lay a food-safe table covering before you begin.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🥜</div>
+            <div class="rule-text"><strong>If making both PBJ's and deli sandwiches, keep products with nuts away</strong> from the deli prep area.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🧼</div>
+            <div class="rule-text"><strong>Wash hands with soap and warm water just before making sandwiches</strong> — after your area is set up and hair is restrained. Do not use hand sanitizer.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🧤</div>
+            <div class="rule-text"><strong>Put on gloves</strong> and change them if you touch anything other than food.</div>
+          </li>
+        </ul>
+        <div style="text-align:center; margin:1rem 0;">
+          <img src="handsanitizerinfographic.png" alt="Hand sanitizer doesn't kill all germs — especially norovirus and C. diff. Always use soap and water." style="max-width:340px; width:100%; border-radius:10px;">
+        </div>
+        <ul class="rule-list">
+          <li class="rule-item">
+            <div class="rule-icon">❄️</div>
+            <div class="rule-text"><strong>Keep meat and cheese refrigerated at all times.</strong> Only take out what you need for the loaf you're making.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">↩️</div>
+            <div class="rule-text"><strong>Immediately return completed loaves to the refrigerator.</strong> <em>All loaves must be at refrigerator temperature before packing in coolers.</em></div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🌬️</div>
+            <div class="rule-text"><strong>Never overpack the refrigerator.</strong> Air must circulate.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DELIVER — Individuals -->
+    <div class="section-card deliver">
+      <div class="section-header">
+        <div class="section-icon">🚗</div>
+        <div>
+          <div class="step-label">Step 3</div>
+          <h2>Dropping Off at the Host Home</h2>
+        </div>
+      </div>
+      <div class="section-body">
+        <ul class="rule-list">
+          <li class="rule-item">
+            <div class="rule-icon">🧊</div>
+            <div class="rule-text"><strong>Use a cooler with ice packs</strong> to transport sandwiches to the host home.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🌡️</div>
+            <div class="rule-text">Sandwiches must be <strong>chilled</strong> in the refrigerator to <strong>below 39°F</strong> before being placed in coolers.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🚫</div>
+            <div class="rule-text"><span class="warning">Never put warm sandwiches into a cooler.</span> Coolers <strong>maintain</strong> temperature — they do NOT make things colder.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🔒</div>
+            <div class="rule-text"><strong>Close coolers immediately</strong> to keep sandwiches below 39°F.</div>
+          </li>
+          <li class="rule-item">
+            <div class="rule-icon">🏷️</div>
+            <div class="rule-text"><strong>Pick up official TSP labels when you arrive at the host home.</strong> Use the deli label for deli sandwiches (fill in the date, number of sandwiches, and type of meat) or the PBJ label for peanut butter & jelly.</div>
+          </li>
+        </ul>
+        <div class="callout crimson">
+          <span class="callout-icon">❌</span>
+          Do NOT freeze sandwiches. In hot weather, a brief 15–20 min freezer chill is OK — but never long enough to freeze.
+        </div>
+        <div class="callout teal">
+          <span class="callout-icon">💡</span>
+          Remember: Coolers keep cold food cold — they don't make warm food cold.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tab-individual -->
 
   <!-- ════ MOTTO BANNER ════ -->
   <div class="motto-banner">
@@ -609,5 +790,15 @@
   </div>
 
 </div>
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('tab-' + tab).classList.add('active');
+  var idx = tab === 'group' ? 0 : 1;
+  document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+}
+</script>
 </body>
 </html>
