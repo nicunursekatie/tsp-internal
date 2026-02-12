@@ -1,0 +1,504 @@
+import { useState } from "react";
+
+const initialCommittees = [
+  {
+    id: 1,
+    name: "Events Committee",
+    phase: 1,
+    lead: "VACANT",
+    leadNote: "Christine serving as interim lead",
+    members: ["Brenda", "Brigith", "Dawn Mullican (prospective)"],
+    memberRoles: "Event Lead Volunteers, Corporate Engagement Lead",
+    lastMeeting: "",
+    cadence: "Bi-weekly",
+    priorities: [
+      "Build/refine the event intake and scheduling process",
+      "Create a standard event plan template",
+      "Establish a post-event feedback loop",
+    ],
+    status: "vacant-lead",
+    notes: "",
+  },
+  {
+    id: 2,
+    name: "Transportation Committee",
+    phase: 1,
+    lead: "Jordan Horne",
+    leadNote: "Also filling Driver Coordinator role",
+    members: ["Jordan Horne (dual role)"],
+    memberRoles: "Driver Coordinator, Driver Support Volunteers",
+    lastMeeting: "",
+    cadence: "Weekly with Events",
+    priorities: [
+      "Document all current routes, drivers, and schedules",
+      "Establish a clear driver communication protocol",
+      "Create a backup plan for driver absences",
+    ],
+    status: "active",
+    notes: "",
+  },
+  {
+    id: 3,
+    name: "Ongoing Programs Committee",
+    phase: 1,
+    lead: "VACANT",
+    leadNote: "ED currently coordinating",
+    members: ["Vicki (East Cobb host & lead)"],
+    memberRoles: "School & Club Programs Coordinator, Host Relationship Coordinator",
+    lastMeeting: "",
+    cadence: "Bi-weekly",
+    priorities: [
+      "Create full inventory of hosts, makers, and school/club programs",
+      "Standardize onboarding materials for new participants",
+      "Establish regular check-in cadence with hosts and schools",
+    ],
+    status: "vacant-lead",
+    notes: "",
+  },
+  {
+    id: 4,
+    name: "Development Committee",
+    phase: 2,
+    lead: "Christine (ED)",
+    leadNote: "Per committee structure doc",
+    members: ["Kim (Donor Stewardship)"],
+    memberRoles: "Fundraising Strategy Lead, Grants Lead, Donor Stewardship Lead",
+    lastMeeting: "",
+    cadence: "Quarterly (Fundraising more frequent)",
+    priorities: [
+      "Draft initial annual fundraising and revenue strategy",
+      "Build a grant pipeline tracker",
+      "Establish a donor acknowledgment process",
+    ],
+    status: "active",
+    notes: "",
+  },
+  {
+    id: 5,
+    name: "Marketing Committee",
+    phase: 3,
+    lead: "VACANT",
+    leadNote: "No one setting messaging strategy yet",
+    members: ["Katie (content + IT)", "Brigith (content)", "Tessa (intern, limited)"],
+    memberRoles: "Social Media Lead(s), Content Contributors",
+    lastMeeting: "",
+    cadence: "Monthly",
+    priorities: [
+      "Define light brand guidelines: tone, voice, visual standards",
+      "Create a simple content calendar (start monthly)",
+      "Establish a regular posting cadence on primary channels",
+    ],
+    status: "vacant-lead",
+    notes: "",
+  },
+  {
+    id: 6,
+    name: "Projects Committee",
+    phase: 4,
+    lead: "VACANT",
+    leadNote: "Not urgent — needed when cross-committee projects arise",
+    members: ["Katie (IT & Systems)"],
+    memberRoles: "Project Owners (per project), IT & Systems Lead",
+    lastMeeting: "",
+    cadence: "Monthly",
+    priorities: [
+      "Inventory current and upcoming cross-committee initiatives",
+      "Define project intake criteria and approval process",
+      "Create a simple project tracker (name, owner, timeline, status)",
+    ],
+    status: "not-started",
+    notes: "",
+  },
+  {
+    id: 7,
+    name: "Legal & Safety Subgroup",
+    phase: 4,
+    lead: "Marcy",
+    leadNote: "Co-founder; Safety & Risk lead",
+    members: ["Elaine (prospective, board member)"],
+    memberRoles: "Members with safety, operations, or risk management experience",
+    lastMeeting: "",
+    cadence: "Quarterly",
+    priorities: [
+      "Document food safety standards across Events, Transportation, Ongoing Programs",
+      "Review current safety training materials and recommend updates",
+      "Establish a clear incident review and escalation process",
+    ],
+    status: "active",
+    notes: "",
+  },
+];
+
+const statusConfig = {
+  active: { label: "Active", color: "bg-emerald-100 text-emerald-800 border-emerald-300" },
+  "vacant-lead": { label: "Needs Lead", color: "bg-amber-100 text-amber-800 border-amber-300" },
+  "not-started": { label: "Not Started", color: "bg-gray-100 text-gray-600 border-gray-300" },
+  paused: { label: "Paused", color: "bg-red-100 text-red-700 border-red-300" },
+};
+
+const phaseLabels = {
+  1: { name: "Phase 1: Operations Foundation", timeline: "Months 1–2", color: "bg-blue-600" },
+  2: { name: "Phase 2: Revenue Engine", timeline: "Months 2–4", color: "bg-violet-600" },
+  3: { name: "Phase 3: Amplify", timeline: "Months 3–5", color: "bg-pink-600" },
+  4: { name: "Phase 4: Governance", timeline: "Months 4–6", color: "bg-orange-600" },
+};
+
+function StatusBadge({ status }) {
+  const config = statusConfig[status];
+  return (
+    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${config.color}`}>
+      {config.label}
+    </span>
+  );
+}
+
+function PhaseBadge({ phase }) {
+  const config = phaseLabels[phase];
+  return (
+    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium text-white ${config.color}`}>
+      P{phase} · {config.timeline}
+    </span>
+  );
+}
+
+function CommitteeCard({ committee, onUpdate, isExpanded, onToggle }) {
+  const [editing, setEditing] = useState(null);
+  const [editValue, setEditValue] = useState("");
+
+  const startEdit = (field, value) => {
+    setEditing(field);
+    setEditValue(value || "");
+  };
+
+  const saveEdit = (field) => {
+    onUpdate(committee.id, field, editValue);
+    setEditing(null);
+  };
+
+  const handleKeyDown = (e, field) => {
+    if (e.key === "Enter") saveEdit(field);
+    if (e.key === "Escape") setEditing(null);
+  };
+
+  const vacancyCount = (committee.lead === "VACANT" ? 1 : 0);
+  const borderColor = committee.status === "vacant-lead"
+    ? "border-l-amber-400"
+    : committee.status === "not-started"
+    ? "border-l-gray-300"
+    : "border-l-emerald-400";
+
+  return (
+    <div className={`bg-white rounded-lg shadow-sm border border-gray-200 border-l-4 ${borderColor} overflow-hidden transition-all duration-200`}>
+      {/* Header - always visible */}
+      <button
+        onClick={onToggle}
+        className="w-full px-5 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors text-left"
+      >
+        <div className="flex items-center gap-3 flex-wrap">
+          <h3 className="text-base font-semibold text-gray-900">{committee.name}</h3>
+          <StatusBadge status={committee.status} />
+          <PhaseBadge phase={committee.phase} />
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="text-right hidden sm:block">
+            <div className="text-xs text-gray-500">Lead</div>
+            <div className={`text-sm font-medium ${committee.lead === "VACANT" ? "text-amber-600" : "text-gray-900"}`}>
+              {committee.lead}
+            </div>
+          </div>
+          <svg
+            className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+            fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </button>
+
+      {/* Expanded content */}
+      {isExpanded && (
+        <div className="px-5 pb-5 border-t border-gray-100">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            {/* Lead */}
+            <div>
+              <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Lead</label>
+              <div className="mt-1">
+                <span className={`text-sm font-medium ${committee.lead === "VACANT" ? "text-amber-600" : "text-gray-900"}`}>
+                  {committee.lead}
+                </span>
+                {committee.leadNote && (
+                  <span className="text-xs text-gray-400 ml-2">({committee.leadNote})</span>
+                )}
+              </div>
+            </div>
+
+            {/* Meeting Cadence */}
+            <div>
+              <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Meeting Cadence</label>
+              <div className="mt-1 text-sm text-gray-700">{committee.cadence}</div>
+            </div>
+
+            {/* Members */}
+            <div>
+              <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Current Members</label>
+              <div className="mt-1 flex flex-wrap gap-1.5">
+                {committee.members.map((m, i) => (
+                  <span key={i} className="inline-flex items-center px-2 py-0.5 rounded bg-gray-100 text-xs text-gray-700">
+                    {m}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-1 text-xs text-gray-400">Roles needed: {committee.memberRoles}</div>
+            </div>
+
+            {/* Last Meeting Date */}
+            <div>
+              <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Last Meeting Date</label>
+              {editing === "lastMeeting" ? (
+                <div className="mt-1 flex gap-2">
+                  <input
+                    type="date"
+                    value={editValue}
+                    onChange={(e) => setEditValue(e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(e, "lastMeeting")}
+                    className="text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    autoFocus
+                  />
+                  <button onClick={() => saveEdit("lastMeeting")} className="text-xs text-blue-600 hover:text-blue-800 font-medium">Save</button>
+                  <button onClick={() => setEditing(null)} className="text-xs text-gray-400 hover:text-gray-600">Cancel</button>
+                </div>
+              ) : (
+                <div
+                  className="mt-1 text-sm text-gray-700 cursor-pointer hover:text-blue-600 group flex items-center gap-1"
+                  onClick={() => startEdit("lastMeeting", committee.lastMeeting)}
+                >
+                  {committee.lastMeeting ? (
+                    new Date(committee.lastMeeting + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+                  ) : (
+                    <span className="text-gray-400 italic">Click to set date</span>
+                  )}
+                  <svg className="w-3 h-3 text-gray-300 group-hover:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                  </svg>
+                </div>
+              )}
+            </div>
+
+            {/* Status selector */}
+            <div>
+              <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Status</label>
+              <div className="mt-1">
+                <select
+                  value={committee.status}
+                  onChange={(e) => onUpdate(committee.id, "status", e.target.value)}
+                  className="text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+                  {Object.entries(statusConfig).map(([key, val]) => (
+                    <option key={key} value={key}>{val.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Priorities */}
+          <div className="mt-4">
+            <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Top 3 Priorities</label>
+            <div className="mt-2 space-y-1.5">
+              {committee.priorities.map((p, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-gray-100 text-xs font-medium text-gray-500 flex items-center justify-center mt-0.5">
+                    {i + 1}
+                  </span>
+                  <span className="text-sm text-gray-700">{p}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Notes */}
+          <div className="mt-4">
+            <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Notes</label>
+            {editing === "notes" ? (
+              <div className="mt-1">
+                <textarea
+                  value={editValue}
+                  onChange={(e) => setEditValue(e.target.value)}
+                  rows={2}
+                  className="w-full text-sm border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  placeholder="Add notes..."
+                  autoFocus
+                />
+                <div className="flex gap-2 mt-1">
+                  <button onClick={() => saveEdit("notes")} className="text-xs text-blue-600 hover:text-blue-800 font-medium">Save</button>
+                  <button onClick={() => setEditing(null)} className="text-xs text-gray-400 hover:text-gray-600">Cancel</button>
+                </div>
+              </div>
+            ) : (
+              <div
+                className="mt-1 text-sm text-gray-600 cursor-pointer hover:text-blue-600 min-h-[24px] group flex items-center gap-1"
+                onClick={() => startEdit("notes", committee.notes)}
+              >
+                {committee.notes || <span className="text-gray-400 italic">Click to add notes</span>}
+                <svg className="w-3 h-3 text-gray-300 group-hover:text-blue-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function App() {
+  const [committees, setCommittees] = useState(initialCommittees);
+  const [expandedIds, setExpandedIds] = useState(new Set([1]));
+  const [filter, setFilter] = useState("all");
+
+  const updateCommittee = (id, field, value) => {
+    setCommittees((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, [field]: value } : c))
+    );
+  };
+
+  const toggleExpand = (id) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const expandAll = () => setExpandedIds(new Set(committees.map((c) => c.id)));
+  const collapseAll = () => setExpandedIds(new Set());
+
+  const filtered = filter === "all"
+    ? committees
+    : filter === "vacant"
+    ? committees.filter((c) => c.status === "vacant-lead")
+    : committees.filter((c) => c.phase === parseInt(filter));
+
+  const vacantCount = committees.filter((c) => c.status === "vacant-lead").length;
+  const activeCount = committees.filter((c) => c.status === "active").length;
+  const withMeetingDate = committees.filter((c) => c.lastMeeting).length;
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-4xl mx-auto px-4 py-6">
+          <div className="flex items-center justify-between flex-wrap gap-3">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">The Sandwich Project</h1>
+              <p className="text-sm text-gray-500 mt-0.5">Committee Tracker</p>
+            </div>
+            <div className="flex gap-6 text-center">
+              <div>
+                <div className="text-2xl font-bold text-gray-900">{committees.length}</div>
+                <div className="text-xs text-gray-500">Total</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-emerald-600">{activeCount}</div>
+                <div className="text-xs text-gray-500">Active</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-amber-600">{vacantCount}</div>
+                <div className="text-xs text-gray-500">Need Lead</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-blue-600">{withMeetingDate}</div>
+                <div className="text-xs text-gray-500">Met</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="max-w-4xl mx-auto px-4 py-4">
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <div className="flex gap-2 flex-wrap">
+            {[
+              { key: "all", label: "All" },
+              { key: "vacant", label: `Needs Lead (${vacantCount})` },
+              { key: "1", label: "Phase 1" },
+              { key: "2", label: "Phase 2" },
+              { key: "3", label: "Phase 3" },
+              { key: "4", label: "Phase 4" },
+            ].map((f) => (
+              <button
+                key={f.key}
+                onClick={() => setFilter(f.key)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                  filter === f.key
+                    ? "bg-gray-900 text-white"
+                    : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-100"
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <button onClick={expandAll} className="text-xs text-gray-500 hover:text-gray-700 underline">
+              Expand all
+            </button>
+            <button onClick={collapseAll} className="text-xs text-gray-500 hover:text-gray-700 underline">
+              Collapse all
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Committee Cards */}
+      <div className="max-w-4xl mx-auto px-4 pb-8">
+        <div className="space-y-3">
+          {filtered.map((c) => (
+            <CommitteeCard
+              key={c.id}
+              committee={c}
+              onUpdate={updateCommittee}
+              isExpanded={expandedIds.has(c.id)}
+              onToggle={() => toggleExpand(c.id)}
+            />
+          ))}
+        </div>
+
+        {filtered.length === 0 && (
+          <div className="text-center py-12 text-gray-400">
+            No committees match this filter.
+          </div>
+        )}
+
+        {/* People reference */}
+        <div className="mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+          <h3 className="text-sm font-semibold text-gray-900 mb-3">People Directory</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm">
+            {[
+              { name: "Christine Cooper Nowicki", role: "ED — leads Development, interim Events lead" },
+              { name: "Jordan Horne", role: "Transportation Lead + Driver Coordinator" },
+              { name: "Kim", role: "Donor Stewardship (Development)" },
+              { name: "Brenda", role: "Event intake & scheduling (Events)" },
+              { name: "Brigith", role: "Event intake + content contributor (Events/Marketing)" },
+              { name: "Katie", role: "Content + IT & Systems (Marketing/Projects)" },
+              { name: "Tessa (intern)", role: "Content contributor, limited (Marketing)" },
+              { name: "Marcy", role: "Co-founder, Safety & Risk Lead (Legal & Safety)" },
+              { name: "Vicki", role: "Co-founder, East Cobb host (Ongoing Programs)" },
+              { name: "Elaine", role: "Board member, prospective Legal & Safety" },
+              { name: "Dawn Mullican", role: "Prospective Corporate Engagement Lead (Events)" },
+            ].map((p, i) => (
+              <div key={i} className="flex items-baseline gap-2 py-1">
+                <span className="font-medium text-gray-800">{p.name}</span>
+                <span className="text-gray-400">—</span>
+                <span className="text-gray-500 text-xs">{p.role}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
