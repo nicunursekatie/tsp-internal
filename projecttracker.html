@@ -49,7 +49,8 @@ const initialProjects = [
     id: 1,
     name: "TSP App Development",
     description: "Building app to centralize content creation and streamline driver coordination",
-    owner: "Katie",
+    owners: ["Katie"],
+    collaborators: [],
     timeline: "Ongoing",
     startDate: "",
     targetDate: "",
@@ -62,7 +63,8 @@ const initialProjects = [
     id: 2,
     name: "Content Creation Workflow",
     description: "Streamline how event photos become thank-you graphics and social media posts",
-    owner: "Katie",
+    owners: ["Katie"],
+    collaborators: ["Brigith"],
     timeline: "TBD",
     startDate: "",
     targetDate: "",
@@ -75,7 +77,8 @@ const initialProjects = [
     id: 3,
     name: "Event Intake & Scheduling System",
     description: "Build/refine the process so all event requests go through one system",
-    owner: "TBD",
+    owners: [],
+    collaborators: [],
     timeline: "Phase 1 (Months 1–2)",
     startDate: "",
     targetDate: "",
@@ -88,7 +91,8 @@ const initialProjects = [
     id: 4,
     name: "Driver Route & Schedule Documentation",
     description: "Document all current routes, drivers, and schedules in one place",
-    owner: "Jordan Horne",
+    owners: ["Jordan Horne"],
+    collaborators: [],
     timeline: "Phase 1 (Months 1–2)",
     startDate: "",
     targetDate: "",
@@ -101,7 +105,8 @@ const initialProjects = [
     id: 5,
     name: "Host & Program Inventory",
     description: "Create full inventory of all hosts, weekly makers, and school/club programs with contact info",
-    owner: "TBD",
+    owners: [],
+    collaborators: [],
     timeline: "Phase 1 (Months 1–2)",
     startDate: "",
     targetDate: "",
@@ -114,7 +119,8 @@ const initialProjects = [
     id: 6,
     name: "Grant Pipeline Tracker",
     description: "Track what's been applied for, what's pending, upcoming deadlines, and reporting requirements",
-    owner: "TBD",
+    owners: [],
+    collaborators: [],
     timeline: "Phase 2 (Months 2–4)",
     startDate: "",
     targetDate: "",
@@ -127,7 +133,8 @@ const initialProjects = [
     id: 7,
     name: "Brand Guidelines",
     description: "Define light brand guidance: tone, language, visual consistency across platforms",
-    owner: "TBD",
+    owners: [],
+    collaborators: [],
     timeline: "Phase 3 (Months 3–5)",
     startDate: "",
     targetDate: "",
@@ -140,7 +147,8 @@ const initialProjects = [
     id: 8,
     name: "Standardized Onboarding Materials",
     description: "Ensure every new participant gets the same expectations, food safety info, and timelines",
-    owner: "TBD",
+    owners: [],
+    collaborators: [],
     timeline: "Phase 1 (Months 1–2)",
     startDate: "",
     targetDate: "",
@@ -153,7 +161,8 @@ const initialProjects = [
     id: 9,
     name: "Food Safety Standards Standardization",
     description: "Standardize food safety standards from the rewritten host handbook across all other guides",
-    owner: "Marcy",
+    owners: ["Marcy"],
+    collaborators: [],
     timeline: "Phase 4 (Months 4–6)",
     startDate: "",
     targetDate: "",
@@ -185,11 +194,57 @@ function PriorityDot({ priority }) {
   );
 }
 
+function TagInput({ tags, onChange, placeholder, tagColor }) {
+  const [inputVal, setInputVal] = useState("");
+  const colorClass = tagColor === "blue"
+    ? "bg-blue-100 text-blue-700"
+    : "bg-gray-100 text-gray-600";
+
+  const addTag = (val) => {
+    const trimmed = val.trim();
+    if (trimmed && !tags.includes(trimmed)) {
+      onChange([...tags, trimmed]);
+    }
+    setInputVal("");
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === ",") {
+      e.preventDefault();
+      addTag(inputVal);
+    }
+    if (e.key === "Backspace" && !inputVal && tags.length > 0) {
+      onChange(tags.slice(0, -1));
+    }
+  };
+
+  return (
+    <div className="flex flex-wrap items-center gap-1.5 border border-gray-300 rounded-lg px-2 py-1.5 min-h-[36px] focus-within:ring-2 focus-within:ring-blue-500 bg-white">
+      {tags.map((tag) => (
+        <span key={tag} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${colorClass}`}>
+          {tag}
+          <button type="button" onClick={() => onChange(tags.filter((t) => t !== tag))} className="hover:opacity-70">&times;</button>
+        </span>
+      ))}
+      <input
+        type="text"
+        value={inputVal}
+        onChange={(e) => setInputVal(e.target.value)}
+        onKeyDown={handleKeyDown}
+        onBlur={() => { if (inputVal.trim()) addTag(inputVal); }}
+        className="flex-1 min-w-[80px] text-sm outline-none bg-transparent py-0.5"
+        placeholder={tags.length === 0 ? placeholder : ""}
+      />
+    </div>
+  );
+}
+
 function AddProjectModal({ onAdd, onClose }) {
   const [form, setForm] = useState({
     name: "",
     description: "",
-    owner: "",
+    owners: [],
+    collaborators: [],
     timeline: "",
     status: "not-started",
     priority: "medium",
@@ -246,27 +301,23 @@ function AddProjectModal({ onAdd, onClose }) {
                 placeholder="What is this project and why does it matter?"
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Owner</label>
-                <input
-                  type="text"
-                  value={form.owner}
-                  onChange={(e) => update("owner", e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Name or TBD"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Timeline</label>
-                <input
-                  type="text"
-                  value={form.timeline}
-                  onChange={(e) => update("timeline", e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="e.g. Phase 2, Q3, Ongoing"
-                />
-              </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">Owners</label>
+              <TagInput tags={form.owners} onChange={(v) => update("owners", v)} placeholder="Type a name and press Enter" tagColor="blue" />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">Collaborators</label>
+              <TagInput tags={form.collaborators} onChange={(v) => update("collaborators", v)} placeholder="Type a name and press Enter" tagColor="gray" />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">Timeline</label>
+              <input
+                type="text"
+                value={form.timeline}
+                onChange={(e) => update("timeline", e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="e.g. Phase 2, Q3, Ongoing"
+              />
             </div>
             <div className="grid grid-cols-3 gap-4">
               <div>
@@ -359,7 +410,10 @@ function ProjectRow({ project, onUpdate, isExpanded, onToggle }) {
         </div>
         <div className="flex items-center gap-4 flex-shrink-0">
           <div className="text-right hidden sm:block">
-            <div className="text-xs text-gray-500">{project.owner || "Unassigned"}</div>
+            <div className="text-xs text-gray-500">{project.owners.length > 0 ? project.owners.join(", ") : "Unassigned"}</div>
+            {project.collaborators.length > 0 && (
+              <div className="text-xs text-gray-400">+ {project.collaborators.join(", ")}</div>
+            )}
             <div className="text-xs text-gray-400">{project.receivingCommittee}</div>
           </div>
           <svg
@@ -377,17 +431,22 @@ function ProjectRow({ project, onUpdate, isExpanded, onToggle }) {
             <p className="text-sm text-gray-600 mt-3">{project.description}</p>
           )}
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
             <div>
-              <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Owner</label>
-              <input
-                type="text"
-                value={project.owner}
-                onChange={(e) => onUpdate(project.id, "owner", e.target.value)}
-                className="mt-1 w-full text-sm border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Unassigned"
-              />
+              <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Owners</label>
+              <div className="mt-1">
+                <TagInput tags={project.owners} onChange={(v) => onUpdate(project.id, "owners", v)} placeholder="Add an owner" tagColor="blue" />
+              </div>
             </div>
+            <div>
+              <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Collaborators</label>
+              <div className="mt-1">
+                <TagInput tags={project.collaborators} onChange={(v) => onUpdate(project.id, "collaborators", v)} placeholder="Add a collaborator" tagColor="gray" />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-3">
             <div>
               <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Timeline</label>
               <input
@@ -516,13 +575,13 @@ function App() {
     if (sortBy === "priority") return priorityOrder[a.priority] - priorityOrder[b.priority];
     if (sortBy === "status") return statusOrder[a.status] - statusOrder[b.status];
     if (sortBy === "name") return a.name.localeCompare(b.name);
-    if (sortBy === "owner") return (a.owner || "zzz").localeCompare(b.owner || "zzz");
+    if (sortBy === "owner") return (a.owners[0] || "zzz").localeCompare(b.owners[0] || "zzz");
     return 0;
   });
 
   const inProgress = projects.filter((p) => p.status === "in-progress").length;
   const blocked = projects.filter((p) => p.status === "blocked").length;
-  const unassigned = projects.filter((p) => !p.owner || p.owner === "TBD").length;
+  const unassigned = projects.filter((p) => p.owners.length === 0).length;
   const complete = projects.filter((p) => p.status === "complete").length;
 
   const usedCommittees = [...new Set(projects.map((p) => p.receivingCommittee))].sort();
