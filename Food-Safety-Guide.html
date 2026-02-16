@@ -15,7 +15,6 @@
     --brand-gold: #FBAD3F;
     --brand-crimson: #A31C41;
 
-    /* Derived tints */
     --teal-light: #e8f6f9;
     --teal-border: #a3dce8;
     --deep-teal-light: #e5f3f5;
@@ -26,7 +25,6 @@
     --crimson-border: #e8899a;
     --navy-light: #2d7a9e;
 
-    /* Neutrals */
     --gray-50: #f9fafb;
     --gray-100: #f3f4f6;
     --gray-200: #e5e7eb;
@@ -41,16 +39,28 @@
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--gray-900);
-    background: var(--gray-50);
+    background: #f0f2f5;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
 
+  /* SVG icon base */
+  .icon-svg {
+    display: inline-block;
+    vertical-align: middle;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .icon-svg.filled { fill: currentColor; stroke: none; }
+
   /* ──── HEADER ──── */
   .header {
-    background: linear-gradient(135deg, var(--brand-navy) 0%, var(--navy-light) 60%, var(--brand-deep-teal) 100%);
+    background: var(--brand-navy);
     color: white;
-    padding: 2.5rem 2rem 2.25rem;
+    padding: 2.8rem 2rem 3rem;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -58,92 +68,101 @@
   .header::before {
     content: '';
     position: absolute;
-    top: -50%; right: -20%;
-    width: 60%; height: 200%;
-    background: radial-gradient(ellipse, rgba(71,179,203,0.15) 0%, transparent 70%);
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 75% 20%, rgba(71,179,203,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 20% 80%, rgba(0,126,140,0.1) 0%, transparent 50%);
     pointer-events: none;
   }
+  /* Subtle diagonal accent strip */
   .header::after {
     content: '';
     position: absolute;
-    bottom: -2px;
-    left: 0; right: 0;
-    height: 36px;
-    background: var(--gray-50);
-    clip-path: ellipse(55% 100% at 50% 100%);
+    top: 0; right: 0;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(135deg, transparent 0%, rgba(0,126,140,0.08) 100%);
+    pointer-events: none;
+  }
+  .header-inner {
+    position: relative;
+    z-index: 1;
   }
   .header-org {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    opacity: 0.8;
-    margin-bottom: 0.5rem;
+    letter-spacing: 4px;
+    opacity: 0.65;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
   }
   .header h1 {
-    font-size: 2rem;
+    font-size: 2.15rem;
     font-weight: 800;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.5px;
   }
   .header .subtitle {
-    font-size: 1.05rem;
-    font-weight: 500;
-    opacity: 0.9;
+    font-size: 0.95rem;
+    font-weight: 400;
+    opacity: 0.8;
   }
   .header .tagline {
     display: inline-block;
-    margin-top: 1rem;
+    margin-top: 1.2rem;
     background: var(--brand-gold);
     color: var(--gray-900);
-    padding: 0.4rem 1.4rem;
+    padding: 0.45rem 1.5rem;
     border-radius: 100px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.5px;
-    box-shadow: 0 2px 8px rgba(251,173,63,0.3);
   }
 
   .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 1.5rem 3rem;
+    max-width: 860px;
+    margin: -1.5rem auto 0;
+    padding: 0 1.25rem 3rem;
+    position: relative;
+    z-index: 2;
   }
 
   /* ──── CRITICAL ALERT ──── */
   .critical-alert {
-    background: var(--crimson-light);
-    border: 2px solid var(--crimson-border);
+    background: white;
+    border: 1px solid var(--crimson-border);
     border-left: 5px solid var(--brand-crimson);
-    border-radius: 12px;
-    padding: 1.4rem 1.6rem;
-    margin: 2rem 0 2rem;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin: 0 0 1.5rem;
     display: flex;
     gap: 1rem;
     align-items: flex-start;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   }
   .critical-alert .alert-icon {
-    width: 40px; height: 40px;
+    width: 36px; height: 36px;
     background: var(--brand-crimson);
     color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
-    font-weight: 800;
     flex-shrink: 0;
   }
+  .critical-alert .alert-icon svg { width: 18px; height: 18px; }
   .critical-alert h3 {
     color: var(--brand-crimson);
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     font-weight: 700;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.25rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
   }
   .critical-alert p {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     color: var(--gray-700);
-    line-height: 1.55;
+    line-height: 1.6;
   }
   .critical-alert .temp-highlight {
     display: inline-block;
@@ -151,44 +170,59 @@
     color: white;
     font-weight: 700;
     padding: 0.1em 0.5em;
-    border-radius: 5px;
-    font-size: 0.9rem;
+    border-radius: 4px;
+    font-size: 0.88rem;
   }
 
   /* ──── TEMPERATURE VISUAL ──── */
   .temp-strip {
     display: flex;
     align-items: stretch;
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
-    margin: 0 0 2rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    margin: 0 0 1.75rem;
     border: 1px solid var(--gray-200);
+    background: white;
   }
   .temp-zone {
     flex: 1;
-    padding: 1.2rem 1.5rem;
+    padding: 1.1rem 1.5rem;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
   }
   .temp-zone.safe {
-    background: linear-gradient(135deg, var(--teal-light), #d4f0f5);
-    border-right: 3px solid var(--brand-teal);
+    background: var(--teal-light);
+    border-right: 2px solid var(--teal-border);
   }
   .temp-zone.danger {
-    background: linear-gradient(135deg, var(--crimson-light), #f9dde3);
+    background: var(--crimson-light);
   }
-  .temp-zone .zone-icon { font-size: 1.6rem; margin-bottom: 0.2rem; }
+  .temp-zone .zone-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.15rem;
+  }
+  .temp-zone.safe .zone-icon { background: var(--brand-deep-teal); color: white; }
+  .temp-zone.danger .zone-icon { background: var(--brand-crimson); color: white; }
+  .temp-zone .zone-icon svg { width: 16px; height: 16px; }
   .temp-zone .zone-label {
     font-weight: 800;
-    font-size: 1.35rem;
-    margin-bottom: 0.1rem;
+    font-size: 1.25rem;
+    line-height: 1.2;
   }
   .temp-zone.safe .zone-label { color: var(--brand-deep-teal); }
   .temp-zone.danger .zone-label { color: var(--brand-crimson); }
   .temp-zone .zone-desc {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     font-weight: 500;
     color: var(--gray-500);
+    letter-spacing: 0.3px;
   }
 
   /* ──── FLOW STEPS ──── */
@@ -196,126 +230,119 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.6rem;
-    margin: 0 0 1.5rem;
+    gap: 0.5rem;
+    margin: 0 0 1.25rem;
   }
   .flow-badge {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.55rem 1.4rem;
+    gap: 0.4rem;
+    padding: 0.35rem 0.9rem;
     border-radius: 100px;
-    font-size: 1.1rem;
+    font-size: 0.78rem;
     font-weight: 700;
   }
   .flow-badge.shop { background: var(--teal-light); color: var(--brand-teal); }
   .flow-badge.make { background: var(--gold-light); color: #b87a10; }
   .flow-badge.deliver { background: var(--deep-teal-light); color: var(--brand-deep-teal); }
   .flow-badge .badge-num {
-    width: 28px; height: 28px;
+    width: 20px; height: 20px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.85rem;
+    font-size: 0.65rem;
     font-weight: 800;
     color: white;
   }
   .flow-badge.shop .badge-num { background: var(--brand-teal); }
   .flow-badge.make .badge-num { background: var(--brand-gold); color: var(--gray-900); }
   .flow-badge.deliver .badge-num { background: var(--brand-deep-teal); }
-  .flow-arrow {
-    font-size: 1.5rem;
-    color: var(--gray-300);
-  }
+  .flow-arrow { color: var(--gray-300); display: flex; align-items: center; }
+  .flow-arrow svg { width: 16px; height: 16px; }
 
   /* ──── SECTION CARDS ──── */
   .section-card {
     background: white;
-    border-radius: 14px;
+    border-radius: 10px;
     padding: 0;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.03);
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--gray-200);
     overflow: hidden;
   }
   .section-header {
-    padding: 1.15rem 1.6rem;
+    padding: 1rem 1.4rem;
     display: flex;
     align-items: center;
-    gap: 0.85rem;
+    gap: 0.8rem;
   }
   .section-icon {
-    width: 44px; height: 44px;
-    border-radius: 11px;
+    width: 40px; height: 40px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
     flex-shrink: 0;
     color: white;
   }
+  .section-icon svg { width: 20px; height: 20px; }
   .section-header h2 {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: 700;
+    color: var(--brand-navy);
   }
   .section-header .step-label {
-    font-size: 0.68rem;
+    font-size: 0.62rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 600;
-    opacity: 0.7;
   }
   .section-body {
-    padding: 0 1.6rem 1.4rem;
+    padding: 0 1.4rem 1.25rem;
   }
 
   /* Section color themes */
-  .section-card.shop { border: 1px solid var(--teal-border); }
-  .section-card.shop .section-header { background: var(--teal-light); }
+  .section-card.shop .section-header { background: var(--teal-light); border-bottom: 1px solid var(--teal-border); }
   .section-card.shop .section-icon { background: var(--brand-teal); }
-  .section-card.shop h2 { color: var(--brand-navy); }
   .section-card.shop .step-label { color: var(--brand-teal); }
 
-  .section-card.make { border: 1px solid var(--gold-border); }
-  .section-card.make .section-header { background: var(--gold-light); }
+  .section-card.make .section-header { background: var(--gold-light); border-bottom: 1px solid var(--gold-border); }
   .section-card.make .section-icon { background: var(--brand-gold); color: var(--gray-900); }
-  .section-card.make h2 { color: var(--brand-navy); }
   .section-card.make .step-label { color: #b87a10; }
 
-  .section-card.deliver { border: 1px solid var(--deep-teal-border); }
-  .section-card.deliver .section-header { background: var(--deep-teal-light); }
+  .section-card.deliver .section-header { background: var(--deep-teal-light); border-bottom: 1px solid var(--deep-teal-border); }
   .section-card.deliver .section-icon { background: var(--brand-deep-teal); }
-  .section-card.deliver h2 { color: var(--brand-navy); }
   .section-card.deliver .step-label { color: var(--brand-deep-teal); }
 
   /* ──── RULE ITEMS ──── */
   .rule-list { list-style: none; padding: 0; }
   .rule-item {
     display: flex;
-    gap: 0.8rem;
-    padding: 0.65rem 0;
+    gap: 0.75rem;
+    padding: 0.6rem 0;
     align-items: flex-start;
     border-bottom: 1px solid var(--gray-100);
   }
   .rule-item:last-child { border-bottom: none; }
   .rule-icon {
-    width: 30px; height: 30px;
-    border-radius: 8px;
+    width: 28px; height: 28px;
+    border-radius: 7px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.95rem;
     flex-shrink: 0;
+    margin-top: 1px;
   }
+  .rule-icon svg { width: 14px; height: 14px; }
   .section-card.shop .rule-icon { background: var(--teal-light); color: var(--brand-teal); }
   .section-card.make .rule-icon { background: var(--gold-light); color: #b87a10; }
   .section-card.deliver .rule-icon { background: var(--deep-teal-light); color: var(--brand-deep-teal); }
 
   .rule-text {
-    font-size: 0.88rem;
+    font-size: 0.86rem;
     line-height: 1.55;
     color: var(--gray-700);
-    padding-top: 0.2rem;
+    padding-top: 0.15rem;
   }
   .rule-text strong { color: var(--gray-900); font-weight: 600; }
   .rule-text .warning { color: var(--brand-crimson); font-weight: 700; }
@@ -324,11 +351,11 @@
   .callout {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
-    padding: 0.75rem 1rem;
-    border-radius: 9px;
-    margin: 0.65rem 0 0.2rem;
-    font-size: 0.82rem;
+    gap: 0.6rem;
+    padding: 0.65rem 0.9rem;
+    border-radius: 8px;
+    margin: 0.6rem 0 0.15rem;
+    font-size: 0.8rem;
     font-weight: 600;
   }
   .callout.crimson {
@@ -341,73 +368,53 @@
     border: 1.5px solid var(--deep-teal-border);
     color: var(--brand-deep-teal);
   }
-  .callout-icon { font-size: 1rem; }
-
-  /* ──── TABS ──── */
-  .tab-bar {
+  .callout-icon {
+    width: 20px; height: 20px;
     display: flex;
-    gap: 0.5rem;
-    margin: 0 0 1.5rem;
+    align-items: center;
     justify-content: center;
+    flex-shrink: 0;
   }
-  .tab-btn {
-    padding: 0.65rem 1.6rem;
-    border: 2px solid var(--gray-200);
-    border-radius: 100px;
-    background: white;
-    font-family: inherit;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--gray-500);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .tab-btn:hover { border-color: var(--brand-teal); color: var(--brand-navy); }
-  .tab-btn.active {
-    background: var(--brand-navy);
-    border-color: var(--brand-navy);
-    color: white;
-  }
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
+  .callout-icon svg { width: 16px; height: 16px; }
 
   /* ──── MOTTO BANNER ──── */
   .motto-banner {
-    background: linear-gradient(135deg, var(--brand-crimson) 0%, #8a1533 100%);
+    background: var(--brand-crimson);
     color: white;
     text-align: center;
-    padding: 1.5rem 2rem;
-    border-radius: 14px;
-    margin: 2rem 0;
+    padding: 1.4rem 2rem;
+    border-radius: 10px;
+    margin: 1.75rem 0 1.5rem;
     position: relative;
     overflow: hidden;
   }
   .motto-banner::before {
     content: '';
     position: absolute;
-    top: -30%; right: -10%;
-    width: 40%; height: 160%;
-    background: radial-gradient(ellipse, rgba(255,255,255,0.08) 0%, transparent 70%);
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(0,0,0,0.08) 100%);
     pointer-events: none;
   }
   .motto-banner h3 {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     font-weight: 800;
-    letter-spacing: 1px;
-    margin-bottom: 0.35rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+    position: relative;
   }
   .motto-banner p {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     opacity: 0.9;
-    max-width: 500px;
+    max-width: 480px;
     margin: 0 auto;
+    position: relative;
   }
 
   /* ──── FOOTER ──── */
   .footer {
     text-align: center;
-    padding: 1rem 0 0;
-    font-size: 0.8rem;
+    padding: 0.75rem 0 0;
+    font-size: 0.75rem;
     color: var(--gray-500);
   }
   .footer a {
@@ -420,46 +427,44 @@
   /* ──── PRINT ──── */
   @media print {
     body { background: white; font-size: 11pt; }
-    .container { max-width: 100%; padding: 0; }
+    .container { max-width: 100%; padding: 0; margin-top: 0; }
     .header { padding: 1.5rem 1rem 1rem; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .header::after { display: none; }
     .section-card { break-inside: avoid; box-shadow: none; }
     .motto-banner { break-inside: avoid; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .temp-strip { break-inside: avoid; box-shadow: none; }
+    .temp-strip { break-inside: avoid; }
     .temp-zone.safe, .temp-zone.danger { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .tab-panel { display: block !important; }
-    .tab-bar { display: none; }
+    .critical-alert { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 
   @media (max-width: 600px) {
     .header h1 { font-size: 1.5rem; }
     .temp-strip { flex-direction: column; }
-    .temp-zone.safe { border-right: none; border-bottom: 3px solid var(--brand-teal); }
+    .temp-zone.safe { border-right: none; border-bottom: 2px solid var(--teal-border); }
     .flow-header { flex-wrap: wrap; }
-    .section-header { padding: 1rem 1.25rem; }
-    .section-body { padding: 0 1.25rem 1.25rem; }
+    .section-header { padding: 0.9rem 1.1rem; }
+    .section-body { padding: 0 1.1rem 1.1rem; }
   }
 </style>
 </head>
 <body>
 
-<nav style="background:#1a4d63; padding:0.5rem 1.5rem; font-family:'Inter',sans-serif;">
-  <a href="index.html" style="color:rgba(255,255,255,0.85); text-decoration:none; font-size:0.85rem; font-weight:600;">← Back to Hub</a>
-</nav>
-
 <!-- ════ HEADER ════ -->
 <div class="header">
-  <div class="header-org">The Sandwich Project</div>
-  <h1>Food Safety Guide</h1>
-  <div class="subtitle">Sandwich Preparation, Storage & Delivery for Volunteers</div>
-  <div class="tagline">Know the Drill, Always Chill</div>
+  <div class="header-inner">
+    <div class="header-org">The Sandwich Project</div>
+    <h1>Food Safety Guide</h1>
+    <div class="subtitle">Sandwich Preparation, Storage & Delivery for Volunteers</div>
+    <div class="tagline">Know the Drill, Always Chill</div>
+  </div>
 </div>
 
 <div class="container">
 
   <!-- ════ CRITICAL ALERT ════ -->
   <div class="critical-alert">
-    <div class="alert-icon">!</div>
+    <div class="alert-icon">
+      <svg class="icon-svg" viewBox="0 0 24 24" width="18" height="18"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </div>
     <div>
       <h3>Why This Matters</h3>
       <p>
@@ -471,316 +476,196 @@
   <!-- ════ TEMPERATURE VISUAL ════ -->
   <div class="temp-strip">
     <div class="temp-zone safe">
-      <div class="zone-icon">✅</div>
+      <div class="zone-icon">
+        <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
       <div class="zone-label">39 °F or below</div>
       <div class="zone-desc">SAFE — Refrigerator temperature</div>
     </div>
     <div class="temp-zone danger">
-      <div class="zone-icon">🚫</div>
+      <div class="zone-icon">
+        <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
       <div class="zone-label">Above 39 °F</div>
       <div class="zone-desc">DANGER ZONE — Bacteria multiply rapidly</div>
     </div>
   </div>
 
-  <!-- ════ TAB SWITCHER ════ -->
-  <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('group')">Group Events</button>
-    <button class="tab-btn" onclick="switchTab('individual')">Individuals & Families</button>
+  <!-- ════ FLOW STEPS ════ -->
+  <div class="flow-header">
+    <div class="flow-badge shop">
+      <span class="badge-num">1</span> Shop
+    </div>
+    <div class="flow-arrow">
+      <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" style="color:var(--gray-300)"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+    <div class="flow-badge make">
+      <span class="badge-num">2</span> Make
+    </div>
+    <div class="flow-arrow">
+      <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" style="color:var(--gray-300)"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+    <div class="flow-badge deliver">
+      <span class="badge-num">3</span> Deliver
+    </div>
   </div>
 
-  <!-- ══════════════════════════════════════════ -->
-  <!-- ════ TAB: GROUP EVENTS ════ -->
-  <!-- ══════════════════════════════════════════ -->
-  <div id="tab-group" class="tab-panel active">
-
-    <div class="flow-header">
-      <div class="flow-badge shop"><span class="badge-num">1</span> Shop</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-badge make"><span class="badge-num">2</span> Make</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-badge deliver"><span class="badge-num">3</span> Deliver</div>
-    </div>
-
-    <!-- SHOP — Groups -->
-    <div class="section-card shop">
-      <div class="section-header">
-        <div class="section-icon">🛒</div>
-        <div>
-          <div class="step-label">Step 1</div>
-          <h2>Shopping for Ingredients</h2>
-        </div>
+  <!-- ════ SECTION 1: SHOP ════ -->
+  <div class="section-card shop">
+    <div class="section-header">
+      <!-- Shopping cart icon -->
+      <div class="section-icon">
+        <svg class="icon-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
       </div>
-      <div class="section-body">
-        <ul class="rule-list">
-          <li class="rule-item">
-            <div class="rule-icon">🧊</div>
-            <div class="rule-text"><strong>Pack coolers with ice packs before heading to the store.</strong></div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🚗</div>
-            <div class="rule-text"><strong>Place meat and cheese in the coolers for transport.</strong> Go directly to the event location or office and immediately refrigerate.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">⭐</div>
-            <div class="rule-text"><strong>Purchase the same quality ingredients</strong> that you would feed your own family!</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">📦</div>
-            <div class="rule-text"><strong>Do not use any meat or cheese sliced at the deli counter</strong> — use prepackaged products only.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">📅</div>
-            <div class="rule-text">The <strong>"use by" date</strong> for all ingredients must be <strong>at least 7 days after the date sandwiches will be dropped off at the host home.</strong></div>
-          </li>
-        </ul>
+      <div>
+        <div class="step-label">Step 1</div>
+        <h2>Shopping for Ingredients</h2>
       </div>
     </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li class="rule-item">
+          <!-- Snowflake / cold -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="19.07" y1="4.93" x2="4.93" y2="19.07"/></svg></div>
+          <div class="rule-text"><strong>Transport meat and cheese in coolers with ice.</strong> Go directly home or to the office and immediately refrigerate.</div>
+        </li>
+        <li class="rule-item">
+          <!-- Star -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="rule-text"><strong>Purchase the same quality ingredients</strong> that you would feed your own family!</div>
+        </li>
+        <li class="rule-item">
+          <!-- Package -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <div class="rule-text"><strong>Do not use over-the-counter deli sliced meats</strong> — use packaged meat only (with preservatives).</div>
+        </li>
+        <li class="rule-item">
+          <!-- Calendar -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <div class="rule-text">The <strong>"use by" date</strong> for all ingredients must be <strong>at least 7 days after drop-off.</strong></div>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-    <!-- MAKE — Groups -->
-    <div class="section-card make">
-      <div class="section-header">
-        <div class="section-icon">🥪</div>
-        <div>
-          <div class="step-label">Step 2</div>
-          <h2>Making & Storing Sandwiches</h2>
-        </div>
+  <!-- ════ SECTION 2: MAKE ════ -->
+  <div class="section-card make">
+    <div class="section-header">
+      <!-- Utensils icon (knife + spatula) -->
+      <div class="section-icon">
+        <svg class="icon-svg" viewBox="0 0 24 24" width="20" height="20"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><line x1="7" y1="2" x2="7" y2="22"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>
       </div>
-      <div class="section-body">
-        <ul class="rule-list">
-          <li class="rule-item">
-            <div class="rule-icon">💇</div>
-            <div class="rule-text"><strong>First, restrain all hair</strong> — use a ponytail holder, hairnet, or hat. Pin back bangs. <strong>Beard nets are required</strong> for facial hair.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🧹</div>
-            <div class="rule-text"><strong>Clean and cover all counters.</strong> Lay food-safe table coverings once participants are at the table and ready to prepare sandwiches.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🥜</div>
-            <div class="rule-text"><strong>If making both PBJ's and deli sandwiches, keep products with nuts away</strong> from the deli prep area.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🧼</div>
-            <div class="rule-text"><strong>Wash hands with soap and warm water just before making sandwiches</strong> — after your area is set up and hair is restrained. Do not use hand sanitizer.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🧤</div>
-            <div class="rule-text"><strong>Put on gloves</strong> and change them if you touch anything other than food.</div>
-          </li>
-        </ul>
-        <div style="text-align:center; margin:1rem 0;">
-          <img src="handsanitizerinfographic.png" alt="Hand sanitizer doesn't kill all germs — especially norovirus and C. diff. Always use soap and water." style="max-width:340px; width:100%; border-radius:10px;">
-        </div>
-        <ul class="rule-list">
-          <li class="rule-item">
-            <div class="rule-icon">❄️</div>
-            <div class="rule-text"><strong>Keep meat and cheese refrigerated at all times.</strong> <em>Remove one package of meat and cheese per table at a time.</em></div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🏷️</div>
-            <div class="rule-text"><strong>Place an official TSP label on each loaf bag at the event.</strong> Use the deli label for deli sandwiches (fill in the date, number of sandwiches, and type of meat) or the PBJ label for peanut butter & jelly.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">↩️</div>
-            <div class="rule-text"><strong>Immediately return completed loaves to the refrigerator</strong> before starting another loaf. <em>All loaves must be at refrigerator temperature before packing in coolers.</em></div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🌬️</div>
-            <div class="rule-text"><strong>Never overpack the refrigerator.</strong> Air must circulate.</div>
-          </li>
-        </ul>
+      <div>
+        <div class="step-label">Step 2</div>
+        <h2>Making & Storing Sandwiches</h2>
       </div>
     </div>
-
-    <!-- DELIVER — Groups -->
-    <div class="section-card deliver">
-      <div class="section-header">
-        <div class="section-icon">🚗</div>
-        <div>
-          <div class="step-label">Step 3</div>
-          <h2>Transporting Sandwiches</h2>
-        </div>
-      </div>
-      <div class="section-body">
-        <ul class="rule-list">
-          <li class="rule-item">
-            <div class="rule-icon">🧊</div>
-            <div class="rule-text">For delivery, <strong>use coolers with ice packs.</strong></div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🌡️</div>
-            <div class="rule-text">Sandwiches must be <strong>chilled</strong> in the refrigerator to <strong>below 39°F</strong> before being placed in coolers.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🚫</div>
-            <div class="rule-text"><span class="warning">Never put warm sandwiches into a cooler.</span> Coolers <strong>maintain</strong> temperature — they do NOT make things colder.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🔒</div>
-            <div class="rule-text"><strong>Close coolers immediately</strong> to keep sandwiches below 39°F.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🏷️</div>
-            <div class="rule-text"><strong>Verify every loaf bag has an official TSP label</strong> before delivering to the host home.</div>
-          </li>
-        </ul>
-        <div class="callout crimson">
-          <span class="callout-icon">❌</span>
-          Do NOT freeze sandwiches. In hot weather, a brief 15–20 min freezer chill is OK — but never long enough to freeze.
-        </div>
-        <div class="callout teal">
-          <span class="callout-icon">💡</span>
-          Remember: Coolers keep cold food cold — they don't make warm food cold.
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /tab-group -->
-
-  <!-- ══════════════════════════════════════════ -->
-  <!-- ════ TAB: INDIVIDUALS & FAMILIES ════ -->
-  <!-- ══════════════════════════════════════════ -->
-  <div id="tab-individual" class="tab-panel">
-
-    <div class="flow-header">
-      <div class="flow-badge shop"><span class="badge-num">1</span> Shop</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-badge make"><span class="badge-num">2</span> Make</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-badge deliver"><span class="badge-num">3</span> Drop Off</div>
-    </div>
-
-    <!-- SHOP — Individuals -->
-    <div class="section-card shop">
-      <div class="section-header">
-        <div class="section-icon">🛒</div>
-        <div>
-          <div class="step-label">Step 1</div>
-          <h2>Shopping for Ingredients</h2>
-        </div>
-      </div>
-      <div class="section-body">
-        <ul class="rule-list">
-          <li class="rule-item">
-            <div class="rule-icon">🧊</div>
-            <div class="rule-text"><strong>Pack a cooler with ice packs before heading to the store.</strong></div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🚗</div>
-            <div class="rule-text"><strong>Place meat and cheese in the cooler for the trip home.</strong> Go directly home and immediately refrigerate.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">⭐</div>
-            <div class="rule-text"><strong>Purchase the same quality ingredients</strong> that you would feed your own family!</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">📦</div>
-            <div class="rule-text"><strong>Do not use any meat or cheese sliced at the deli counter</strong> — use prepackaged products only.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">📅</div>
-            <div class="rule-text">The <strong>"use by" date</strong> for all ingredients must be <strong>at least 7 days after the date you'll be dropping off your sandwiches at the host home.</strong></div>
-          </li>
-        </ul>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li class="rule-item">
+          <!-- Scissors (hair restraint) -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg></div>
+          <div class="rule-text"><strong>All hair must be restrained</strong> — use a ponytail holder, hairnet, or hat. Pin back bangs. <strong>Beard nets are required</strong> for facial hair.</div>
+        </li>
+        <li class="rule-item">
+          <!-- Droplets (hand wash) -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg></div>
+          <div class="rule-text"><strong>Wash hands with soap and warm water</strong> — do not use hand sanitizer. Put on gloves and change them if you touch anything other than food.</div>
+        </li>
+        <li class="rule-item">
+          <!-- Alert triangle (nut allergy) -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+          <div class="rule-text"><strong>Keep products with nuts away</strong> from the deli prep area.</div>
+        </li>
+        <li class="rule-item">
+          <!-- Sparkles (clean) -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg></div>
+          <div class="rule-text"><strong>Clean and cover all counters.</strong> Lay food-safe table coverings once participants are at the table and ready to prepare sandwiches.</div>
+        </li>
+        <li class="rule-item">
+          <!-- Snowflake (refrigerate) -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="19.07" y1="4.93" x2="4.93" y2="19.07"/></svg></div>
+          <div class="rule-text"><strong>Keep meat and cheese refrigerated at all times.</strong> <em>Remove one package of meat and cheese per table at a time.</em></div>
+        </li>
+        <li class="rule-item">
+          <!-- Tag (label) -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+          <div class="rule-text"><strong>Place a completed label</strong> on the loaf bag.</div>
+        </li>
+        <li class="rule-item">
+          <!-- Corner down left (return to fridge) -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><polyline points="9 10 4 15 9 20"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></svg></div>
+          <div class="rule-text"><strong>Immediately return completed loaves to the refrigerator</strong> before starting another loaf. <em>All loaves must be at refrigerator temperature before packing in coolers.</em></div>
+        </li>
+        <li class="rule-item">
+          <!-- Wind (air circulation) -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg></div>
+          <div class="rule-text"><strong>Never overpack the refrigerator.</strong> Air must circulate.</div>
+        </li>
+      </ul>
+      <div class="callout crimson">
+        <span class="callout-icon">
+          <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        </span>
+        No hand sanitizer — soap and water only!
       </div>
     </div>
+  </div>
 
-    <!-- MAKE — Individuals -->
-    <div class="section-card make">
-      <div class="section-header">
-        <div class="section-icon">🏠</div>
-        <div>
-          <div class="step-label">Step 2</div>
-          <h2>Making & Storing Sandwiches at Home</h2>
-        </div>
+  <!-- ════ SECTION 3: DELIVER ════ -->
+  <div class="section-card deliver">
+    <div class="section-header">
+      <!-- Truck icon -->
+      <div class="section-icon">
+        <svg class="icon-svg" viewBox="0 0 24 24" width="20" height="20"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
       </div>
-      <div class="section-body">
-        <ul class="rule-list">
-          <li class="rule-item">
-            <div class="rule-icon">💇</div>
-            <div class="rule-text"><strong>First, restrain all hair</strong> — use a ponytail holder, hairnet, or hat. Pin back bangs. <strong>Beard nets are required</strong> for facial hair.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🧹</div>
-            <div class="rule-text"><strong>Clean and cover your counter.</strong> Lay a food-safe table covering before you begin.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🥜</div>
-            <div class="rule-text"><strong>If making both PBJ's and deli sandwiches, keep products with nuts away</strong> from the deli prep area.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🧼</div>
-            <div class="rule-text"><strong>Wash hands with soap and warm water just before making sandwiches</strong> — after your area is set up and hair is restrained. Do not use hand sanitizer.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🧤</div>
-            <div class="rule-text"><strong>Put on gloves</strong> and change them if you touch anything other than food.</div>
-          </li>
-        </ul>
-        <div style="text-align:center; margin:1rem 0;">
-          <img src="handsanitizerinfographic.png" alt="Hand sanitizer doesn't kill all germs — especially norovirus and C. diff. Always use soap and water." style="max-width:340px; width:100%; border-radius:10px;">
-        </div>
-        <ul class="rule-list">
-          <li class="rule-item">
-            <div class="rule-icon">❄️</div>
-            <div class="rule-text"><strong>Keep meat and cheese refrigerated at all times.</strong> Only take out what you need for the loaf you're making.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">↩️</div>
-            <div class="rule-text"><strong>Immediately return completed loaves to the refrigerator.</strong> <em>All loaves must be at refrigerator temperature before packing in coolers.</em></div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🌬️</div>
-            <div class="rule-text"><strong>Never overpack the refrigerator.</strong> Air must circulate.</div>
-          </li>
-        </ul>
+      <div>
+        <div class="step-label">Step 3</div>
+        <h2>Transporting Sandwiches</h2>
       </div>
     </div>
-
-    <!-- DELIVER — Individuals -->
-    <div class="section-card deliver">
-      <div class="section-header">
-        <div class="section-icon">🚗</div>
-        <div>
-          <div class="step-label">Step 3</div>
-          <h2>Dropping Off at the Host Home</h2>
-        </div>
+    <div class="section-body">
+      <ul class="rule-list">
+        <li class="rule-item">
+          <!-- Snowflake (cooler) -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="19.07" y1="4.93" x2="4.93" y2="19.07"/></svg></div>
+          <div class="rule-text">For delivery, <strong>use coolers with ice packs.</strong></div>
+        </li>
+        <li class="rule-item">
+          <!-- Thermometer -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg></div>
+          <div class="rule-text">Sandwiches must be <strong>chilled</strong> in the refrigerator to <strong>below 39°F</strong> before being placed in coolers.</div>
+        </li>
+        <li class="rule-item">
+          <!-- X circle (never warm) -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+          <div class="rule-text"><span class="warning">Never put warm sandwiches into a cooler.</span> Coolers <strong>maintain</strong> temperature — they do NOT make things colder.</div>
+        </li>
+        <li class="rule-item">
+          <!-- Shield (seal/close) -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="rule-text"><strong>Close coolers immediately</strong> to keep sandwiches below 39°F.</div>
+        </li>
+        <li class="rule-item">
+          <!-- Tag (label) -->
+          <div class="rule-icon"><svg class="icon-svg" viewBox="0 0 24 24" width="14" height="14"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+          <div class="rule-text"><strong>Use the correct label</strong> at the host home. <strong>Labels are mandatory.</strong></div>
+        </li>
+      </ul>
+      <div class="callout crimson">
+        <span class="callout-icon">
+          <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        </span>
+        Do NOT freeze sandwiches. In hot weather, a brief 15–20 min freezer chill is OK — but never long enough to freeze.
       </div>
-      <div class="section-body">
-        <ul class="rule-list">
-          <li class="rule-item">
-            <div class="rule-icon">🧊</div>
-            <div class="rule-text"><strong>Use a cooler with ice packs</strong> to transport sandwiches to the host home.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🌡️</div>
-            <div class="rule-text">Sandwiches must be <strong>chilled</strong> in the refrigerator to <strong>below 39°F</strong> before being placed in coolers.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🚫</div>
-            <div class="rule-text"><span class="warning">Never put warm sandwiches into a cooler.</span> Coolers <strong>maintain</strong> temperature — they do NOT make things colder.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🔒</div>
-            <div class="rule-text"><strong>Close coolers immediately</strong> to keep sandwiches below 39°F.</div>
-          </li>
-          <li class="rule-item">
-            <div class="rule-icon">🏷️</div>
-            <div class="rule-text"><strong>Pick up official TSP labels when you arrive at the host home.</strong> Use the deli label for deli sandwiches (fill in the date, number of sandwiches, and type of meat) or the PBJ label for peanut butter & jelly.</div>
-          </li>
-        </ul>
-        <div class="callout crimson">
-          <span class="callout-icon">❌</span>
-          Do NOT freeze sandwiches. In hot weather, a brief 15–20 min freezer chill is OK — but never long enough to freeze.
-        </div>
-        <div class="callout teal">
-          <span class="callout-icon">💡</span>
-          Remember: Coolers keep cold food cold — they don't make warm food cold.
-        </div>
+      <div class="callout teal">
+        <span class="callout-icon">
+          <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </span>
+        Remember: Coolers keep cold food cold — they don't make warm food cold.
       </div>
     </div>
-
-  </div><!-- /tab-individual -->
+  </div>
 
   <!-- ════ MOTTO BANNER ════ -->
   <div class="motto-banner">
@@ -794,15 +679,5 @@
   </div>
 
 </div>
-
-<script>
-function switchTab(tab) {
-  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
-  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-  document.getElementById('tab-' + tab).classList.add('active');
-  var idx = tab === 'group' ? 0 : 1;
-  document.querySelectorAll('.tab-btn')[idx].classList.add('active');
-}
-</script>
 </body>
 </html>
