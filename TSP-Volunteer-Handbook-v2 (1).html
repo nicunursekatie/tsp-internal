@@ -1,0 +1,473 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 14.0px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 34.7px 'Helvetica Neue'; color: #bb8827; -webkit-text-stroke: #bb8827}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 14.0px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626; background-color: #bb8827; min-height: 16.0px}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 20.0px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626}
+    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 14.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777}
+    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #878787; -webkit-text-stroke: #878787}
+    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff}
+    p.p10 {margin: 0.0px 0.0px 8.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626}
+    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.7px 'Helvetica Neue'; color: #878787; -webkit-text-stroke: #878787}
+    p.p13 {margin: 0.0px 0.0px 0.0px 0.0px; font: 16.0px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777}
+    p.p14 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.3px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626}
+    p.p16 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #bb8827; -webkit-text-stroke: #bb8827}
+    p.p17 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 13.3px 'Helvetica Neue'; color: #134d58; -webkit-text-stroke: #134d58}
+    p.p18 {margin: 0.0px 0.0px 0.0px 0.0px; font: 21.3px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777}
+    p.p19 {margin: 0.0px 0.0px 0.0px 0.0px; font: 21.3px 'Helvetica Neue'; color: #be1e27; -webkit-text-stroke: #be1e27}
+    p.p20 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #be1e27; -webkit-text-stroke: #be1e27}
+    p.p21 {margin: 0.0px 0.0px 4.0px 0.0px; font: 13.3px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626}
+    p.p22 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777}
+    p.p24 {margin: 0.0px 0.0px 2.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #134d58; -webkit-text-stroke: #134d58}
+    p.p25 {margin: 0.0px 0.0px 6.0px 0.0px; font: 13.3px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626}
+    p.p26 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #343434; -webkit-text-stroke: #343434}
+    p.p27 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #134d58; -webkit-text-stroke: #134d58}
+    p.p28 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.7px 'Helvetica Neue'; color: #434343; -webkit-text-stroke: #434343; background-color: #e3f1f4}
+    p.p29 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.3px 'Helvetica Neue'; color: #134d58; -webkit-text-stroke: #134d58}
+    p.p30 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626}
+    p.p31 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.3px 'Helvetica Neue'; color: #878787; -webkit-text-stroke: #878787}
+    li.li10 {margin: 0.0px 0.0px 8.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626}
+    li.li15 {margin: 0.0px 0.0px 5.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626}
+    span.s1 {font-kerning: none}
+    span.s2 {font-kerning: none; color: #434343; -webkit-text-stroke: 0px #434343}
+    span.s3 {font: 12.7px 'Apple Color Emoji'; font-kerning: none; background-color: #ecf1f2}
+    span.s4 {font-kerning: none; background-color: #ecf1f2}
+    span.s5 {font-kerning: none; background-color: #e3f1f4}
+    span.s6 {-webkit-text-stroke: 0px #000000}
+    span.s7 {font-kerning: none; background-color: #fcf3e0}
+    span.s8 {font: 13.3px 'Lucida Grande'; font-kerning: none}
+    span.s9 {font-kerning: none; background-color: #ffecec}
+    span.s10 {font: 14.0px 'Hiragino Sans'; font-kerning: none; background-color: #ffecec}
+    table.t1 {margin: 12.0px 0.0px 12.0px 0.0px; border-collapse: collapse}
+    td.td1 {width: 255.0px; background-color: #e3f1f4; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #d5d5d5 #d5d5d5 #d5d5d5 #d5d5d5; padding: 10.0px 14.0px 10.0px 14.0px}
+    td.td2 {width: 416.0px; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #d5d5d5 #d5d5d5 #d5d5d5 #d5d5d5; padding: 10.0px 14.0px 10.0px 14.0px}
+    ul.ul1 {list-style-type: disc}
+    ul.ul2 {list-style-type: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1"><img src="file:///unknown.jpg" alt="unknown.jpg"></span></p>
+<p class="p2"><span class="s1"><b>Volunteer Handbook</b></span></p>
+<p class="p3"><span class="s1"></span><br></p>
+<p class="p4"><span class="s1"><i>Nourish the Hungry. Feed the Soul.</i></span></p>
+<p class="p5"><span class="s2">For All Volunteer Roles: </span><span class="s1"><b>Sandwich Makers • Hosts • Drivers</b><b></b></span></p>
+<p class="p6"><span class="s1"><b>www.TheSandwichProject.org</b></span></p>
+<p class="p7"><span class="s1">The Sandwich Project (TSP) is a 501(c)(3) nonprofit organization</span></p>
+<p class="p8"><span class="s1"><b>SECTION 1</b></span></p>
+<h1 style="margin: 0.0px 0.0px 0.0px 0.0px; font: 29.3px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff"><span class="s1"><b>Welcome</b></span></h1>
+<p class="p10"><span class="s1">Thank you for joining The Sandwich Project (TSP). We’re glad you’re here. Whether you make sandwiches, host a collection site, or deliver to our partners, you’re part of a community that gets safe, fresh food to people who need it across Metro Atlanta.</span></p>
+<p class="p11"><img src="TSP dropoff.jpeg" alt="TSP volunteer drop-off" style="max-width:100%; border-radius:8px;"></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Who We Serve</b></span></h2>
+<p class="p10"><span class="s1">Our sandwiches go to people experiencing food insecurity: individuals who are unhoused or housing-insecure, children and students, veterans, seniors, and working families. Many also face health challenges, limited transportation, and no healthcare insurance.</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Volunteer Roles</b></span></h2>
+<p class="p13"><span class="s5"><b>Sandwich Makers</b><b></b></span></p>
+<p class="p14"><span class="s5">Purchase ingredients, prepare sandwiches at home following food safety standards, and deliver to a host home on Wednesdays.</span></p>
+<p class="p13"><span class="s5"><b>Hosts</b><b></b></span></p>
+<p class="p14"><span class="s5">Provide a collection site (typically a garage with a spare refrigerator) where sandwich makers drop off on Wednesdays. Store sandwiches safely and coordinate Thursday delivery.</span></p>
+<p class="p14"><span class="s5"><b>Drivers:</b> Pick up coolers from host homes on Thursdays and deliver to partner organizations (501(c)(3) nonprofits).</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>The Weekly Cycle</b></span></h2>
+<ul class="ul1">
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Tuesday evening:</b> Earliest sandwiches may be made</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Wednesday:</b> Sandwich makers deliver to host homes; hosts collect and refrigerate</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Thursday:</b> Drivers pick up from hosts and deliver to partner organizations</span></li>
+</ul>
+<p class="p14"><span class="s5">Sandwiches must be delivered to a host home within 24 hours of preparation.</span></p>
+<p class="p16"><span class="s7"><b>Questions?</b><b></b></span></p>
+<p class="p14"><span class="s7">Email us at info@thesandwichproject.org.</span></p>
+<p class="p8"><span class="s1"><b>SECTION 2</b></span></p>
+<h1 style="margin: 0.0px 0.0px 0.0px 0.0px; font: 29.3px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff"><span class="s1"><b>Food Safety Foundations</b></span></h1>
+<p class="p10"><span class="s1">This section applies to every volunteer, and it’s the most important part of this handbook. The guidelines here exist for one reason: the people we serve—children, seniors, immunocompromised individuals—are counting on us to get this right. Many have limited access to healthcare, so a foodborne illness can be especially dangerous.</span></p>
+<p class="p10"><span class="s1">We know this is a lot of detail. But once you understand the “why,” the rules become second nature.</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>The Cold Chain</b></span></h2>
+<p class="p10"><span class="s1">The “cold chain” is the core concept behind everything in this section. It means keeping food consistently cold from purchase all the way to delivery—no gaps, no breaks. Think of every handoff as a link: store to car, car to fridge, fridge to cooler, cooler to recipient. We’re all responsible for our links in the chain.</span></p>
+<p class="p17"><span class="s1"><b>Store </b></span><span class="s8"><b>→</b></span><span class="s1"><b> Cooler in car </b></span><span class="s8"><b>→</b></span><span class="s1"><b> Home fridge </b></span><span class="s8"><b>→</b></span><span class="s1"><b> Quick prep </b></span><span class="s8"><b>→</b></span><span class="s1"><b> Back to fridge </b></span><span class="s8"><b>→</b></span><span class="s1"><b> Cooler </b></span><span class="s8"><b>→</b></span><span class="s1"><b> Host fridge </b></span><span class="s8"><b>→</b></span><span class="s1"><b> Cooler </b></span><span class="s8"><b>→</b></span><span class="s1"><b> Recipient’s refrigerator</b></span></p>
+<p class="p11"><span class="s3">📷</span><span class="s4"><i> Add image here: cold chain diagram / infographic</i><i></i></span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Temperature Limits</b></span></h2>
+<p class="p10"><span class="s1">So what counts as “cold”? Here are the numbers to know:</span></p>
+<p class="p18"><span class="s5"><b>39°F (4°C)</b><b></b></span></p>
+<p class="p14"><span class="s5">Maximum safe temperature. Above this, bacteria begin to grow.</span></p>
+<p class="p19"><span class="s9"><b>80°F (27°C)</b><b></b></span></p>
+<p class="p14"><span class="s9">Danger zone. If deli meat reaches this temperature, it must be discarded.</span></p>
+<p class="p10"><span class="s1"><b>34°–38°F</b> is the target range for any refrigerator storing TSP sandwiches or ingredients.</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>The Two-Hour Rule</b></span></h2>
+<p class="p10"><span class="s1">Every time food breaks the cold chain—every moment it’s above 39°F—bacteria are growing. The two-hour rule puts a hard limit on how much of that we can allow:</span></p>
+<p class="p20"><span class="s10"><b>⚠</b></span><span class="s9"><b> The Two-Hour Rule</b><b></b></span></p>
+<p class="p21"><span class="s9">Deli meat must stay at or below 39°F (refrigerator temperature) at all times, except for a cumulative total of two hours across the entire process—from factory to consumer. This is based on USDA, FDA, and CDC guidelines.</span></p>
+<p class="p14"><span class="s9">This is not “two hours at a time.” The clock runs across every step from purchase to delivery. And once bacteria start growing, re-cooling doesn’t reverse it—that’s why every minute counts.</span></p>
+<p class="p10"><span class="s1">Two hours sounds like plenty—until you add up all the little moments the food is above 39°F:</span></p>
+<ul class="ul1">
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Shopping:</b> Pick up deli ingredients last.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Sandwich-making:</b> Take out only one package of meat and cheese at a time.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Transfers:</b> Move quickly between fridge, cooler, and car. Keep doors and lids closed as much as possible.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Transport:</b> Drive directly to your destination, no stops.</span></li>
+</ul>
+<p class="p8"><span class="s1"><b>SECTION 2 — CONTINUED</b></span></p>
+<h1 style="margin: 0.0px 0.0px 0.0px 0.0px; font: 29.3px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff"><span class="s1"><b>Food Safety Foundations</b></span></h1>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Refrigeration</b></span></h2>
+<p class="p10"><span class="s1">Your refrigerator is the workhorse of the cold chain. It’s the only piece of equipment that actively lowers and maintains temperature. Here’s how to make sure it’s doing its job:</span></p>
+<ul class="ul1">
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Maintain 34°–38°F.</b> Check the temperature regularly—don’t just assume it’s right.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Don’t overfill.</b> This is one of the most common mistakes. An overpacked fridge can’t circulate air properly, which creates warm spots—even if the thermometer reads fine. Leave room around food for airflow.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Minimize door openings.</b> Temperatures rise fast when the door is open, especially in hot weather. Open briefly, get what you need, close it.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Keep organized.</b> Store PB&amp;J and deli sandwiches separately. Label everything. Remove personal food items to maximize TSP space.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Freezer shortcut for hot weather.</b> On hot days, you can put sandwiches in the freezer for 15–20 minutes before loading coolers to give them extra chill. Don’t exceed 20 minutes.</span></li>
+</ul>
+<p class="p11"><span class="s3">📷</span><span class="s4"><i> Add image here: organized refrigerator with TSP sandwiches</i><i></i></span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Coolers Are Not Refrigerators</b></span></h2>
+<p class="p22"><span class="s5"><b>Key Concept</b><b></b></span></p>
+<p class="p14"><span class="s5">Coolers keep cold food cold. They don’t cool warm food down. Unlike a refrigerator, a cooler doesn’t generate cold air—it just holds in whatever temperature the food already is.</span></p>
+<ul class="ul1">
+  <li class="li15"><span class="s6"></span><span class="s1">Don’t put warm sandwiches into a cooler—they need to be fridge-cold first.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">A properly packed cooler can hold safe temps for up to one hour during active transport.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">If a cooler has been sitting in the heat, bring it inside to cool completely before packing.</span></li>
+</ul>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Maximizing Cooler Performance</b></span></h3>
+<ul class="ul1">
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Pack quickly and in the shade.</b> Keep the cooler closed between trips to the fridge.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Ice packs everywhere.</b> Layer them between loaves and on top. Every loaf should be in direct contact with an ice pack.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Fill it completely.</b> Tightly packed coolers with minimal air space stay colder significantly longer than half-full ones.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Keep the lid closed.</b> Every opening lets warm air in. Do not open coolers during transport.</span></li>
+</ul>
+<p class="p20"><span class="s10"><b>⚠</b></span><span class="s9"><b> No Coolers in the Trunk</b><b></b></span></p>
+<p class="p14"><span class="s9">Always keep coolers in the vehicle cabin where A/C circulates. Trunks lack airflow and heat up fast—even on mild days. Packed coolers should never be left in unattended vehicles.</span></p>
+<p class="p11"><span class="s3">📷</span><span class="s4"><i> Add image here: properly packed cooler with ice packs and sandwiches</i><i></i></span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Hygiene Standards</b></span></h2>
+<p class="p10"><span class="s1">Food safety isn’t just about temperature—it’s also about clean hands, clean surfaces, and clean equipment.</span></p>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Personal Hygiene</b></span></h3>
+<ul class="ul1">
+  <li class="li15"><span class="s6"></span><span class="s1">Tie back hair longer than chin-length (including bangs), or use a hairnet. Use a beard net for facial hair. Do this before washing your hands.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Wash hands with soap and water before starting any food handling, during prep as needed, and when you’re finished.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Hand sanitizer is not a substitute for handwashing.</b> Alcohol residue can transfer to gloves and food, and sanitizer doesn’t remove all bacteria, food residue, or contaminants. We know it’s more convenient, but soap and water is the way to go.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Wear food-safe gloves after washing hands. Change gloves any time you touch something other than food ingredients.</span></li>
+</ul>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Clean Spaces</b></span></h3>
+<ul class="ul1">
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Work surfaces:</b> Clean counters and wash utensils before starting. A disposable tablecloth makes prep and cleanup easy.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Coolers:</b> Wash with soap and warm water after each use. Air-dry completely before storing and covering tightly. Use only dedicated TSP coolers for sandwiches—never for raw meat, fish, or other items.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Refrigerators:</b> Clean regularly. Keep personal items in a separate fridge.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Collection areas:</b> Keep clean, uncluttered, and free of strong odors. Store all food, coolers, and ice packs off the floor and away from pets, trash, chemicals, and tools.</span></li>
+</ul>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>When in Doubt, Throw It Out</b></span></h2>
+<p class="p10"><span class="s1">We know it’s hard to toss food—especially food you bought and prepared yourself. But food can make people sick even when it looks, smells, and tastes fine. If something doesn’t seem right, trust your instincts and discard it. It’s always better to be safe.</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Common Questions</b></span></h2>
+<p class="p24"><span class="s1"><b>Q: How do I keep sandwiches safe during prep?</b></span></p>
+<p class="p25"><span class="s1">A: Get deli meat back in the fridge as quickly as possible. Only take out one package of meat and one package of cheese at a time. Make one loaf, refrigerate it, start the next.</span></p>
+<p class="p24"><span class="s1"><b>Q: What is the maximum safe temperature for deli meat?</b></span></p>
+<p class="p25"><span class="s1">A: Deli meat must never reach 80°F (27°C). The target is always below 39°F (4°C).</span></p>
+<p class="p24"><span class="s1"><b>Q: What does the two-hour rule actually mean?</b></span></p>
+<p class="p25"><span class="s1">A: Deli meat and cheese can only be above 39°F for two hours total, cumulatively, across the entire journey from factory to consumer. That’s not two hours at a time—it’s two hours total. And once bacteria start growing, cooling the food back down doesn’t undo it.</span></p>
+<p class="p24"><span class="s1"><b>Q: Can I re-cool sandwiches that got warm?</b></span></p>
+<p class="p25"><span class="s1">A: No. Re-cooling does not kill bacteria that have already grown. If sandwiches have been above 39°F for more than two cumulative hours—or if you’re not sure—discard them.</span></p>
+<p class="p8"><span class="s1"><b>SECTION 3</b></span></p>
+<h1 style="margin: 0.0px 0.0px 0.0px 0.0px; font: 29.3px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff"><span class="s1"><b>For Sandwich Makers</b></span></h1>
+<p class="p26"><span class="s1"><i>You’re the first link in the cold chain—and for many of our recipients, you’re the reason they’ll have a meal today. The care you put into shopping, prepping, and packing makes a real difference.</i></span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Shopping</b></span></h2>
+<ul class="ul1">
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Use only pre-packaged deli meat and cheese.</b> Never use products sliced at the deli counter.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Buy the same quality ingredients you’d feed your own family.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Choose the <b>furthest expiration dates</b> available—at least 7 days past your drop-off date.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Bring a cooler with ice packs.</b> Park in the shade. Pick up deli items last—the two-hour clock starts the moment they leave the store’s refrigerated case. Go directly home, no stops.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Refrigerate meat and cheese immediately when you get home.</span></li>
+</ul>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Storage</b></span></h2>
+<ul class="ul1">
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Opened meat packages:</b> use within 3 days.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>All meat and cheese:</b> use within 2 weeks of purchase, even if sealed, unopened, or unexpired.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Don’t overpack the fridge—air needs to circulate to keep food properly chilled.</span></li>
+</ul>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Preparation</b></span></h2>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Before You Start</b></span></h3>
+<ul class="ul1">
+  <li class="li15"><span class="s6"></span><span class="s1">Clean and cover counters (a disposable tablecloth works well).</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Tie back hair (including bangs) or use a hairnet. Use beard nets for facial hair.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Wash hands with soap and water before putting on food-safe gloves. Change gloves any time you touch something other than food.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Keep peanut butter and nut/shellfish products away from deli ingredients. Use separate knives for jelly and peanut butter.</span></li>
+</ul>
+<p class="p11"><span class="s3">📷</span><span class="s4"><i> Add image here: sandwich prep workspace / volunteers making sandwiches</i><i></i></span></p>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Making PB&amp;J Sandwiches</b></span></h3>
+<ul class="ul2">
+  <li class="li10"><span class="s6"></span><span class="s1">Lay out two slices of bread.</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">Using a clean knife, spread <b>1 tablespoon of peanut butter</b> on one slice and <b>2 tablespoons on the other</b> (≈ half a ping pong ball per tablespoon). Spread evenly, leaving a clean border around the bread.</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">With a <b>separate knife</b>, spread <b>2 teaspoons of jelly</b> (≈ two grapes) on top of the peanut butter on one slice. Use jelly only—no jam.</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">Press slices together neatly. No peanut butter or jelly should ooze to the edges.</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">Place the sandwich in an individual sandwich-size bag. Remove excess air and seal.</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">Return the sealed bag to its original loaf bag. Keep the twist tie—you’ll use it to close the loaf bag when it’s full.</span></li>
+</ul>
+<p class="p8"><span class="s1"><b>SECTION 3 — CONTINUED</b></span></p>
+<h1 style="margin: 0.0px 0.0px 0.0px 0.0px; font: 29.3px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff"><span class="s1"><b>For Sandwich Makers</b></span></h1>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Making Deli Sandwiches</b></span></h3>
+<ul class="ul2">
+  <li class="li10"><span class="s6"></span><span class="s1">Take out <b>one package of meat and one package of cheese</b> at a time. Keep the rest in the fridge—deli ingredients are on the two-hour clock the moment they leave the refrigerator.</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">Lay out two slices of bread.</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">Place <b>1 slice of cheese on each side</b> (2 slices total).</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">Add <b>at least 2 ounces of meat</b> on one side (check the serving size on your packaging).</span></li>
+  <li class="li10"><span class="s6"><b></b></span><span class="s1"><b>No condiments</b>—no lettuce, tomato, mayo, or mustard. Just bread, meat, and cheese.</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">Press slices together neatly.</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">Bag each sandwich individually, remove excess air, seal, and return to the loaf bag.</span></li>
+</ul>
+<p class="p11"><span class="s3">📷</span><span class="s4"><i> Add image here: sandwich assembly diagram or photo of finished sandwiches</i><i></i></span></p>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Keeping It Cold While You Work</b></span></h3>
+<p class="p10"><span class="s1">This is where the two-hour rule matters most. Every minute meat spends outside the fridge counts toward that cumulative limit.</span></p>
+<ul class="ul1">
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Make one loaf at a time.</b> Immediately return each finished loaf to the fridge before starting the next.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Only have one package of meat and one package of cheese out</b> at a time.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Working with others? Divide tasks: some assemble while others bag, refrigerate finished loaves, and retrieve ingredients.</span></li>
+</ul>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Packaging</b></span></h3>
+<p class="p10"><span class="s1">Don’t discard twist ties or the bags from your loaves of bread—you’ll need them. Finished sandwiches go into individual bags, then back into the loaf bag, secured with the original twist tie. Don’t tie or tape bags shut. Consider purchasing extra twist ties if you make sandwiches regularly.</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Timing</b></span></h2>
+<p class="p14"><span class="s5">Please don’t make sandwiches before Tuesday evening. They need to reach a host home within 24 hours of preparation to stay safe.</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Labeling</b></span></h2>
+<ul class="ul1">
+  <li class="li15"><span class="s6"></span><span class="s1">Use <b>only TSP-issued labels</b> (available through the TSP app).</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Use the correct label: <b>Deli</b> or <b>PB&amp;J</b>.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Fill out all fields, including the date made.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Label dates should be no earlier than Tuesday evening (Wednesday preferred).</span></li>
+</ul>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Wednesday: Drop-Off Day</b></span></h2>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Finding Your Host</b></span></h3>
+<ul class="ul1">
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Choose any host that works for you</b> using the TSP Host Finder at www.thesandwichproject.org. You can drop off at whichever host is most convenient—just make sure you deliver within that host’s listed hours and follow their posted instructions.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Check the weekly newsletter for any schedule changes, host vacation dates, and TSP announcements.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Each host has their own drop-off hours and specific instructions—some ask you to text before coming, some have a doorbell to ring, and others leave a garage open. Follow whatever your host has posted.</span></li>
+</ul>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Transporting Your Sandwiches</b></span></h3>
+<ul class="ul1">
+  <li class="li15"><span class="s6"></span><span class="s1">Sandwiches must be refrigerator-cold (below 39°F) before going into a cooler. Coolers maintain cold—they don’t create it.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Pack a cooler with ice packs between loaves and on top. Fill it as full as possible.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Keep the cooler in the vehicle cabin with A/C running—not the trunk.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Drive directly to your host home—no stops.</span></li>
+</ul>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>At the Host Home</b></span></h3>
+<ul class="ul1">
+  <li class="li15"><span class="s6"></span><span class="s1">Sign in and record your sandwich count and contact info.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Label your sandwiches using the host’s provided labels if you haven’t already.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Hand off your sandwiches to the host—they’ll take it from there.</span></li>
+</ul>
+<p class="p16"><span class="s7"><b>Leftover Ingredients?</b><b></b></span></p>
+<p class="p14"><span class="s7">TSP accepts unopened packages—drop them at your host home and we’ll donate them to groups who want to make more sandwiches than their budget allows. Discard any open meat.</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Common Questions</b></span></h2>
+<p class="p24"><span class="s1"><b>Q: Should I buy pre-packaged or deli-sliced meat?</b></span></p>
+<p class="p25"><span class="s1">A: Pre-packaged only. Prepackaged deli meat is processed and sealed in controlled environments with consistent food safety standards. Counter-sliced meat introduces variables we can’t control.</span></p>
+<p class="p24"><span class="s1"><b>Q: How long can I keep opened ingredients?</b></span></p>
+<p class="p25"><span class="s1">A: Opened meat: 3 days. All meat/cheese: 2 weeks max from purchase, regardless of packaging or expiration date.</span></p>
+<p class="p24"><span class="s1"><b>Q: Why no condiments?</b></span></p>
+<p class="p25"><span class="s1">A: It comes down to food safety and consistency. Keeping the recipe simple helps us make sure every sandwich is safe and predictable for recipients.</span></p>
+<p class="p24"><span class="s1"><b>Q: Can I put warm sandwiches in a cooler to cool them down?</b></span></p>
+<p class="p25"><span class="s1">A: Unfortunately no—coolers maintain temperature but don’t lower it. Sandwiches need to be fridge-cold (below 39°F) before going in.</span></p>
+<p class="p24"><span class="s1"><b>Q: Why not the trunk?</b></span></p>
+<p class="p25"><span class="s1">A: Trunks lack airflow and heat up fast—even on mild days. A/C only circulates in the cabin.</span></p>
+<p class="p24"><span class="s1"><b>Q: How long can a cooler keep things cold?</b></span></p>
+<p class="p25"><span class="s1">A: A properly packed cooler (tight, full, ice packs touching all sandwiches) can hold safe temps for about one hour during active transport.</span></p>
+<p class="p8"><span class="s1"><b>SECTION 4</b></span></p>
+<h1 style="margin: 0.0px 0.0px 0.0px 0.0px; font: 29.3px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff"><span class="s1"><b>For Hosts</b></span></h1>
+<p class="p26"><span class="s1"><i>As a host, you’re the hub that connects everything. Sandwich makers deliver to you, and drivers pick up from you. Your collection site makes it possible for hundreds of sandwiches to move safely through the system each week—and your warm welcome keeps volunteers coming back.</i></span></p>
+<p class="p22"><span class="s5"><b>You’ll have support.</b><b></b></span></p>
+<p class="p14"><span class="s5">Every host is assigned to a team with a lead host who can answer your questions and help you get comfortable. The TSP team will support you throughout the process—you won’t be figuring this out alone.</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>What You Need</b></span></h2>
+<ul class="ul1">
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>A collection area:</b> A spot accessible to volunteers (often a garage), available each Wednesday.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Spare refrigerator space:</b> You should have a dedicated fridge, or TSP will provide one. Keep personal food items out of the TSP fridge.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Availability:</b> Wednesdays for collection and Thursday mornings for delivery. TSP will work with your schedule.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Drop-off hours and instructions:</b> You’ll set your own collection hours and drop-off instructions (e.g., “text before coming,” “ring doorbell,” “sandwiches go in the garage fridge”). These get posted on the TSP Host Finder so your sandwich makers know what to do.</span></li>
+</ul>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Materials Provided by TSP</b></span></h2>
+<p class="p27"><span class="s5"><b>Coolers &amp; Ice Packs</b><b></b></span></p>
+<p class="p28"><span class="s1">Insulated coolers and reusable ice packs for transport.</span></p>
+<p class="p27"><span class="s5"><b>Collection Site Signage</b><b></b></span></p>
+<p class="p28"><span class="s1">Yard signs so volunteers can find your location.</span></p>
+<p class="p27"><span class="s5"><b>Sign-In Sheets</b><b></b></span></p>
+<p class="p28"><span class="s1">For recording names, contact info, sandwich type, and counts.</span></p>
+<p class="p27"><span class="s5"><b>TSP Labels</b><b></b></span></p>
+<p class="p28"><span class="s1">Separate PB&amp;J and Deli labels for volunteers to attach.</span></p>
+<p class="p16"><span class="s7"><b>TSP Web App</b><b></b></span></p>
+<p class="p14"><span class="s7">TSP has its own web app! Your team lead will get you set up before your first collection day. Access at www.thesandwichproject.org (click “Core Team Access”)</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Preparing Your Collection Space</b></span></h2>
+<p class="p10"><span class="s1">Your refrigerator is the most important piece of equipment you provide. Before each collection:</span></p>
+<ul class="ul1">
+  <li class="li15"><span class="s6"></span><span class="s1">Clean the refrigerator and remove personal food items to maximize space.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Verify temperature is between 34°–38°F. Check it—don’t just assume it’s right.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Leave enough room for proper airflow—an overfilled fridge creates warm spots that compromise food safety, even if the thermometer reads correctly.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Keep the collection area clean, uncluttered, and free of strong odors.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Store all food, coolers, and ice packs off the floor and away from pets, trash, chemicals, and tools.</span></li>
+</ul>
+<p class="p11"><span class="s3">📷</span><span class="s4"><i> Add image here: host collection area / garage setup / fridge with sandwiches</i><i></i></span></p>
+<p class="p8"><span class="s1"><b>SECTION 4 — CONTINUED</b></span></p>
+<h1 style="margin: 0.0px 0.0px 0.0px 0.0px; font: 29.3px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff"><span class="s1"><b>For Hosts</b></span></h1>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Wednesday: Collection Day</b></span></h2>
+<p class="p10"><span class="s1">Wednesday is your big day. Sandwich makers will drop off throughout the hours you’ve set. Here’s how to make it run smoothly.</span></p>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Before Drop-Offs Begin</b></span></h3>
+<ul class="ul1">
+  <li class="li15"><span class="s6"></span><span class="s1">Place a donation bin in an accessible spot for fruit/snack collections.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Set up your sign-in station near the drop-off area: sign-in sheets, deli and PB&amp;J labels (keep them separate), and pens.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Put out the TSP yard sign so volunteers can find you.</span></li>
+</ul>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>As Volunteers Arrive</b></span></h3>
+<ul class="ul1">
+  <li class="li15"><span class="s6"></span><span class="s1">Greet volunteers warmly—it keeps sandwich makers engaged and wanting to come back.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Have them sign in and record their sandwich count and contact info.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Have them label their sandwiches using the host-provided labels.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Check that sandwiches are sealed, properly labeled, and cold to the touch.</b> Cold to the touch means refrigerator-cold—if they’re not, the cold chain may have been broken.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Verify label dates are no earlier than Tuesday evening.</span></li>
+</ul>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Storing Sandwiches</b></span></h3>
+<ul class="ul1">
+  <li class="li15"><span class="s6"></span><span class="s1">Refrigerate sandwiches promptly with enough room for airflow. Minimize the time the fridge door is open—temperatures rise quickly.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Keep PB&amp;J and Deli in separate coolers</b> when they go into coolers for transport.</span></li>
+</ul>
+<p class="p20"><span class="s10"><b>⚠</b></span><span class="s9"><b> Allergy Warning</b><b></b></span></p>
+<p class="p14"><span class="s9">TSP sandwiches are not safe for anyone with food allergies due to the ingredients and shared preparation environments.</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Thursday: Delivery Prep</b></span></h2>
+<p class="p10"><span class="s1">Thursday morning, you’re getting everything packed up and ready for your driver. This is a critical cold chain handoff—the goal is to keep sandwiches as cold as possible with minimum exposure to warm air.</span></p>
+<ul class="ul1">
+  <li class="li15"><span class="s6"></span><span class="s1">If a cooler’s been sitting in the heat (garage, car), bring it inside to cool down before packing. Never pack a warm cooler.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Confirm sandwiches are under 39°F before packing coolers.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Layer ice packs between loaves and on top—every loaf should touch an ice pack.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Pack coolers tightly (tight = colder longer).</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Work in the shade when moving sandwiches from fridge to cooler. Keep the fridge door and cooler lids closed as much as possible between loads.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Close lids quickly and keep them sealed. The goal is to have the cooler open for as little time as possible.</span></li>
+</ul>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Quality Check Before Handoff</b></span></h3>
+<ul class="ul1">
+  <li class="li15"><span class="s6"></span><span class="s1">Verify all sandwiches are properly sealed.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Confirm TSP labels are complete and legible.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Ensure sandwiches are cold to the touch.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Check that loaf bags are closed with twist ties.</span></li>
+</ul>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Handling Quality Issues</b></span></h2>
+<p class="p10"><span class="s1">Occasionally you’ll receive sandwiches that don’t meet our guidelines. Here’s how to handle it gracefully:</span></p>
+<ul class="ul1">
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Torn bags:</b> Transfer sandwiches to a new bag if the outer bag is torn, as long as individual wrappers are intact.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Missing labels:</b> Ask the volunteer to label them. Confirm they were made within 24 hours.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Warm, spoiled, or messy sandwiches:</b> These can’t be accepted. Remember: re-cooling does not make food safe again. A simple “We can only take sandwiches that are cold to the touch” is enough.</span></li>
+</ul>
+<p class="p22"><span class="s5"><b>If Sandwiches Seem Unsafe</b><b></b></span></p>
+<p class="p14"><span class="s5">Set them aside separately. Mark them “DO NOT USE” with the reason (e.g., WARM, OPEN BAG) and contact your lead host. This protects recipients and helps us track patterns.</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Keeping Things Clean</b></span></h2>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Refrigerator</b></span></h3>
+<ul class="ul1">
+  <li class="li15"><span class="s6"></span><span class="s1">Give the TSP fridge a regular wipe-down. Keep personal food in a separate fridge.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Minimize how long the door stays open.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">When loading coolers, work in the shade if possible.</span></li>
+</ul>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Coolers</b></span></h3>
+<ul class="ul1">
+  <li class="li15"><span class="s6"></span><span class="s1">Wash with soap and warm water after each use. Let them air-dry fully before storing.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Keep TSP coolers dedicated to sandwiches only—no raw meat, fish, or other items.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Make sure coolers are room-temp or cooler before packing food.</span></li>
+</ul>
+<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 14.7px 'Helvetica Neue'; color: #262626; -webkit-text-stroke: #262626"><span class="s1"><b>Collection Area</b></span></h3>
+<ul class="ul1">
+  <li class="li15"><span class="s6"></span><span class="s1">Keep the space clean, uncluttered, and free of strong odors.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Store everything off the floor, away from pets, trash, chemicals, and tools.</span></li>
+</ul>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Monthly Schedules</b></span></h2>
+<p class="p10"><span class="s1">Each month, a team member will send a Google Form to record any weeks you’re unavailable. Remind your sandwich makers to subscribe to the weekly newsletter for schedule updates, host vacation dates, and TSP announcements.</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Common Questions</b></span></h2>
+<p class="p24"><span class="s1"><b>Q: What if a volunteer brings warm sandwiches?</b></span></p>
+<p class="p25"><span class="s1">A: It’s an awkward conversation, but food safety has to come first. Let them know kindly that sandwiches need to be cold to the touch. If anything seems questionable, set it aside, mark it “DO NOT USE,” and check with your lead host.</span></p>
+<p class="p24"><span class="s1"><b>Q: Can I use TSP coolers for personal use?</b></span></p>
+<p class="p25"><span class="s1">A: We’d ask that you don’t—even a small amount of cross-contamination from other foods could create a safety issue. TSP coolers stay dedicated to TSP sandwiches.</span></p>
+<p class="p24"><span class="s1"><b>Q: What if someone drops off leftover unopened ingredients?</b></span></p>
+<p class="p25"><span class="s1">A: Accept unopened packages—we’ll donate them to groups who can use them. Discard any open meat.</span></p>
+<p class="p8"><span class="s1"><b>SECTION 5</b></span></p>
+<h1 style="margin: 0.0px 0.0px 0.0px 0.0px; font: 29.3px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff"><span class="s1"><b>For Drivers</b></span></h1>
+<p class="p26"><span class="s1"><i>You’re the final link in the cold chain—the person who puts the sandwiches into the hands of the organizations that distribute them. Safe transport on your end means everything that came before it wasn’t wasted.</i></span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Before Your First Delivery</b></span></h2>
+<ul class="ul1">
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Sign the Vehicle Release Form</b> before your first delivery.</span></li>
+  <li class="li15"><span class="s6"></span><span class="s1">Contact Jordan (Driver Coordinator) at 770-789-7329 if you haven’t received one.</span></li>
+</ul>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Transport Protocol</b></span></h2>
+<p class="p10"><span class="s1">Pre-cool your vehicle with the A/C before loading. Then:</span></p>
+<ul class="ul2">
+  <li class="li10"><span class="s6"></span><span class="s1">Confirm sandwiches are pre-chilled (under 39°F) before loading. If a cooler feels warm or sandwiches aren’t cold to the touch, don’t transport them—contact the host or your lead.</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">Check that ice packs are layered between loaves and on top.</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">Pack the cooler tightly—minimize air space.</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">Keep the cooler in the vehicle cabin (<b>not the trunk</b>)—A/C only circulates in the cabin.</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">Drive directly to the destination. No stops.</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">Ensure sandwiches are refrigerated immediately on arrival.</span></li>
+  <li class="li10"><span class="s6"></span><span class="s1">Communicate any delays to the recipient organization right away.</span></li>
+</ul>
+<p class="p20"><span class="s10"><b>⚠</b></span><span class="s9"><b> Critical Transport Rules</b><b></b></span></p>
+<p class="p21"><span class="s9"><b>Don’t leave packed coolers sitting in your vehicle.</b> Coolers belong in vehicles only during active transport. Parked cars—especially trunks—reach dangerous temperatures faster than you’d expect.</span></p>
+<p class="p21"><span class="s9"><b>Hot cooler?</b> Bring it inside to cool down before packing.</span></p>
+<p class="p21"><span class="s9"><b>Warm sandwiches?</b> They need to be fridge-cold before going in a cooler. Coolers maintain temperature—they don’t lower it.</span></p>
+<p class="p21"><span class="s9">Keep lids sealed during transport—every time you open it, cold air escapes.</span></p>
+<p class="p14"><span class="s9">TSP coolers are for TSP sandwiches only (this prevents cross-contamination).</span></p>
+<p class="p11"><span class="s3">📷</span><span class="s4"><i> Add image here: driver loading coolers / delivery in progress</i><i></i></span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Delivery Standards</b></span></h2>
+<p class="p10"><span class="s1"><b>We deliver exclusively to 501(c)(3) organizations</b>—this is a legal requirement. We can’t give sandwiches directly to individuals, even if they ask.</span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Reporting Issues</b></span></h2>
+<p class="p10"><span class="s1">You’re our eyes and ears at pickup and drop-off. If you notice any of the following, give Marcy a call—it helps us protect both the food and the people we serve:</span></p>
+<ul class="ul1">
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Unsafe conditions:</b> A recipient location that appears unclean or unsanitary.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Improper storage:</b> Recipient doesn’t refrigerate the food right away.</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Inadequate refrigeration:</b> Recipient lacks sufficient cooling capacity.</span></li>
+</ul>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Common Questions</b></span></h2>
+<p class="p24"><span class="s1"><b>Q: Who do we deliver to?</b></span></p>
+<p class="p25"><span class="s1">A: 501(c)(3) nonprofit organizations only. This is a legal requirement for TSP as a nonprofit—we can’t distribute directly to individuals, even with good intentions.</span></p>
+<p class="p24"><span class="s1"><b>Q: What if a recipient location looks unsanitary?</b></span></p>
+<p class="p25"><span class="s1">A: Let Marcy know—she’ll follow up. Also flag if they’re not refrigerating food on arrival or don’t seem to have adequate cooling. These reports help us ensure the food stays safe all the way to the end.</span></p>
+<p class="p8"><span class="s1"><b>SECTION 6</b></span></p>
+<h1 style="margin: 0.0px 0.0px 0.0px 0.0px; font: 29.3px 'Helvetica Neue'; color: #ffffff; -webkit-text-stroke: #ffffff"><span class="s1"><b>Contact Information</b></span></h1>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>TSP Team</b></span></h2>
+<table cellspacing="0" cellpadding="0" class="t1">
+  <tbody>
+    <tr>
+      <td valign="middle" class="td1">
+        <p class="p29"><span class="s1"><b>Executive Director</b></span></p>
+      </td>
+      <td valign="middle" class="td2">
+        <p class="p14"><span class="s1">Christine Cooper Nowicki  |  (404) 786-8116</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="middle" class="td1">
+        <p class="p29"><span class="s1"><b>Safety Committee &amp; Co-Founder</b></span></p>
+      </td>
+      <td valign="middle" class="td2">
+        <p class="p14"><span class="s1">Marcy  |  (678) 596-9697</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="middle" class="td1">
+        <p class="p29"><span class="s1"><b>Driver Coordinator</b></span></p>
+      </td>
+      <td valign="middle" class="td2">
+        <p class="p14"><span class="s1">Jordan  |  770-789-7329</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="middle" class="td1">
+        <p class="p29"><span class="s1"><b>Web App &amp; Technical Support</b></span></p>
+      </td>
+      <td valign="middle" class="td2">
+        <p class="p14"><span class="s1">Katie  |  770-789-1013</span></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Your Lead Host</b></span></h2>
+<p class="p30"><span class="s1"><b>Name:</b><b></b></span></p>
+<p class="p30"><span class="s1"><b>Phone:</b><b></b></span></p>
+<p class="p30"><span class="s1"><b>Email:</b><b></b></span></p>
+<h2 style="margin: 0.0px 0.0px 10.0px 0.0px; font: 18.7px 'Helvetica Neue'; color: #196777; -webkit-text-stroke: #196777"><span class="s1"><b>Resources</b></span></h2>
+<ul class="ul1">
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Website:</b> thesandwichproject.org</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Email:</b> info@thesandwichproject.org</span></li>
+  <li class="li15"><span class="s6"><b></b></span><span class="s1"><b>Web App:</b> www.thesandwichproject.org (click “Core Team Access”)</span></li>
+</ul>
+<p class="p10"><span class="s7"><b>The most important thing to remember:</b> The Sandwich Project serves our neighbors experiencing food insecurity, with a focus on dignity, nourishment, and meeting people where they are.</span></p>
+<p class="p31"><span class="s1"><i>References: USDA Safe Handling of Take-Out Foods | FDA: Are You Storing Food Safely?</i></span></p>
+</body>
+</html>
