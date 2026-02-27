@@ -81,6 +81,21 @@
     padding: 2.5rem 1.5rem 3rem;
   }
 
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gray-500);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--gray-200);
+  }
+
+  .section + .section {
+    margin-top: 2.5rem;
+  }
+
   .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -148,10 +163,14 @@
     background: #fef5e4;
     color: #b87a10;
   }
+  .tag-doc {
+    background: #f0eafc;
+    color: #6b21a8;
+  }
 
   .footer {
     text-align: center;
-    padding: 1.5rem 0 0;
+    padding: 2rem 0 0;
     font-size: 0.8rem;
     color: var(--gray-500);
   }
@@ -178,36 +197,98 @@
 
 <div class="container">
 
-  <div class="card-grid">
+  <!-- Team Tools -->
+  <div class="section">
+    <div class="section-label">Team Tools</div>
+    <div class="card-grid">
 
-    <a href="Food-Safety-Guide.html" class="card">
-      <div class="card-icon" style="background: var(--brand-crimson);">🛡️</div>
-      <h2>Food Safety Guide</h2>
-      <p>Volunteer guide for safe sandwich shopping, preparation, storage, and delivery.</p>
-      <span class="card-tag tag-live">Live</span>
-    </a>
+      <a href="public/index.html" class="card">
+        <div class="card-icon" style="background: var(--brand-deep-teal);">💡</div>
+        <h2>Ideas Hub</h2>
+        <p>Submit ideas, give feedback, and track decisions through our team workflow.</p>
+        <span class="card-tag tag-live">Live</span>
+      </a>
 
-    <a href="public/index.html" class="card">
-      <div class="card-icon" style="background: var(--brand-deep-teal);">💡</div>
-      <h2>Ideas Hub</h2>
-      <p>Submit ideas, give feedback, and track decisions through our team workflow.</p>
-      <span class="card-tag tag-live">Live</span>
-    </a>
+      <a href="projecttracker.html" class="card">
+        <div class="card-icon" style="background: var(--brand-navy);">📊</div>
+        <h2>Project Tracker</h2>
+        <p>Track project status, priorities, owners, and committee assignments.</p>
+        <span class="card-tag tag-live">Live</span>
+      </a>
 
-    <a href="committeetracker.html" class="card">
-      <div class="card-icon" style="background: var(--brand-gold);">📋</div>
-      <h2>Committee Tracker</h2>
-      <p>Track committee phases, members, meeting cadence, and priorities.</p>
-      <span class="card-tag tag-live">Live</span>
-    </a>
+      <a href="committeetracker.html" class="card">
+        <div class="card-icon" style="background: var(--brand-gold);">📋</div>
+        <h2>Committee Tracker</h2>
+        <p>Track committee phases, members, meeting cadence, and priorities.</p>
+        <span class="card-tag tag-live">Live</span>
+      </a>
 
-    <a href="projecttracker.html" class="card">
-      <div class="card-icon" style="background: var(--brand-navy);">📊</div>
-      <h2>Project Tracker</h2>
-      <p>Track project status, priorities, owners, and committee assignments.</p>
-      <span class="card-tag tag-live">Live</span>
-    </a>
+      <a href="supporters.html" class="card">
+        <div class="card-icon" style="background: linear-gradient(135deg, var(--brand-gold), #e89b1c);">🤝</div>
+        <h2>Supporters</h2>
+        <p>View our supporters and donors organized by category.</p>
+        <span class="card-tag tag-live">Live</span>
+      </a>
 
+    </div>
+  </div>
+
+  <!-- Volunteer Resources -->
+  <div class="section">
+    <div class="section-label">Volunteer Resources</div>
+    <div class="card-grid">
+
+      <a href="tsp-volunteer-onboarding.html" class="card">
+        <div class="card-icon" style="background: linear-gradient(135deg, var(--brand-deep-teal), var(--brand-teal));">🎓</div>
+        <h2>Volunteer Onboarding</h2>
+        <p>Interactive walkthrough for new volunteers covering food safety and role-specific training.</p>
+        <span class="card-tag tag-live">Live</span>
+      </a>
+
+      <a href="Food-Safety-Guide.html" class="card">
+        <div class="card-icon" style="background: var(--brand-crimson);">🛡️</div>
+        <h2>Food Safety Guide</h2>
+        <p>Quick-reference guide for safe sandwich shopping, preparation, storage, and delivery.</p>
+        <span class="card-tag tag-live">Live</span>
+      </a>
+
+      <a href="TSP-Volunteer-Handbook-v2 (1).html" class="card">
+        <div class="card-icon" style="background: linear-gradient(135deg, #1d5655, #2a7c7a);">📖</div>
+        <h2>Volunteer Handbook v2</h2>
+        <p>Comprehensive handbook for all roles: sandwich makers, hosts, and drivers.</p>
+        <span class="card-tag tag-doc">Document</span>
+      </a>
+
+      <a href="fullvolunteerhandbook.html" class="card">
+        <div class="card-icon" style="background: var(--gray-700);">📄</div>
+        <h2>Full Volunteer Handbook</h2>
+        <p>Print-friendly version of the complete volunteer handbook.</p>
+        <span class="card-tag tag-doc">Document</span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Development -->
+  <div class="section">
+    <div class="section-label">Development &amp; Firebase</div>
+    <div class="card-grid">
+
+      <a href="tsp-ideas-hub.html" class="card">
+        <div class="card-icon" style="background: linear-gradient(135deg, #6b21a8, #9333ea);">🧪</div>
+        <h2>Ideas Hub (Demo)</h2>
+        <p>Local demo version of the Ideas Hub using localStorage. For testing and development.</p>
+        <span class="card-tag tag-wip">Dev</span>
+      </a>
+
+      <a href="tsp-ideas-hub-firebase.html" class="card">
+        <div class="card-icon" style="background: linear-gradient(135deg, #ea8600, var(--brand-gold));">🔥</div>
+        <h2>Ideas Hub (Firebase)</h2>
+        <p>Production-ready Ideas Hub with Firebase real-time database and authentication.</p>
+        <span class="card-tag tag-wip">Dev</span>
+      </a>
+
+    </div>
   </div>
 
   <div class="footer">
