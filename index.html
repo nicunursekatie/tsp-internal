@@ -134,25 +134,75 @@
     font-size: 1.15rem;
     font-weight: 700;
     color: var(--brand-navy);
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.3rem;
   }
 
-  .card p {
+  .card-desc {
     font-size: 0.88rem;
     color: var(--gray-500);
     line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-details {
+    font-size: 0.8rem;
+    color: var(--gray-700);
+    line-height: 1.55;
     flex: 1;
+    padding: 0.6rem 0.75rem;
+    background: var(--gray-50);
+    border-radius: 8px;
+    border: 1px solid var(--gray-200);
+  }
+
+  .card-details ul {
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+
+  .card-details li {
+    margin-bottom: 0.2rem;
+  }
+
+  .card-details li:last-child {
+    margin-bottom: 0;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.85rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .card-audience {
+    display: flex;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+  }
+
+  .audience-tag {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 100px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    background: var(--gray-100);
+    color: var(--gray-500);
+    border: 1px solid var(--gray-200);
   }
 
   .card-tag {
     display: inline-block;
-    margin-top: 1rem;
     padding: 0.25rem 0.75rem;
     border-radius: 100px;
     font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    flex-shrink: 0;
   }
 
   .tag-live {
@@ -205,29 +255,78 @@
       <a href="public/index.html" class="card">
         <div class="card-icon" style="background: var(--brand-deep-teal);">💡</div>
         <h2>Ideas Hub</h2>
-        <p>Submit ideas, give feedback, and track decisions through our team workflow.</p>
-        <span class="card-tag tag-live">Live</span>
+        <div class="card-desc">Where TSP team members propose, discuss, and decide on new ideas together.</div>
+        <div class="card-details">
+          <ul>
+            <li>Submit ideas with full descriptions</li>
+            <li>Feedback &amp; seconding workflow</li>
+            <li>Decision tracking with written rationale</li>
+            <li>Appeal process for declined ideas</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="card-audience">
+            <span class="audience-tag">Core Team</span>
+          </div>
+          <span class="card-tag tag-live">Live</span>
+        </div>
       </a>
 
       <a href="projecttracker.html" class="card">
         <div class="card-icon" style="background: var(--brand-navy);">📊</div>
         <h2>Project Tracker</h2>
-        <p>Track project status, priorities, owners, and committee assignments.</p>
-        <span class="card-tag tag-live">Live</span>
+        <div class="card-desc">Dashboard for tracking all active TSP initiatives across committees.</div>
+        <div class="card-details">
+          <ul>
+            <li>Status: Not Started, In Progress, Blocked, Complete</li>
+            <li>Priority levels &amp; committee assignments</li>
+            <li>Project owners &amp; collaborators</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="card-audience">
+            <span class="audience-tag">Core Team</span>
+            <span class="audience-tag">Committee Leads</span>
+          </div>
+          <span class="card-tag tag-live">Live</span>
+        </div>
       </a>
 
       <a href="committeetracker.html" class="card">
         <div class="card-icon" style="background: var(--brand-gold);">📋</div>
         <h2>Committee Tracker</h2>
-        <p>Track committee phases, members, meeting cadence, and priorities.</p>
-        <span class="card-tag tag-live">Live</span>
+        <div class="card-desc">Manage committee structure, leadership, and development phases.</div>
+        <div class="card-details">
+          <ul>
+            <li>Committee leads, members &amp; vacancies</li>
+            <li>Meeting cadence &amp; current priorities</li>
+            <li>Phase tracking (Phase 1 &rarr; 2 &rarr; 3)</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="card-audience">
+            <span class="audience-tag">Core Team</span>
+          </div>
+          <span class="card-tag tag-live">Live</span>
+        </div>
       </a>
 
       <a href="supporters.html" class="card">
         <div class="card-icon" style="background: linear-gradient(135deg, var(--brand-gold), #e89b1c);">🤝</div>
         <h2>Supporters</h2>
-        <p>View our supporters and donors organized by category.</p>
-        <span class="card-tag tag-live">Live</span>
+        <div class="card-desc">Directory of TSP's supporters and donors organized by category.</div>
+        <div class="card-details">
+          <ul>
+            <li>Categorized supporter lists</li>
+            <li>Collapsible sections with counts</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="card-audience">
+            <span class="audience-tag">Core Team</span>
+          </div>
+          <span class="card-tag tag-live">Live</span>
+        </div>
       </a>
 
     </div>
@@ -241,29 +340,80 @@
       <a href="tsp-volunteer-onboarding.html" class="card">
         <div class="card-icon" style="background: linear-gradient(135deg, var(--brand-deep-teal), var(--brand-teal));">🎓</div>
         <h2>Volunteer Onboarding</h2>
-        <p>Interactive walkthrough for new volunteers covering food safety and role-specific training.</p>
-        <span class="card-tag tag-live">Live</span>
+        <div class="card-desc">Interactive step-by-step walkthrough for new volunteers. Takes about 10&ndash;15 minutes.</div>
+        <div class="card-details">
+          <ul>
+            <li>Pick your role: Sandwich Maker, Host, or Driver</li>
+            <li>Food safety foundations with knowledge quiz</li>
+            <li>Role-specific training with quiz</li>
+            <li>Doubles as a browsable reference guide</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="card-audience">
+            <span class="audience-tag">New Volunteers</span>
+          </div>
+          <span class="card-tag tag-live">Live</span>
+        </div>
       </a>
 
       <a href="Food-Safety-Guide.html" class="card">
         <div class="card-icon" style="background: var(--brand-crimson);">🛡️</div>
         <h2>Food Safety Guide</h2>
-        <p>Quick-reference guide for safe sandwich shopping, preparation, storage, and delivery.</p>
-        <span class="card-tag tag-live">Live</span>
+        <div class="card-desc">Visual quick-reference for TSP's food safety rules. Good for a refresher or to share.</div>
+        <div class="card-details">
+          <ul>
+            <li>Cold chain overview &amp; temperature zones</li>
+            <li>Two-hour rule explained</li>
+            <li>Refrigeration, coolers &amp; hygiene</li>
+            <li>Color-coded alerts &amp; checklists</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="card-audience">
+            <span class="audience-tag">All Volunteers</span>
+          </div>
+          <span class="card-tag tag-live">Live</span>
+        </div>
       </a>
 
       <a href="TSP-Volunteer-Handbook-v2 (1).html" class="card">
         <div class="card-icon" style="background: linear-gradient(135deg, #1d5655, #2a7c7a);">📖</div>
         <h2>Volunteer Handbook v2</h2>
-        <p>Comprehensive handbook for all roles: sandwich makers, hosts, and drivers.</p>
-        <span class="card-tag tag-doc">Document</span>
+        <div class="card-desc">The full handbook covering everything a volunteer needs to know, organized by role.</div>
+        <div class="card-details">
+          <ul>
+            <li>Sections: Welcome, Food Safety, Sandwich Makers, Hosts, Drivers, Contacts</li>
+            <li>Shopping, prep &amp; assembly instructions</li>
+            <li>Wednesday collection &amp; Thursday delivery procedures</li>
+            <li>Common questions for each role</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="card-audience">
+            <span class="audience-tag">All Volunteers</span>
+          </div>
+          <span class="card-tag tag-doc">Document</span>
+        </div>
       </a>
 
       <a href="fullvolunteerhandbook.html" class="card">
         <div class="card-icon" style="background: var(--gray-700);">📄</div>
         <h2>Full Volunteer Handbook</h2>
-        <p>Print-friendly version of the complete volunteer handbook.</p>
-        <span class="card-tag tag-doc">Document</span>
+        <div class="card-desc">Print-friendly, paginated version of the handbook. Same content, formatted for paper.</div>
+        <div class="card-details">
+          <ul>
+            <li>Multi-page layout with page breaks</li>
+            <li>Optimized for printing or PDF export</li>
+            <li>Same content as Handbook v2</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="card-audience">
+            <span class="audience-tag">All Volunteers</span>
+          </div>
+          <span class="card-tag tag-doc">Document</span>
+        </div>
       </a>
 
     </div>
@@ -277,15 +427,39 @@
       <a href="tsp-ideas-hub.html" class="card">
         <div class="card-icon" style="background: linear-gradient(135deg, #6b21a8, #9333ea);">🧪</div>
         <h2>Ideas Hub (Demo)</h2>
-        <p>Local demo version of the Ideas Hub using localStorage. For testing and development.</p>
-        <span class="card-tag tag-wip">Dev</span>
+        <div class="card-desc">Standalone demo of the Ideas Hub using localStorage. No login required&mdash;for testing.</div>
+        <div class="card-details">
+          <ul>
+            <li>Same UI as the live Ideas Hub</li>
+            <li>Data stored locally in browser</li>
+            <li>Good for testing new features</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="card-audience">
+            <span class="audience-tag">Developers</span>
+          </div>
+          <span class="card-tag tag-wip">Dev</span>
+        </div>
       </a>
 
       <a href="tsp-ideas-hub-firebase.html" class="card">
         <div class="card-icon" style="background: linear-gradient(135deg, #ea8600, var(--brand-gold));">🔥</div>
         <h2>Ideas Hub (Firebase)</h2>
-        <p>Production-ready Ideas Hub with Firebase real-time database and authentication.</p>
-        <span class="card-tag tag-wip">Dev</span>
+        <div class="card-desc">Firebase-connected version with real-time sync and authentication.</div>
+        <div class="card-details">
+          <ul>
+            <li>Firestore database for persistent data</li>
+            <li>Real-time multi-user collaboration</li>
+            <li>Role-based access (team, core, ED)</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="card-audience">
+            <span class="audience-tag">Developers</span>
+          </div>
+          <span class="card-tag tag-wip">Dev</span>
+        </div>
       </a>
 
     </div>
