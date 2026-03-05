@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TSP Volunteer Handbook</title>
+<style>
+  @page {
+    size: 8.5in 11in;
+    margin: 0.55in 0.65in 0.65in 0.65in;
+    @bottom-left {
+      content: "THE SANDWICH PROJECT";
+      font-family: 'Lato', 'Open Sans', sans-serif;
+      font-size: 7pt;
+      font-weight: 700;
+      color: #1B7A7D;
+    }
+    @bottom-right {
+      content: "Volunteer Handbook  ·  " counter(page);
+      font-family: 'Open Sans', sans-serif;
+      font-size: 7pt;
+      color: #718096;
+    }
+  }
+
+  @page:first {
+    margin: 0;
+    @bottom-left { content: none; }
+    @bottom-right { content: none; }
+  }
+
+  :root {
+    --teal: #1B7A7D;
+    --teal-dark: #145C5E;
+    --teal-light: #E8F4F4;
+    --burg: #8C2332;
+    --burg-light: #FDF0F2;
+    --gold: #D4953A;
+    --gold-light: #FEF8EC;
+    --char: #2C3338;
+    --gd: #4A5568;
+    --gm: #718096;
+    --gl: #E2E8F0;
+    --gbg: #F7FAFC;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Open Sans', 'Carlito', sans-serif;
+    color: var(--char);
+    font-size: 9pt;
+    line-height: 1.45;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ─── COVER ─── */
+  .cover {
+    width: 8.5in; height: 11in;
+    background: linear-gradient(160deg, var(--teal-dark) 0%, var(--teal) 40%, #1E8F8F 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; color: white; padding: 0.8in; position: relative;
+    page-break-after: always;
+  }
+  .cover::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(0,0,0,0.15) 0%, transparent 60%);
+  }
+  .cover * { position: relative; z-index: 1; }
+  .cover-org { font-family: 'Lato', sans-serif; font-size: 13pt; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; opacity: 0.9; margin-bottom: 3px; }
+  .cover-url { font-size: 8.5pt; opacity: 0.6; letter-spacing: 1px; margin-bottom: 30px; }
+  .cover-div { width: 50px; height: 2px; background: var(--gold); margin: 0 auto 30px; }
+  .cover-title { font-family: 'Lato', sans-serif; font-size: 32pt; font-weight: 700; line-height: 1.15; margin-bottom: 10px; }
+  .cover-sub { font-size: 12pt; font-weight: 300; opacity: 0.8; font-style: italic; margin-bottom: 20px; }
+  .cover-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--gold) 33%, var(--burg) 33% 66%, white 66%); }
+
+  /* ─── SECTIONS ─── */
+  .section { page-break-before: always; }
+
+  /* ─── SECTION DIVIDER PAGE ─── */
+  .section-divider {
+    page-break-before: always;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 8.5in;
+    text-align: center;
+  }
+  .sd-label {
+    font-size: 8pt; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 8px;
+  }
+  .sd-title {
+    font-family: 'Lato', sans-serif; font-size: 28pt; font-weight: 700;
+    color: var(--teal-dark); margin-bottom: 10px; line-height: 1.2;
+  }
+  .sd-bar { width: 40px; height: 3px; background: var(--gold); margin: 0 auto 14px; }
+  .sd-desc { font-size: 10pt; color: var(--gm); max-width: 5in; line-height: 1.5; }
+
+  /* ─── TYPOGRAPHY ─── */
+  h1 { font-family: 'Lato', sans-serif; font-size: 18pt; font-weight: 700; color: var(--teal-dark); margin-bottom: 3px; line-height: 1.2; }
+  h2 { font-family: 'Lato', sans-serif; font-size: 12.5pt; font-weight: 700; color: var(--teal); margin-top: 12px; margin-bottom: 3px; line-height: 1.25; }
+  h3 { font-family: 'Lato', sans-serif; font-size: 10pt; font-weight: 700; color: var(--char); margin-top: 8px; margin-bottom: 2px; }
+  p { margin-bottom: 4px; }
+
+  .sl { font-size: 7pt; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--teal); opacity: 0.6; margin-bottom: 2px; }
+  .ph { border-bottom: 2px solid var(--teal); padding-bottom: 7px; margin-bottom: 10px; }
+  .ab { width: 32px; height: 2.5px; background: var(--gold); margin-bottom: 6px; }
+
+  /* ─── PLACEHOLDERS ─── */
+  .img-placeholder {
+    background: linear-gradient(135deg, #e8ecf0 25%, #dfe4e9 25%, #dfe4e9 50%, #e8ecf0 50%, #e8ecf0 75%, #dfe4e9 75%);
+    background-size: 16px 16px;
+    border: 1.5px dashed #b0bec5; border-radius: 6px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: #607d8b; font-size: 8pt; font-weight: 600; text-align: center; padding: 8px; margin: 6px 0;
+  }
+  .img-placeholder .phl { font-size: 7pt; font-weight: 400; color: #90a4ae; margin-top: 2px; }
+  .cover .img-placeholder { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.6); width: 75%; }
+  .cover .img-placeholder .phl { color: rgba(255,255,255,0.35); }
+
+  /* ─── GRIDS & CARDS ─── */
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin: 6px 0; }
+  .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px; margin: 6px 0; }
+  .card { background: var(--gbg); border-radius: 5px; padding: 9px 11px; border: 1px solid var(--gl); }
+  .card-t { background: var(--teal-light); border-color: rgba(27,122,125,0.15); }
+  .card-g { background: var(--gold-light); border-color: rgba(212,149,58,0.2); }
+  .card-b { background: var(--burg-light); border-color: rgba(140,35,50,0.12); }
+  .ct { font-family: 'Lato', sans-serif; font-size: 9pt; font-weight: 700; color: var(--teal-dark); margin-bottom: 2px; }
+  .card p { font-size: 8.5pt; margin-bottom: 1px; line-height: 1.35; }
+
+  /* ─── CALLOUTS ─── */
+  .co { border-left: 3px solid var(--gold); background: var(--gold-light); padding: 7px 11px; margin: 7px 0; border-radius: 0 5px 5px 0; font-size: 8.5pt; line-height: 1.35; }
+  .co-c { border-left-color: var(--burg); background: var(--burg-light); }
+  .co-t { border-left-color: var(--teal); background: var(--teal-light); }
+  .co strong { color: var(--burg); }
+  .co-t strong { color: var(--teal-dark); }
+
+  /* ─── STEPS ─── */
+  .step { display: flex; align-items: flex-start; gap: 7px; margin-bottom: 3px; }
+  .sn { width: 19px; height: 19px; min-width: 19px; background: var(--teal); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8pt; font-weight: 700; margin-top: 1px; }
+  .sn-g { background: var(--gold); }
+  .step p { margin-bottom: 0; font-size: 8.5pt; line-height: 1.35; }
+
+  /* ─── DO/DONT ─── */
+  .do-box, .dont-box { padding: 9px 11px; border-radius: 5px; font-size: 8.5pt; }
+  .do-box { background: #EBF9F1; border: 1px solid #A3D9B1; }
+  .dont-box { background: var(--burg-light); border: 1px solid #E5C0C6; }
+  .do-box .dt { font-weight: 700; color: #1D7A3F; margin-bottom: 3px; font-size: 9pt; }
+  .dont-box .dt { font-weight: 700; color: var(--burg); margin-bottom: 3px; font-size: 9pt; }
+  .do-box ul, .dont-box ul { margin-left: 14px; margin-bottom: 0; }
+  .do-box li, .dont-box li { margin-bottom: 2px; font-size: 8.5pt; }
+
+  /* ─── TEMP CARDS ─── */
+  .tc { text-align: center; padding: 12px; border-radius: 6px; }
+  .tc.safe { background: var(--teal-light); border: 2px solid var(--teal); }
+  .tc.danger { background: var(--burg-light); border: 2px solid var(--burg); }
+  .tv { font-family: 'Lato', sans-serif; font-size: 28pt; font-weight: 700; line-height: 1; margin-bottom: 2px; }
+  .tc.safe .tv { color: var(--teal); }
+  .tc.danger .tv { color: var(--burg); }
+  .tl { font-size: 8.5pt; font-weight: 700; margin-bottom: 2px; }
+  .td { font-size: 7.5pt; color: var(--gm); line-height: 1.3; }
+
+  /* ─── ROLE CARDS ─── */
+  .rc { display: flex; gap: 9px; padding: 9px 11px; background: var(--gbg); border-radius: 5px; margin-bottom: 5px; border: 1px solid var(--gl); }
+  .ri { width: 28px; height: 28px; min-width: 28px; background: var(--teal); border-radius: 7px; display: flex; align-items: center; justify-content: center; color: white; font-size: 11pt; font-weight: 700; }
+  .rt { font-family: 'Lato', sans-serif; font-size: 9.5pt; font-weight: 700; color: var(--teal-dark); }
+  .rd { font-size: 8.5pt; margin-bottom: 0; }
+
+  /* ─── CHAIN ─── */
+  .chain { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin: 6px 0; }
+  .cs { background: var(--teal-light); border-radius: 5px; padding: 6px 8px; text-align: center; border: 1px solid rgba(27,122,125,0.15); }
+  .cn { font-family: 'Lato', sans-serif; font-size: 13pt; font-weight: 700; color: var(--teal); }
+  .cl { font-size: 7pt; font-weight: 600; color: var(--teal-dark); line-height: 1.2; }
+
+  /* ─── LISTS ─── */
+  ul.c { list-style: none; margin: 4px 0; padding: 0; }
+  ul.c li { padding-left: 11px; position: relative; margin-bottom: 2px; font-size: 8.5pt; line-height: 1.35; }
+  ul.c li::before { content: ''; position: absolute; left: 0; top: 5px; width: 4px; height: 4px; background: var(--teal); border-radius: 50%; }
+  ul.cg li::before { background: var(--gold); }
+
+  /* ─── FAQ ─── */
+  .fst { font-family: 'Lato', sans-serif; font-size: 7.5pt; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-top: 8px; margin-bottom: 3px; padding-bottom: 2px; border-bottom: 1px solid var(--gold-light); }
+  .fq { font-weight: 700; color: var(--teal-dark); font-size: 8.5pt; margin-bottom: 1px; }
+  .fa { font-size: 8.5pt; color: var(--gd); padding-left: 10px; border-left: 2px solid var(--gl); margin-bottom: 6px; }
+
+  /* ─── CONTACT ─── */
+  .cc { display: flex; gap: 10px; padding: 7px 11px; background: var(--gbg); border-radius: 5px; margin-bottom: 4px; border: 1px solid var(--gl); align-items: center; }
+  .cn2 { font-weight: 700; font-size: 9pt; }
+  .cr { font-size: 7pt; color: var(--gm); }
+  .cp { font-size: 8.5pt; color: var(--teal); font-weight: 600; margin-left: auto; }
+
+  /* ─── LABEL MOCK ─── */
+  .lm { border: 1.5px solid var(--gl); border-radius: 5px; padding: 9px 12px; background: white; font-size: 7.5pt; }
+  .lh { font-weight: 700; font-size: 9pt; color: var(--teal-dark); border-bottom: 1px solid var(--gl); padding-bottom: 3px; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .lf { display: flex; justify-content: space-between; margin-bottom: 2px; font-size: 7pt; }
+  .lf span:first-child { color: var(--gm); }
+  .lf span:last-child { font-weight: 600; }
+
+  .divider { border-top: 1.5px solid var(--gl); margin: 10px 0; padding-top: 8px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- COVER                                              -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-org">The Sandwich Project</div>
+  <div class="cover-url">www.TheSandwichProject.org</div>
+  <div class="cover-div"></div>
+  <div class="cover-title">Volunteer<br>Handbook</div>
+  <div class="cover-sub">Nourish the Hungry. Feed the Soul.</div>
+  <img src="Host Handbook Cover copy.jpeg" style="width: 75%; height: auto; border-radius: 6px; margin: 6px 0;">
+  <div style="font-size: 9pt; letter-spacing: 2px; text-transform: uppercase; opacity: 0.45; font-weight: 600;">Metro Atlanta</div>
+  <div class="cover-bar"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- WELCOME / INTRO                                    -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="ph"><div class="sl">Introduction</div><h1>Welcome to The Sandwich Project</h1></div>
+
+  <p>Thank you for volunteering with The Sandwich Project (TSP). Whether you are making sandwiches, hosting a collection site, or delivering meals, you play a critical role in helping us feed our community with dignity and care.</p>
+  <p>This handbook is organized in two parts: first, food safety principles that apply to everyone; then, step-by-step instructions for your specific role.</p>
+
+  <h2 style="margin-top: 8px;">Who We Serve</h2>
+  <div class="ab"></div>
+  <p>We serve children and students, veterans, seniors, low-income working individuals and families, and people living without permanent housing. Many also face additional challenges such as health conditions, disabilities, limited transportation, and no healthcare insurance.</p>
+
+  <img src="loading up coolers copy.jpeg" style="width: 100%; height: auto; border-radius: 6px; margin: 6px 0;">
+
+  <h2>Our Volunteer Roles</h2>
+  <div class="ab"></div>
+  <div class="rc"><div class="ri">S</div><div><div class="rt">Sandwich Makers</div><p class="rd">Prepare fresh, safe sandwiches following food safety protocols.</p></div></div>
+  <div class="rc"><div class="ri">H</div><div><div class="rt">Hosts</div><p class="rd">Provide a central collection point for sandwich drop-offs and coordinate with drivers.</p></div></div>
+  <div class="rc"><div class="ri">D</div><div><div class="rt">Drivers</div><p class="rd">Transport sandwiches from host homes to distribution partners.</p></div></div>
+
+  <div class="co co-c" style="margin-top: 8px;">
+    <strong>FOOD ALLERGY NOTICE:</strong> Anyone with any food allergies should never consume any TSP sandwiches. They are not safe for people with food allergies.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- PART 1: FOOD SAFETY FOR ALL                        -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="section-divider">
+  <div class="sd-label">Part 1</div>
+  <div class="sd-title">Food Safety<br>for All Volunteers</div>
+  <div class="sd-bar"></div>
+  <div class="sd-desc">These food safety principles apply to every TSP volunteer — sandwich makers, hosts, and drivers alike. Understanding the reasoning behind our protocols helps you make informed decisions at every step.</div>
+</div>
+
+<!-- COLD CHAIN + TWO-HOUR RULE -->
+<div class="section">
+  <div class="ph"><div class="sl">Food Safety for All</div><h1>The Cold Chain &amp; Two-Hour Rule</h1></div>
+
+  <h2 style="margin-top: 0;">Why Food Safety Matters More for TSP</h2>
+  <div class="ab"></div>
+  <p>Many of our recipients — children, seniors, pregnant women, immunocompromised individuals — are more vulnerable to foodborne illness, and many have limited access to healthcare.</p>
+
+  <h2>The Cold Chain</h2>
+  <div class="ab"></div>
+  <p>Keep perishable food consistently <strong>below 39 F</strong> from purchase through delivery. Every link matters:</p>
+
+  <div class="chain">
+    <div class="cs"><div class="cn">1</div><div class="cl">Store Purchase</div></div>
+    <div class="cs"><div class="cn">2</div><div class="cl">Car + Cooler</div></div>
+    <div class="cs"><div class="cn">3</div><div class="cl">Home Fridge</div></div>
+    <div class="cs"><div class="cn">4</div><div class="cl">Quick Prep</div></div>
+    <div class="cs"><div class="cn">5</div><div class="cl">Back to Fridge</div></div>
+    <div class="cs"><div class="cn">6</div><div class="cl">Cooler to Car</div></div>
+    <div class="cs"><div class="cn">7</div><div class="cl">Host Fridge</div></div>
+    <div class="cs"><div class="cn">8</div><div class="cl">Driver's Cooler</div></div>
+    <div class="cs"><div class="cn">9</div><div class="cl">Recipient Fridge</div></div>
+  </div>
+
+  <img src="cold-chain-diagram copy.jpg" style="width: 100%; height: auto; border-radius: 6px; margin: 6px 0;">
+
+  <h2>The Two-Hour Rule</h2>
+  <div class="ab"></div>
+
+  <div class="g2">
+    <div class="tc safe"><div class="tv">39 F</div><div class="tl">Highest Safe Temp</div><div class="td">Above this, bacteria begin growing.</div></div>
+    <div class="tc danger"><div class="tv">80 F</div><div class="tl">Absolute Limit</div><div class="td">Must discard if reached.</div></div>
+  </div>
+
+  <p>Deli meat and cheese may only be above 39 F for a <strong>total of two hours, cumulatively</strong> — the time adds up across the entire process.</p>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin: 5px 0;">
+    <img src="groceries in cooler copy.jpeg" style="width: 100%; height: auto; border-radius: 6px; margin: 6px 0;">
+    <img src="darker family making sandwiches graphic copy.jpeg" style="width: 100%; height: auto; border-radius: 6px; margin: 6px 0;">
+    <img src="loading up coolers illustration copy.png" style="width: 100%; height: auto; border-radius: 6px; margin: 6px 0;">
+  </div>
+
+  <div class="co co-c"><strong>Re-cooling does NOT kill bacteria.</strong> If food has been above 39 F for two hours total, discard it.</div>
+</div>
+
+<!-- REFRIGERATION + COOLERS -->
+<div class="section">
+  <div class="ph"><div class="sl">Food Safety for All</div><h1>Refrigeration &amp; Cooler Protocols</h1></div>
+
+  <h2 style="margin-top: 0;">Refrigeration Standards</h2>
+  <div class="ab"></div>
+  <div class="g3">
+    <div class="card"><div class="ct">Temperature</div><p><strong>34 - 38 F</strong> consistently.</p></div>
+    <div class="card"><div class="ct">Air Circulation</div><p>Don't block fans. Don't overfill.</p></div>
+    <div class="card"><div class="ct">Door Discipline</div><p>Open briefly only. Temps rise fast.</p></div>
+  </div>
+
+  <div class="img-placeholder" style="height: 85px;">
+    Photo: Labeled sandwich loaves stored in refrigerator
+    <div class="phl">Refrigerator storage photo from original handbook (p. 6)</div>
+  </div>
+
+  <h2>Cooler Safety</h2>
+  <div class="ab"></div>
+  <div class="co co-t" style="margin-top: 0;"><strong>Coolers are NOT refrigerators.</strong> They preserve cold temperatures but do not lower them.</div>
+
+  <div class="g2">
+    <div class="do-box">
+      <div class="dt">Coolers Work For</div>
+      <ul><li>Getting ingredients home from store</li><li>Transporting pre-chilled sandwiches</li><li>Maintaining safe temps up to 1 hour</li></ul>
+    </div>
+    <div class="dont-box">
+      <div class="dt">Coolers Do NOT Work For</div>
+      <ul><li>Cooling warm food down</li><li>Long-term storage</li><li>Making warm food safe again</li></ul>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card"><div class="ct">Pack Quickly, Keep in Shade</div><p>Close cooler between trips to fridge.</p></div>
+    <div class="card"><div class="ct">Ice Packs Between Rows</div><p>All sandwiches in contact with ice.</p></div>
+    <div class="card"><div class="ct">Pack Full</div><p>Less air space = stays colder longer.</p></div>
+    <div class="card"><div class="ct">Keep Lid Closed</div><p>Do not open during transport.</p></div>
+  </div>
+
+  <div class="co co-c"><strong>CRITICAL:</strong> Keep coolers in the vehicle cabin (A/C) — <strong>never in the trunk.</strong></div>
+
+  <div class="img-placeholder" style="height: 80px;">
+    Diagram: TSP Sandwich Cooler Layout
+    <div class="phl">Cooler packing diagram from original handbook (p. 7)</div>
+  </div>
+</div>
+
+<!-- PREP & ASSEMBLY -->
+<div class="section">
+  <div class="ph"><div class="sl">Food Safety for All</div><h1>Prep, Assembly &amp; Labels</h1></div>
+
+  <h2 style="margin-top: 0;">Workspace Setup</h2>
+  <div class="ab"></div>
+  <div class="img-placeholder" style="height: 75px;">
+    Illustration: Volunteers preparing sandwiches at kitchen counter
+    <div class="phl">Prep illustration from original handbook (p. 9)</div>
+  </div>
+  <div class="g2">
+    <div class="card"><div class="ct">Clean Surfaces</div><p>Clean counters, wash utensils. Cover with disposable tablecloth.</p></div>
+    <div class="card"><div class="ct">Hair Restraint</div><p>Tie back hair / hairnet. Beard nets. Before handwashing.</p></div>
+    <div class="card"><div class="ct">Handwashing</div><p>Soap + water before, during, after. <strong>Hand sanitizer is not a substitute.</strong></p></div>
+    <div class="card"><div class="ct">Food-Safe Gloves</div><p>Put on after cleaning. <strong>Change after touching anything</strong> non-food.</p></div>
+  </div>
+
+  <h2>Shopping &amp; Storage</h2>
+  <div class="ab"></div>
+  <div class="g3">
+    <div class="card card-g"><div class="ct">Prepackaged Only</div><p><strong>Never</strong> deli-counter sliced.</p>
+      <div class="img-placeholder" style="height: 40px; margin: 3px 0 0; border-color: rgba(212,149,58,0.4);"><span style="font-size: 6.5pt;">Photo: Prepackaged vs. Counter</span></div>
+    </div>
+    <div class="card card-g"><div class="ct">Expiration Dates</div><p>"Use by" at least <strong>7 days after drop-off</strong>.</p>
+      <div class="img-placeholder" style="height: 40px; margin: 3px 0 0; border-color: rgba(212,149,58,0.4);"><span style="font-size: 6.5pt;">Photo: Checking date</span></div>
+    </div>
+    <div class="card card-g"><div class="ct">Two-Week Max</div><p>Use unopened within <strong>2 weeks of purchase</strong>. Opened: <strong>24 hours</strong>.</p></div>
+  </div>
+
+  <h2>Labels &amp; Compliance</h2>
+  <div class="ab"></div>
+  <div class="g2">
+    <div>
+      <ul class="c"><li>Use only <strong>TSP-issued labels</strong> (printable from TSP app)</li><li>Fill out <strong>all</strong> fields including meat type</li><li>Labels on <strong>outer loaf bag</strong> only</li><li>Consume within <strong>3 days</strong> of date made</li></ul>
+    </div>
+    <div class="lm">
+      <div class="lh"><span>THE SANDWICH PROJECT</span><span style="font-size: 8.5pt; color: var(--gold); font-weight: 700;">DELI</span></div>
+      <div class="lf"><span>TYPE OF MEAT:</span><span>______________</span></div>
+      <div class="lf"><span># OF SANDWICHES:</span><span>______________</span></div>
+      <div class="lf"><span>WORE GLOVES:</span><span>[ ]</span></div>
+      <div class="lf"><span>KEPT REFRIGERATED:</span><span>[ ]</span></div>
+      <div class="lf"><span>INITIAL:</span><span>______________</span></div>
+      <div class="lf"><span>PREPARED ON:</span><span>______________</span></div>
+      <div style="font-size: 6pt; color: var(--gm); margin-top: 4px; padding-top: 3px; border-top: 1px solid var(--gl); line-height: 1.2;">Keep refrigerated. Use within four days. May contain nuts.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- PART 2: SANDWICH MAKERS                            -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="section-divider">
+  <div class="sd-label">Part 2</div>
+  <div class="sd-title">Sandwich Maker<br>Guidelines</div>
+  <div class="sd-bar"></div>
+  <div class="sd-desc">As a sandwich maker, you purchase ingredients, prepare sandwiches, and deliver them to a host home — you are responsible for the first several links of the cold chain.</div>
+</div>
+
+<!-- SANDWICH MAKER: ASSEMBLY -->
+<div class="section">
+  <div class="ph"><div class="sl">Sandwich Makers</div><h1>Assembly Standards &amp; Ingredients</h1></div>
+
+  <div class="g2" style="margin-top: 0;">
+    <div style="background: var(--gold-light); border: 1px solid rgba(212,149,58,0.2); border-radius: 5px; padding: 10px 12px;">
+      <h3 style="color: var(--gold); margin-top: 0; font-size: 10.5pt;">PB&amp;J Sandwich</h3>
+      <div class="img-placeholder" style="height: 50px; margin: 0 0 5px; border-color: rgba(212,149,58,0.4);"><span style="font-size: 7pt;">Diagram: PB&amp;J Assembly (p. 14)</span></div>
+      <div class="step"><div class="sn sn-g">1</div><p>Save bread bag + twist tie</p></div>
+      <div class="step"><div class="sn sn-g">2</div><p>1.5 tbsp <strong>smooth</strong> PB on each slice</p></div>
+      <div class="step"><div class="sn sn-g">3</div><p>2 tsp <strong>jelly</strong> (not jam) on one slice</p></div>
+      <div class="step"><div class="sn sn-g">4</div><p>Press together gently</p></div>
+      <div class="step"><div class="sn sn-g">5</div><p>Individual bag, remove air, seal</p></div>
+      <div class="step"><div class="sn sn-g">6</div><p>Back into bread bag, twist tie</p></div>
+    </div>
+    <div style="background: var(--teal-light); border: 1px solid rgba(27,122,125,0.15); border-radius: 5px; padding: 10px 12px;">
+      <h3 style="color: var(--teal-dark); margin-top: 0; font-size: 10.5pt;">Deli Sandwich</h3>
+      <div class="img-placeholder" style="height: 50px; margin: 0 0 5px; border-color: rgba(27,122,125,0.3);"><span style="font-size: 7pt;">Diagram: Deli Assembly (p. 14)</span></div>
+      <div class="step"><div class="sn">1</div><p>Save bread bag + twist tie</p></div>
+      <div class="step"><div class="sn">2</div><p>Min <strong>2 oz</strong> deli meat per sandwich</p></div>
+      <div class="step"><div class="sn">3</div><p><strong>1 cheese each side</strong> (2 total)</p></div>
+      <div class="step"><div class="sn">4</div><p><strong>No</strong> lettuce, tomato, mayo, mustard</p></div>
+      <div class="step"><div class="sn">5</div><p>Individual bag, remove air, seal</p></div>
+      <div class="step"><div class="sn">6</div><p>Back into bread bag, twist tie</p></div>
+    </div>
+  </div>
+
+  <h2>Approved Ingredients</h2>
+  <div class="ab"></div>
+  <div class="g2">
+    <div class="card"><div class="ct">Deli</div><ul class="c"><li>White wheat bread</li><li>Prepackaged turkey or chicken</li><li>American cheese (real — not Kraft Singles)</li></ul></div>
+    <div class="card"><div class="ct">PB&amp;J</div><ul class="c"><li>White wheat bread</li><li>Smooth peanut butter only</li><li>Strawberry or grape jelly only (not jam)</li></ul></div>
+  </div>
+
+  <h2>Working in Batches</h2>
+  <div class="ab"></div>
+  <ul class="c">
+    <li><strong>One loaf at a time</strong> — only one package of meat + cheese from fridge</li>
+    <li><strong>Return immediately</strong> to fridge before starting next loaf</li>
+    <li><strong>Teams:</strong> divide — some assemble, others pack and refrigerate</li>
+    <li>Keep peanut butter/nut products <strong>away from deli ingredients</strong>. Separate knives for jelly and PB.</li>
+  </ul>
+
+  <div class="img-placeholder" style="height: 70px;">
+    Illustration: Parent and child making sandwiches
+    <div class="phl">Sandwich-making illustration from original (p. 13)</div>
+  </div>
+</div>
+
+<!-- SANDWICH MAKER: SCHEDULE & TRANSPORT -->
+<div class="section">
+  <div class="ph"><div class="sl">Sandwich Makers</div><h1>Schedule &amp; Delivery to Host Homes</h1></div>
+
+  <div class="g2" style="margin-top: 0;">
+    <div class="card card-t"><div class="ct">When to Make</div><p>Sandwiches must be made on <strong>Wednesday</strong>, or Tuesday evening if necessary. Never before Tuesday evening.</p></div>
+    <div class="card card-t"><div class="ct">When to Deliver</div><p>Deliver to your host home <strong>within 24 hours</strong> — ideally as soon as possible after making them.</p></div>
+  </div>
+
+  <h2>Transporting to Host Homes</h2>
+  <div class="ab"></div>
+  <div class="g2">
+    <div class="card card-t"><div class="ct">Use Proper Cooling</div><p>Cooler packed tightly with ice packs.</p></div>
+    <div class="card card-b"><div class="ct">Never Transport Warm</div><p>Chill in fridge first, then cooler.</p></div>
+    <div class="card card-t"><div class="ct">Direct Transport</div><p>Straight to host home — <strong>no stops</strong>.</p></div>
+    <div class="card card-g"><div class="ct">Label at Host Home</div><p>Attach correct TSP label, fill all fields.</p></div>
+  </div>
+
+  <div class="co co-t"><strong>Don't forget:</strong> Sign in on the sign-in sheet with your name, contact info, sandwich count, and type.</div>
+
+  <div class="img-placeholder" style="height: 100px;">
+    Photo: TSP Collection Site sign
+    <div class="phl">Collection site signage from original handbook (p. 15)</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- PART 3: HOST GUIDELINES                            -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="section-divider">
+  <div class="sd-label">Part 3</div>
+  <div class="sd-title">Host<br>Guidelines</div>
+  <div class="sd-bar"></div>
+  <div class="sd-desc">As a host, you are the quality control checkpoint between sandwich makers and drivers — verifying safety, maintaining cold storage, and coordinating deliveries.</div>
+</div>
+
+<!-- HOST: SETUP & RESPONSIBILITIES -->
+<div class="section">
+  <div class="ph"><div class="sl">Hosts</div><h1>Responsibilities &amp; Setup</h1></div>
+
+  <h2 style="margin-top: 0;">Key Responsibilities</h2>
+  <div class="ab"></div>
+  <ul class="c">
+    <li>Provide a clean, organized collection area with adequate refrigeration</li>
+    <li>Greet volunteers warmly — help them feel part of the TSP family</li>
+    <li>Inspect incoming sandwiches for proper temperature, packaging, and labeling</li>
+    <li>Maintain sign-in sheets and report sandwich counts to your lead host</li>
+    <li>Prepare coolers and coordinate with drivers for Thursday deliveries</li>
+    <li>Report any food safety concerns to Marcy</li>
+  </ul>
+
+  <h2>Materials Provided by TSP</h2>
+  <div class="ab"></div>
+  <div class="g2">
+    <div class="card"><div class="ct">Coolers &amp; Ice Packs</div><p>For transport only — refrigerate all sandwiches at your home.</p></div>
+    <div class="card"><div class="ct">Collection Site Signage</div><p>Signs to help volunteers find your location.</p></div>
+    <div class="card"><div class="ct">Sign-In Sheets</div><p>For names, contact info, sandwich types/counts.</p></div>
+    <div class="card"><div class="ct">TSP Labels</div><p>Separate PB&amp;J and Deli labels for volunteers.</p></div>
+  </div>
+
+  <div class="co co-t"><strong>TSP Web App:</strong> Access at <strong>www.TSPapp.org</strong> — Katie will email login info before your first collection day.</div>
+
+  <h2>Wednesday: Collection Day Prep</h2>
+  <div class="ab"></div>
+  <div class="g2">
+    <div class="card card-t"><div class="ct">Donation Bin</div><p>Accessible spot for fruit/snack collections.</p></div>
+    <div class="card card-t"><div class="ct">Sign-In Station</div><p>Sheets, labels, pens near drop-off.</p></div>
+    <div class="card card-t"><div class="ct">Organize Labels</div><p>Deli and PB&amp;J separate and ready.</p></div>
+    <div class="card card-t"><div class="ct">Yard Sign</div><p>Prominent placement for identification.</p></div>
+  </div>
+
+  <div class="g3">
+    <div class="card"><div class="ct">Remind: Cold Transport</div><p>Cooler bags + ice packs.</p></div>
+    <div class="card"><div class="ct">Remind: Newsletter</div><p>Vacation dates and updates.</p></div>
+    <div class="card"><div class="ct">Check Label Dates</div><p>No earlier than <strong>Tuesday evening</strong>.</p></div>
+  </div>
+</div>
+
+<!-- HOST: COLLECTION, HYGIENE, QUALITY -->
+<div class="section">
+  <div class="ph"><div class="sl">Hosts</div><h1>Collection, Hygiene &amp; Delivery</h1></div>
+
+  <h2 style="margin-top: 0;">Receiving Sandwiches</h2>
+  <div class="ab"></div>
+  <div class="step"><div class="sn">1</div><p><strong>Greet</strong> — A warm welcome keeps makers connected.</p></div>
+  <div class="step"><div class="sn">2</div><p><strong>Sign In</strong> — Record counts and contact info.</p></div>
+  <div class="step"><div class="sn">3</div><p><strong>Labels</strong> — TSP labels filled out on all loaves.</p></div>
+  <div class="step"><div class="sn">4</div><p><strong>Inspect</strong> — Sealed, cold to touch. Refrigerate without crushing.</p></div>
+
+  <div class="g2" style="margin-top: 5px;">
+    <div class="card"><div class="ct">Open/Torn Bags</div><p>Transfer to new bag. Verify individual sandwiches sealed.</p></div>
+    <div class="card"><div class="ct">Missing Labels</div><p>Complete TSP label on outer bag required. No other stickers.</p></div>
+  </div>
+
+  <div class="co"><strong>Contact lead host</strong> for: warm sandwiches, damaged packaging, missing labels, any safety concern.</div>
+  <div class="co co-c"><strong>Cannot accept?</strong> Isolate immediately. Mark "Do Not Use" with reason. Contact lead host.</div>
+
+  <h2>Collection Site Hygiene</h2>
+  <div class="ab"></div>
+  <div class="g3">
+    <div class="card card-g"><div class="ct">Coolers</div><ul class="c cg"><li>Soap + warm water after use</li><li>Air-dry fully; close lid once dry</li><li>TSP-dedicated coolers only</li></ul></div>
+    <div class="card card-g"><div class="ct">Refrigerator</div><ul class="c cg"><li>Clean regularly</li><li>Remove personal food</li><li>Close door between loads</li></ul></div>
+    <div class="card card-g"><div class="ct">Collection Area</div><ul class="c cg"><li>Clean, uncluttered, no odors</li><li>All items <strong>off the floor</strong></li><li>Away from pets/trash/chemicals</li></ul></div>
+  </div>
+
+  <h2>Thursday: Delivery Prep</h2>
+  <div class="ab"></div>
+  <div class="step"><div class="sn">1</div><p>Coolers clean and <strong>cold inside</strong> before loading.</p></div>
+  <div class="step"><div class="sn">2</div><p><strong>Ice packs between loaves</strong> and around sides.</p></div>
+  <div class="step"><div class="sn">3</div><p>Vehicle <strong>cabin only</strong> — never trunk.</p></div>
+  <div class="step"><div class="sn">4</div><p><strong>Deliver promptly</strong>, no stops. Refrigerate on arrival.</p></div>
+
+  <div class="g3" style="margin-top: 5px;">
+    <div class="card card-b"><div class="ct">TSP Use Only</div><p>No raw meat, fish, or other items in TSP coolers.</p></div>
+    <div class="card card-b"><div class="ct">Never Pack Hot</div><p>Cool stored coolers first.</p></div>
+    <div class="card card-b"><div class="ct">Never Leave in Car</div><p>Only for active transport.</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- PART 4: DRIVER GUIDELINES                          -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="section-divider">
+  <div class="sd-label">Part 4</div>
+  <div class="sd-title">Driver<br>Guidelines</div>
+  <div class="sd-bar"></div>
+  <div class="sd-desc">As a driver, you are the final link in the cold chain. Your job is to get sandwiches from host homes to recipient organizations quickly, safely, and at the right temperature.</div>
+</div>
+
+<div class="section">
+  <div class="ph"><div class="sl">Drivers</div><h1>Driver Protocols</h1></div>
+
+  <h2 style="margin-top: 0;">Before Your First Delivery</h2>
+  <div class="ab"></div>
+  <div class="g2">
+    <div class="card card-t"><div class="ct">Vehicle Release Form</div><p>Required before first delivery. Contact <strong>Jordan</strong> at <strong>770-789-7329</strong> if you haven't received one.</p></div>
+    <div class="card card-t"><div class="ct">Delivery Partners</div><p>We deliver exclusively to <strong>501(c)(3) organizations</strong>. Never directly to individuals.</p></div>
+  </div>
+
+  <h2>Transport Protocol</h2>
+  <div class="ab"></div>
+  <ul class="c">
+    <li><strong>Pre-cool your vehicle</strong> with A/C before loading</li>
+    <li><strong>Verify everything is cold</strong> — if cooler feels warm, do not transport. Contact host.</li>
+    <li><strong>Ice packs between loaves</strong> and on top. Pack tightly, close lids immediately.</li>
+    <li><strong>Vehicle cabin only</strong> — never in the trunk</li>
+    <li><strong>Drive directly</strong> to delivery location — no stops</li>
+    <li><strong>Refrigerate immediately</strong> upon arrival at recipient organization</li>
+    <li><strong>Communicate any delays</strong> to the recipient organization right away</li>
+  </ul>
+
+  <div class="img-placeholder" style="height: 120px;">
+    Illustration: Driver loading coolers into TSP vehicle
+    <div class="phl">Driver illustration from original handbook (p. 20)</div>
+  </div>
+
+  <div class="co co-c"><strong>FOOD ALLERGY ALERT:</strong> Anyone with any food allergies should never consume any TSP sandwiches.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- FAQ                                                -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="ph"><div class="sl">Reference</div><h1>Frequently Asked Questions</h1></div>
+
+  <div class="fst">Temperature &amp; Safety</div>
+  <div class="fq">Q: How can I keep deli sandwiches safe during preparation?</div>
+  <div class="fa">Get deli meat back into the refrigerator as quickly as possible at each step.</div>
+  <div class="fq">Q: What if I'm not sure how long meat has been out?</div>
+  <div class="fa">When in doubt, throw it out. If you can't confirm less than two hours total, discard it.</div>
+
+  <div class="fst">Ingredients</div>
+  <div class="fq">Q: What meat should I buy?</div>
+  <div class="fa">Prepackaged deli-sliced turkey or chicken only.</div>
+  <div class="fq">Q: Why not deli-counter sliced?</div>
+  <div class="fa">Prepackaged is sealed in controlled environments, reducing contamination risk from shared equipment.</div>
+  <div class="fq">Q: What cheese is not acceptable?</div>
+  <div class="fa">No individually wrapped slices or processed "cheese product" (e.g., Kraft Singles). Use real sliced cheese.</div>
+  <div class="fq">Q: What peanut butter?</div>
+  <div class="fa">Smooth only. No crunchy, light, or reduced-fat.</div>
+  <div class="fq">Q: What jelly?</div>
+  <div class="fa">Strawberry or grape jelly only. No jam, preserves, or fruit spread.</div>
+  <div class="fq">Q: Can I add condiments or vegetables?</div>
+  <div class="fa">No. Deli: bread, meat, cheese. PB&amp;J: bread, PB, jelly. Condiment packets available via Amazon wishlist.</div>
+
+  <div class="fst">Shopping &amp; Storage</div>
+  <div class="fq">Q: How do I pick the right expiration date?</div>
+  <div class="fa">Buy the latest available. Drop-off must be at least 7 days before "use by."</div>
+
+  <div class="fst">Assembly &amp; Packaging</div>
+  <div class="fq">Q: How much meat per sandwich?</div>
+  <div class="fa">Minimum 2 oz (56g). Thinner slices often need 3-4 slices.</div>
+  <div class="fq">Q: How many cheese slices?</div>
+  <div class="fa">Two: one on each side of the meat.</div>
+  <div class="fq">Q: Peanut butter on both sides?</div>
+  <div class="fa">Yes. 1.5 tbsp smooth PB on both slices, 2 tsp jelly on one.</div>
+  <div class="fq">Q: How do I bag them?</div>
+  <div class="fa">Each in its own bag, squeeze air out, seal. Stack in original bread bag, twist tie.</div>
+  <div class="fq">Q: Can I tape the bread bag?</div>
+  <div class="fa">No — twist ties only. Extras at your host home.</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- CONTACT                                            -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="ph"><div class="sl">Reference</div><h1>Contact Information</h1></div>
+
+  <h2 style="margin-top: 0;">TSP Team Contacts</h2>
+  <div class="ab"></div>
+  <div class="cc"><div><div class="cn2">Jordan</div><div class="cr">Driver Coordinator</div></div><div class="cp">770-789-7329</div></div>
+  <div class="cc"><div><div class="cn2">Katie</div><div class="cr">Web App &amp; More</div></div><div class="cp">770-789-1013</div></div>
+  <div class="cc"><div><div class="cn2">Christine Cooper Nowicki</div><div class="cr">Executive Director</div></div><div class="cp">(404) 786-8116</div></div>
+  <div class="cc"><div><div class="cn2">Marcy</div><div class="cr">Safety Committee &amp; Co-Founder</div></div><div class="cp">(678) 596-9697</div></div>
+
+  <div class="g2" style="margin-top: 10px;">
+    <div class="card card-t"><div class="ct">Website</div><p style="font-size: 9.5pt; font-weight: 600; color: var(--teal);">thesandwichproject.org</p></div>
+    <div class="card card-t"><div class="ct">Email</div><p style="font-size: 9.5pt; font-weight: 600; color: var(--teal);">info@thesandwichproject.org</p></div>
+  </div>
+
+  <div style="margin-top: 16px; padding: 12px 16px; background: var(--gbg); border: 1px solid var(--gl); border-radius: 5px;">
+    <h3 style="margin-top: 0; color: var(--teal-dark);">Your Lead Host</h3>
+    <div style="margin-top: 6px;">
+      <div class="lf" style="margin-bottom: 8px;"><span>Name:</span><span style="border-bottom: 1px solid var(--gm); display: inline-block; width: 280px;"> </span></div>
+      <div class="lf" style="margin-bottom: 8px;"><span>Phone:</span><span style="border-bottom: 1px solid var(--gm); display: inline-block; width: 280px;"> </span></div>
+      <div class="lf"><span>Email:</span><span style="border-bottom: 1px solid var(--gm); display: inline-block; width: 280px;"> </span></div>
+    </div>
+  </div>
+
+  <div style="margin-top: 30px; text-align: center;">
+    <div class="ab" style="margin: 0 auto 8px;"></div>
+    <p style="font-style: italic; color: var(--gm); font-size: 9.5pt; margin-bottom: 3px;">The most important thing to remember:</p>
+    <p style="font-family: 'Lato', sans-serif; font-size: 11.5pt; font-weight: 700; color: var(--teal-dark); line-height: 1.4;">The Sandwich Project serves our neighbors experiencing food insecurity,<br>with a focus on dignity, nourishment, and meeting people where they are.</p>
+  </div>
+</div>
+
+</body>
+</html>
