@@ -14,12 +14,15 @@
     padding: 20px;
   }
   .flyer {
-    width: 612px;
-    min-height: 792px;
+    width: 8.5in;
+    height: 11in;
     background: #faf6ef;
-    padding: 30px 38px 30px;
+    padding: 0.42in 0.5in 0.42in;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .flyer::before {
     content: '';
@@ -34,7 +37,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 0;
   }
   .badge {
     border: 1.5px solid #FBAD3F;
@@ -55,7 +58,7 @@
   /* Headline */
   .headline {
     text-align: center;
-    margin: 4px 0 14px;
+    margin: 0;
   }
   .headline h1 {
     font-family: 'Bebas Neue', sans-serif;
@@ -97,7 +100,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    margin-bottom: 22px;
+    margin-bottom: 0;
   }
   .qr-card {
     display: flex;
@@ -144,13 +147,13 @@
   .divider {
     height: 1px;
     background: linear-gradient(90deg, transparent, #47B3CB, transparent);
-    margin: 2px 0 16px;
+    margin: 0;
   }
 
   /* Impact note */
   .impact-note {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 0;
     padding: 0 16px;
   }
   .impact-note p {
@@ -217,7 +220,7 @@
 
   .website-line {
     text-align: center;
-    margin-top: 14px;
+    margin-top: 0;
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -236,8 +239,8 @@
     }
     .flyer {
       width: 8.5in;
-      min-height: 11in;
-      padding: 0.45in 0.5in;
+      height: 11in;
+      padding: 0.42in 0.5in 0.42in;
       box-shadow: none;
     }
   }
@@ -260,7 +263,7 @@
     <span class="stat-dot">•</span>
     <span class="stat">Nearly <span class="highlight">100%</span> volunteers</span>
     <span class="stat-dot">•</span>
-    <span class="stat"><span class="highlight">5</span> years strong</span>
+    <span class="stat"><span class="highlight">6</span> years strong</span>
   </div>
 
   <div class="section-header">
@@ -314,10 +317,11 @@
 
   <div class="cta-box">
     <div class="cta-badge">Give Today</div>
-    <h3>MAKE AN <span>IMPACT</span> TODAY!</h3>
+    <h3>CAN'T MAKE IT? <span>DONATE</span> INSTEAD!</h3>
     <p>
-      Scan a QR code to donate through PayPal, give directly on our website, or shop our Amazon
-      wishlist to provide essential supplies. Every sandwich costs a little over $1 — your gift helps feed our neighbors. 100% volunteer-powered. 100% community-driven.
+      Not everyone can show up in person — but everyone can make a difference. Scan a QR code to
+      donate through PayPal, give on our website, or shop our Amazon wishlist to send healthy
+      snacks to round out our meals. Every sandwich costs a little over $1. Every dollar counts.
     </p>
   </div>
 

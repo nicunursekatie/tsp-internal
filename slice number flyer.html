@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deli Meat Comparison Guide — The Sandwich Project</title>
+<style>
+  :root {
+    --tsp-dark-teal: #236383;
+    --tsp-mid-teal: #007E8C;
+    --tsp-orange: #FBAD3F;
+    --tsp-light-blue: #47B3CB;
+    --tsp-red: #A31C41;
+    --text-light: #F4F4F4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a4a63;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .tsp-deli-guide {
+    font-family: system-ui, -apple-system, sans-serif;
+    max-width: 1200px;
+    width: 100%;
+    background-color: var(--tsp-dark-teal);
+    padding: 40px 20px;
+    border-radius: 12px;
+    color: var(--text-light);
+  }
+
+  .tsp-guide-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .tsp-guide-header h1 {
+    color: var(--tsp-orange);
+    font-size: 2.2rem;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+  }
+
+  .tsp-guide-header p {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  .tsp-guide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .tsp-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+
+  /* Card Background Variations */
+  .card-light { background-color: var(--tsp-light-blue); }
+  .card-mid { background-color: var(--tsp-mid-teal); }
+  .card-dark { background-color: rgba(0, 126, 140, 0.3); border: 2px solid var(--tsp-mid-teal); }
+
+  .brand-title {
+    font-size: 1.2rem;
+    padding: 20px 15px 10px;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .instruction {
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 0 15px 15px;
+  }
+
+  .highlight-orange {
+    color: var(--tsp-orange);
+    font-size: 1.3em;
+  }
+
+  .img-placeholder {
+    background-color: rgba(255,255,255,0.1);
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 15px;
+    border-radius: 4px;
+  }
+
+  /* To use real images, swap the placeholder div with:
+  .tsp-card img { width: 100%; height: auto; object-fit: contain; padding: 0 15px; }
+  */
+
+  .nutrition-callout {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--tsp-orange);
+    padding: 20px 15px;
+    margin-top: auto;
+  }
+
+  .yield-footer {
+    background-color: var(--tsp-red);
+    color: var(--text-light);
+    padding: 15px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="tsp-deli-guide">
+  <header class="tsp-guide-header">
+    <h1>DELI MEAT COMPARISON GUIDE</h1>
+    <p>How many slices make a 2oz serving?</p>
+  </header>
+
+  <div class="tsp-guide-grid">
+
+    <div class="tsp-card card-light">
+      <h2 class="brand-title">Costco Kirkland<br>Oven Roasted Turkey Breast</h2>
+      <div class="instruction">Put <span class="highlight-orange">2 slices</span> on each sandwich!</div>
+      <div class="img-placeholder">
+        <p>[ Kirkland Image ]</p>
+      </div>
+      <div class="nutrition-callout">Serving size: 2oz (56g) = 2 slices</div>
+      <div class="yield-footer">One double package makes 20 sandwiches</div>
+    </div>
+
+    <div class="tsp-card card-mid">
+      <h2 class="brand-title">Kroger<br>Oven Roasted Chicken Breast (1lb)</h2>
+      <div class="instruction">Put <span class="highlight-orange">6 slices</span> on each sandwich!</div>
+      <div class="img-placeholder">
+        <p>[ Kroger Image ]</p>
+      </div>
+      <div class="nutrition-callout">Serving size: 2oz (56g) = 6 slices</div>
+      <div class="yield-footer">One package makes 8 sandwiches</div>
+    </div>
+
+    <div class="tsp-card card-dark">
+      <h2 class="brand-title">Sam's Club<br>Oscar Mayer Shaved Turkey Breast</h2>
+      <div class="instruction">Put <span class="highlight-orange">5 slices</span> on each sandwich!</div>
+      <div class="img-placeholder">
+        <p>[ Oscar Mayer Image ]</p>
+      </div>
+      <div class="nutrition-callout">Serving size: 2oz (56g) = 5 slices</div>
+      <div class="yield-footer">One double package makes 20 sandwiches</div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
