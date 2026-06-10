@@ -1,0 +1,1539 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TSP Core Team Tasks</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f9fb;
+      --surface: #ffffff;
+      --surface-muted: #e8f5f8;
+      --ink: #173342;
+      --muted: #607887;
+      --line: #cfe1e7;
+      --line-strong: #9bc4d1;
+      --brand-blue: #236383;
+      --brand-gold: #FBAD3F;
+      --brand-teal: #007E8C;
+      --brand-cyan: #47B3CB;
+      --brand-burgundy: #A31C41;
+      --accent: var(--brand-blue);
+      --accent-dark: #184c66;
+      --accent-soft: #dff2f6;
+      --warn: #8a5600;
+      --warn-soft: #fff2dd;
+      --done: #3d7180;
+      --shadow: 0 20px 60px rgba(35, 99, 131, 0.13);
+      --radius: 8px;
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      letter-spacing: 0;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      padding: 22px 18px;
+      background: #e6f4f7;
+      border-right: 1px solid var(--line);
+      overflow-y: auto;
+    }
+
+    .brand {
+      display: grid;
+      gap: 4px;
+      margin-bottom: 24px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.15;
+      font-weight: 760;
+      color: var(--brand-blue);
+    }
+
+    .brand p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .sidebar-section {
+      margin-top: 20px;
+    }
+
+    .sidebar-label {
+      margin: 0 0 8px;
+      font-size: 11px;
+      font-weight: 760;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .nav-list,
+    .owner-list {
+      display: grid;
+      gap: 6px;
+    }
+
+    .nav-button,
+    .owner-button {
+      width: 100%;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      background: transparent;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 38px;
+      padding: 8px 10px;
+      text-align: left;
+      transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+
+    .nav-button:hover,
+    .owner-button:hover {
+      background: rgba(255, 255, 255, 0.72);
+      transform: translateY(-1px);
+    }
+
+    .nav-button.active,
+    .owner-button.active {
+      background: var(--surface);
+      border-color: var(--brand-cyan);
+      box-shadow: 0 5px 18px rgba(71, 179, 203, 0.16);
+    }
+
+    .count {
+      min-width: 24px;
+      height: 22px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--surface-muted);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .sidebar-actions {
+      display: grid;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .button {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--ink);
+      min-height: 40px;
+      padding: 9px 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 700;
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      border-color: var(--line-strong);
+      box-shadow: 0 8px 26px rgba(39, 47, 35, 0.08);
+    }
+
+    .button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .button.primary:hover {
+      background: var(--accent-dark);
+    }
+
+    .button.ghost {
+      background: transparent;
+    }
+
+    .button.danger {
+      color: var(--brand-burgundy);
+      border-color: #e7a9b8;
+      background: #fff5f7;
+    }
+
+    .main {
+      min-width: 0;
+      padding: 24px clamp(18px, 4vw, 42px) 44px;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: start;
+      margin-bottom: 24px;
+    }
+
+    .title-block h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .title-block p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      max-width: 760px;
+      line-height: 1.5;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--line);
+      margin-bottom: 20px;
+    }
+
+    .metric {
+      background: var(--surface);
+      padding: 15px;
+      min-height: 86px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+      text-transform: uppercase;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 28px;
+      line-height: 1;
+      color: var(--brand-teal);
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) 160px 160px 160px;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .field,
+    .field-inline {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label,
+    .field-inline label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--ink);
+      min-height: 40px;
+      padding: 9px 10px;
+      outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    textarea {
+      min-height: 84px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--brand-cyan);
+      box-shadow: 0 0 0 3px rgba(71, 179, 203, 0.18);
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .section-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      border-left: 4px solid var(--brand-teal);
+      background: #fafdfe;
+    }
+
+    .section-header h3 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .section-header span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .task-list {
+      display: grid;
+    }
+
+    .task {
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: start;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+      transition: background 160ms ease;
+    }
+
+    .task:last-child {
+      border-bottom: 0;
+    }
+
+    .task:hover {
+      background: #fafdfe;
+    }
+
+    .task.complete {
+      color: var(--done);
+    }
+
+    .task.complete .task-title {
+      text-decoration: line-through;
+      text-decoration-thickness: 1px;
+      text-decoration-color: rgba(91, 106, 88, 0.55);
+    }
+
+    .check {
+      width: 22px;
+      height: 22px;
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      background: var(--surface);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      padding: 0;
+      margin-top: 1px;
+    }
+
+    .task.complete .check {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .task.complete .check::after {
+      content: "";
+      width: 6px;
+      height: 11px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      margin-top: -2px;
+    }
+
+    .task-title {
+      margin: 0;
+      line-height: 1.35;
+      font-weight: 680;
+      overflow-wrap: anywhere;
+    }
+
+    .task-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 3px 8px;
+      background: var(--surface-muted);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .pill.warn {
+      background: var(--warn-soft);
+      color: var(--warn);
+      border: 1px solid rgba(251, 173, 63, 0.38);
+    }
+
+    .pill.status-blocked {
+      background: #fff0f4;
+      color: var(--brand-burgundy);
+      border: 1px solid rgba(163, 28, 65, 0.28);
+    }
+
+    .pill.status-waiting {
+      background: var(--warn-soft);
+      color: var(--warn);
+      border: 1px solid rgba(251, 173, 63, 0.38);
+    }
+
+    .pill.status-open {
+      background: #e6f7fa;
+      color: var(--brand-blue);
+      border: 1px solid rgba(71, 179, 203, 0.30);
+    }
+
+    .pill.done {
+      background: var(--accent-soft);
+      color: var(--brand-teal);
+    }
+
+    .task-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .icon-button {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--muted);
+      display: grid;
+      place-items: center;
+      transition: color 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+
+    .icon-button:hover {
+      color: var(--ink);
+      border-color: var(--line-strong);
+      transform: translateY(-1px);
+    }
+
+    .side-panel {
+      position: sticky;
+      top: 24px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 15px;
+    }
+
+    .panel h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    .project-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .project-row {
+      display: grid;
+      gap: 8px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .project-row:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .project-row strong {
+      font-size: 14px;
+      line-height: 1.3;
+    }
+
+    .progress {
+      height: 8px;
+      border-radius: 999px;
+      background: var(--surface-muted);
+      overflow: hidden;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--brand-teal), var(--brand-cyan));
+      transition: width 220ms ease;
+    }
+
+    .empty {
+      padding: 28px 18px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.45;
+    }
+
+    dialog {
+      border: 0;
+      border-radius: var(--radius);
+      padding: 0;
+      width: min(720px, calc(100vw - 28px));
+      box-shadow: var(--shadow);
+    }
+
+    dialog::backdrop {
+      background: rgba(27, 31, 25, 0.42);
+    }
+
+    .modal {
+      background: var(--surface);
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 12px;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .form-grid .wide {
+      grid-column: 1 / -1;
+    }
+
+    .dependency-list {
+      max-height: 140px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 6px;
+      display: grid;
+      gap: 4px;
+      background: #fafdfe;
+    }
+
+    .dependency-list label {
+      display: flex;
+      align-items: start;
+      gap: 8px;
+      padding: 7px;
+      border-radius: 6px;
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    .dependency-list label:hover {
+      background: var(--surface);
+    }
+
+    .dependency-list input {
+      width: auto;
+      min-height: auto;
+      margin-top: 2px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+    }
+
+    .hidden-file {
+      display: none;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      max-width: 340px;
+      background: var(--brand-blue);
+      color: #fff;
+      padding: 12px 14px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transform: translateY(24px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+      z-index: 20;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1050px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-list,
+      .owner-list,
+      .sidebar-actions {
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      }
+
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .side-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .main {
+        padding: 18px 14px 34px;
+      }
+
+      .topbar,
+      .controls,
+      .metrics,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .top-actions {
+        justify-content: stretch;
+      }
+
+      .top-actions .button,
+      .modal-actions .button {
+        flex: 1;
+      }
+
+      .task {
+        grid-template-columns: 28px minmax(0, 1fr);
+      }
+
+      .task-actions {
+        grid-column: 2;
+        justify-content: flex-start;
+      }
+
+      .modal-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" aria-label="Task navigation">
+      <div class="brand">
+        <h1>TSP Core Team Tasks</h1>
+        <p>Running internal tracker for Katie, Christine, Marcy, and the core team.</p>
+      </div>
+
+      <section class="sidebar-section">
+        <p class="sidebar-label">Views</p>
+        <div class="nav-list" id="viewNav"></div>
+      </section>
+
+      <section class="sidebar-section">
+        <p class="sidebar-label">Owners</p>
+        <div class="owner-list" id="ownerNav"></div>
+      </section>
+
+      <div class="sidebar-actions">
+        <button class="button primary" id="newTaskButton" type="button">+ New task</button>
+        <button class="button" id="newProjectButton" type="button">+ New project</button>
+        <button class="button ghost" id="exportButton" type="button">Export JSON</button>
+        <button class="button ghost" id="importButton" type="button">Import JSON</button>
+        <input class="hidden-file" id="importFile" type="file" accept="application/json,.json" />
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="title-block">
+          <h2>Core work, owners, and next moves</h2>
+          <p>Track open work, project context, dependencies, and decisions in one static page. Changes save in this browser automatically.</p>
+        </div>
+        <div class="top-actions">
+          <button class="button" id="resetFiltersButton" type="button">Reset filters</button>
+          <button class="button danger" id="resetDataButton" type="button">Reset data</button>
+        </div>
+      </header>
+
+      <section class="metrics" aria-label="Task metrics">
+        <div class="metric">
+          <span>Open</span>
+          <strong id="openMetric">0</strong>
+        </div>
+        <div class="metric">
+          <span>Blocked</span>
+          <strong id="blockedMetric">0</strong>
+        </div>
+        <div class="metric">
+          <span>Complete</span>
+          <strong id="doneMetric">0</strong>
+        </div>
+        <div class="metric">
+          <span>Projects</span>
+          <strong id="projectMetric">0</strong>
+        </div>
+      </section>
+
+      <section class="controls" aria-label="Filters">
+        <div class="field">
+          <label for="searchInput">Search</label>
+          <input id="searchInput" type="search" placeholder="Search tasks, owners, projects, notes..." />
+        </div>
+        <div class="field">
+          <label for="statusFilter">Status</label>
+          <select id="statusFilter">
+            <option value="all">All statuses</option>
+            <option value="open">Open</option>
+            <option value="waiting">Waiting</option>
+            <option value="blocked">Blocked</option>
+            <option value="complete">Complete</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="projectFilter">Project</label>
+          <select id="projectFilter"></select>
+        </div>
+        <div class="field">
+          <label for="sortFilter">Sort</label>
+          <select id="sortFilter">
+            <option value="section">Section order</option>
+            <option value="owner">Owner</option>
+            <option value="status">Status</option>
+            <option value="project">Project</option>
+          </select>
+        </div>
+      </section>
+
+      <div class="workspace">
+        <section class="section-stack" id="taskSections" aria-label="Task list"></section>
+
+        <aside class="side-panel" aria-label="Project and dependency context">
+          <section class="panel">
+            <h3>Projects</h3>
+            <div class="project-list" id="projectList"></div>
+          </section>
+          <section class="panel">
+            <h3>Dependency Watch</h3>
+            <div class="project-list" id="dependencyWatch"></div>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="taskDialog">
+    <form class="modal" method="dialog" id="taskForm">
+      <div class="modal-header">
+        <div>
+          <h3 id="taskDialogTitle">New task</h3>
+        </div>
+        <button class="icon-button" value="cancel" type="submit" aria-label="Close">x</button>
+      </div>
+      <div class="form-grid">
+        <div class="field wide">
+          <label for="taskTitle">Task</label>
+          <textarea id="taskTitle" required></textarea>
+        </div>
+        <div class="field">
+          <label for="taskSection">Section</label>
+          <select id="taskSection"></select>
+        </div>
+        <div class="field">
+          <label for="taskOwner">Owner</label>
+          <input id="taskOwner" placeholder="Unassigned, Brenda, Christine..." />
+        </div>
+        <div class="field">
+          <label for="taskProject">Project</label>
+          <select id="taskProject"></select>
+        </div>
+        <div class="field">
+          <label for="taskStatus">Status</label>
+          <select id="taskStatus">
+            <option value="open">Open</option>
+            <option value="waiting">Waiting</option>
+            <option value="blocked">Blocked</option>
+            <option value="complete">Complete</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="taskDue">Due / timing</label>
+          <input id="taskDue" placeholder="This weekend, late June..." />
+        </div>
+        <div class="field wide">
+          <label for="taskNotes">Notes</label>
+          <textarea id="taskNotes" placeholder="Decision context, links, open questions..."></textarea>
+        </div>
+        <div class="field wide">
+          <label>Dependencies</label>
+          <div class="dependency-list" id="dependencyPicker"></div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="button danger" id="deleteTaskButton" type="button">Delete task</button>
+        <div class="top-actions">
+          <button class="button" value="cancel" type="submit">Cancel</button>
+          <button class="button primary" id="saveTaskButton" value="default" type="submit">Save task</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="projectDialog">
+    <form class="modal" method="dialog" id="projectForm">
+      <div class="modal-header">
+        <div>
+          <h3 id="projectDialogTitle">New project</h3>
+        </div>
+        <button class="icon-button" value="cancel" type="submit" aria-label="Close">x</button>
+      </div>
+      <div class="form-grid">
+        <div class="field wide">
+          <label for="projectName">Project name</label>
+          <input id="projectName" required />
+        </div>
+        <div class="field">
+          <label for="projectOwner">Owner</label>
+          <input id="projectOwner" placeholder="Core team, Brenda..." />
+        </div>
+        <div class="field">
+          <label for="projectStatus">Status</label>
+          <select id="projectStatus">
+            <option value="active">Active</option>
+            <option value="waiting">Waiting</option>
+            <option value="complete">Complete</option>
+          </select>
+        </div>
+        <div class="field wide">
+          <label for="projectNotes">Notes</label>
+          <textarea id="projectNotes"></textarea>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="button danger" id="deleteProjectButton" type="button">Delete project</button>
+        <div class="top-actions">
+          <button class="button" value="cancel" type="submit">Cancel</button>
+          <button class="button primary" id="saveProjectButton" value="default" type="submit">Save project</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const STORAGE_KEY = "tsp-core-team-task-tracker-v1";
+    const SECTION_ORDER = ["To-Dos", "Action Items", "Projects", "Notes"];
+    const STATUS_LABELS = {
+      open: "Open",
+      waiting: "Waiting",
+      blocked: "Blocked",
+      complete: "Complete"
+    };
+
+    const seedData = {
+      updatedAt: "2026-06-09T22:12:00-04:00",
+      projects: [
+        {
+          id: "project-website-host",
+          name: "Website and Host Communications",
+          owner: "Brenda",
+          status: "active",
+          notes: "Brenda is taking over the bi-monthly host availability form and weekly host website updates."
+        },
+        {
+          id: "project-newsletter-transition",
+          name: "Newsletter Transition",
+          owner: "Brenda / Susan",
+          status: "waiting",
+          notes: "Final ownership still needs confirmation for creation, scheduling/sending, and Squarespace administration."
+        },
+        {
+          id: "project-social-linkedin",
+          name: "Social Media and LinkedIn",
+          owner: "Christine",
+          status: "active",
+          notes: "Prepare LinkedIn recognition posts and schedule LinkedIn follow request in social media channels."
+        },
+        {
+          id: "project-meeting-process",
+          name: "Meeting and Process Updates",
+          owner: "Core team",
+          status: "active",
+          notes: "Monday meetings should include newsletter content and announcements as a standing agenda item."
+        }
+      ],
+      tasks: [
+        task("task-host-form", "To-Dos", "Brenda: Send the bi-monthly host availability form.", "Brenda", "project-website-host", "open", "Bi-monthly", ""),
+        task("task-host-site-weekly", "To-Dos", "Brenda: Update the host website each week.", "Brenda", "project-website-host", "open", "Weekly", ""),
+        task("task-redirect", "To-Dos", "Add redirect: nicunurse -> tsp-host-finder.", "Unassigned", "project-website-host", "open", "", ""),
+        task("task-cfa-linkedin", "To-Dos", "Create LinkedIn post for Chick-fil-A.", "Unassigned", "project-social-linkedin", "open", "", ""),
+        task("task-ms-linkedin", "To-Dos", "Create LinkedIn post for Morgan Stanley.", "Unassigned", "project-social-linkedin", "open", "", "Morgan Stanley content/photos may be used if needed."),
+        task("task-squarespace-access", "To-Dos", "Provide Squarespace access to whoever takes over newsletter management.", "Unassigned", "project-newsletter-transition", "waiting", "", "Depends on confirming newsletter/Squarespace owner.", ["task-confirm-squarespace-owner"]),
+        task("task-monday-agenda", "To-Dos", "Add a standing Monday meeting agenda item: newsletter content and announcements.", "Unassigned", "project-meeting-process", "open", "Monday meetings", ""),
+        task("task-review-newsletter", "To-Dos", "Review items for the upcoming newsletter during Monday meetings.", "Core team", "project-meeting-process", "open", "Monday meetings", ""),
+        task("task-christine-linkedin-follow", "Action Items", "Christine: Schedule the LinkedIn follow request in social media channels this weekend.", "Christine", "project-social-linkedin", "open", "This weekend", ""),
+        task("task-newsletter-tone", "Action Items", "Core team: Meet to define newsletter tone and voice.", "Core team", "project-newsletter-transition", "open", "", ""),
+        task("task-newsletter-recurring", "Action Items", "Core team: Define required recurring newsletter content beyond host collection information.", "Core team", "project-newsletter-transition", "open", "", ""),
+        task("task-newsletter-sections", "Action Items", "Core team: Define standard newsletter sections and messaging.", "Core team", "project-newsletter-transition", "open", "", ""),
+        task("task-confirm-newsletter-creation", "Action Items", "Core team: Confirm who ultimately owns newsletter creation.", "Core team", "project-newsletter-transition", "blocked", "", "Open ownership question."),
+        task("task-confirm-newsletter-sending", "Action Items", "Core team: Confirm who ultimately owns newsletter scheduling/sending.", "Core team", "project-newsletter-transition", "blocked", "", "Open ownership question."),
+        task("task-confirm-squarespace-owner", "Action Items", "Core team: Confirm who ultimately owns Squarespace administration for newsletter functions.", "Core team", "project-newsletter-transition", "blocked", "", "Open ownership question."),
+        task("task-project-website-host", "Projects", "Website and host communications transition: Brenda to take over host availability form sending and weekly host website updates.", "Brenda", "project-website-host", "open", "", ""),
+        task("task-project-newsletter", "Projects", "Newsletter transition: Move newsletter responsibility to Brenda and/or Susan; final ownership still needs confirmation.", "Core team", "project-newsletter-transition", "waiting", "", ""),
+        task("task-project-social", "Projects", "Social media and LinkedIn content: Prepare recognition posts for Chick-fil-A and Morgan Stanley.", "Christine", "project-social-linkedin", "open", "", ""),
+        task("task-note-upcoming-asks", "Notes", "Newsletter planning should include upcoming asks.", "Core team", "project-newsletter-transition", "open", "Late June / early July", "Include additional sandwich donations during the late June / early July holiday period."),
+        task("task-note-open-ownership", "Notes", "Open ownership questions remain for newsletter creation, newsletter scheduling/sending, and Squarespace administration.", "Core team", "project-newsletter-transition", "blocked", "", "")
+      ]
+    };
+
+    function task(id, section, title, owner, projectId, status, due, notes, dependencies = []) {
+      return { id, section, title, owner, projectId, status, due, notes, dependencies, createdAt: new Date().toISOString(), completedAt: status === "complete" ? new Date().toISOString() : "" };
+    }
+
+    let state = loadState();
+    let filters = {
+      view: "all",
+      owner: "all",
+      search: "",
+      status: "all",
+      project: "all",
+      sort: "section"
+    };
+    let editingTaskId = null;
+    let editingProjectId = null;
+
+    const els = {
+      viewNav: document.getElementById("viewNav"),
+      ownerNav: document.getElementById("ownerNav"),
+      taskSections: document.getElementById("taskSections"),
+      projectList: document.getElementById("projectList"),
+      dependencyWatch: document.getElementById("dependencyWatch"),
+      openMetric: document.getElementById("openMetric"),
+      blockedMetric: document.getElementById("blockedMetric"),
+      doneMetric: document.getElementById("doneMetric"),
+      projectMetric: document.getElementById("projectMetric"),
+      searchInput: document.getElementById("searchInput"),
+      statusFilter: document.getElementById("statusFilter"),
+      projectFilter: document.getElementById("projectFilter"),
+      sortFilter: document.getElementById("sortFilter"),
+      taskDialog: document.getElementById("taskDialog"),
+      taskForm: document.getElementById("taskForm"),
+      taskDialogTitle: document.getElementById("taskDialogTitle"),
+      taskTitle: document.getElementById("taskTitle"),
+      taskSection: document.getElementById("taskSection"),
+      taskOwner: document.getElementById("taskOwner"),
+      taskProject: document.getElementById("taskProject"),
+      taskStatus: document.getElementById("taskStatus"),
+      taskDue: document.getElementById("taskDue"),
+      taskNotes: document.getElementById("taskNotes"),
+      dependencyPicker: document.getElementById("dependencyPicker"),
+      deleteTaskButton: document.getElementById("deleteTaskButton"),
+      projectDialog: document.getElementById("projectDialog"),
+      projectForm: document.getElementById("projectForm"),
+      projectDialogTitle: document.getElementById("projectDialogTitle"),
+      projectName: document.getElementById("projectName"),
+      projectOwner: document.getElementById("projectOwner"),
+      projectStatus: document.getElementById("projectStatus"),
+      projectNotes: document.getElementById("projectNotes"),
+      deleteProjectButton: document.getElementById("deleteProjectButton"),
+      toast: document.getElementById("toast"),
+      importFile: document.getElementById("importFile")
+    };
+
+    document.getElementById("newTaskButton").addEventListener("click", () => openTaskDialog());
+    document.getElementById("newProjectButton").addEventListener("click", () => openProjectDialog());
+    document.getElementById("exportButton").addEventListener("click", exportJson);
+    document.getElementById("importButton").addEventListener("click", () => els.importFile.click());
+    document.getElementById("resetFiltersButton").addEventListener("click", resetFilters);
+    document.getElementById("resetDataButton").addEventListener("click", resetData);
+
+    els.searchInput.addEventListener("input", (event) => {
+      filters.search = event.target.value.trim().toLowerCase();
+      render();
+    });
+
+    els.statusFilter.addEventListener("change", (event) => {
+      filters.status = event.target.value;
+      render();
+    });
+
+    els.projectFilter.addEventListener("change", (event) => {
+      filters.project = event.target.value;
+      render();
+    });
+
+    els.sortFilter.addEventListener("change", (event) => {
+      filters.sort = event.target.value;
+      render();
+    });
+
+    els.taskForm.addEventListener("submit", (event) => {
+      if (event.submitter && event.submitter.value === "cancel") return;
+      event.preventDefault();
+      saveTaskFromDialog();
+    });
+
+    els.projectForm.addEventListener("submit", (event) => {
+      if (event.submitter && event.submitter.value === "cancel") return;
+      event.preventDefault();
+      saveProjectFromDialog();
+    });
+
+    els.deleteTaskButton.addEventListener("click", deleteEditingTask);
+    els.deleteProjectButton.addEventListener("click", deleteEditingProject);
+    els.importFile.addEventListener("change", importJson);
+
+    render();
+
+    function loadState() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (!stored) return structuredClone(seedData);
+        const parsed = JSON.parse(stored);
+        if (!Array.isArray(parsed.tasks) || !Array.isArray(parsed.projects)) return structuredClone(seedData);
+        return parsed;
+      } catch {
+        return structuredClone(seedData);
+      }
+    }
+
+    function saveState() {
+      state.updatedAt = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function render() {
+      renderFilterOptions();
+      renderNav();
+      renderMetrics();
+      renderTasks();
+      renderProjects();
+      renderDependencyWatch();
+    }
+
+    function renderFilterOptions() {
+      els.projectFilter.innerHTML = `<option value="all">All projects</option>` + state.projects
+        .map(project => `<option value="${escapeHtml(project.id)}">${escapeHtml(project.name)}</option>`)
+        .join("");
+      els.projectFilter.value = filters.project;
+    }
+
+    function renderNav() {
+      const views = ["all", ...SECTION_ORDER];
+      els.viewNav.innerHTML = views.map(view => {
+        const label = view === "all" ? "All work" : view;
+        const count = view === "all" ? state.tasks.length : state.tasks.filter(task => task.section === view).length;
+        return `<button class="nav-button ${filters.view === view ? "active" : ""}" type="button" data-view="${escapeHtml(view)}">
+          <span>${escapeHtml(label)}</span><span class="count">${count}</span>
+        </button>`;
+      }).join("");
+
+      els.viewNav.querySelectorAll("button").forEach(button => {
+        button.addEventListener("click", () => {
+          filters.view = button.dataset.view;
+          render();
+        });
+      });
+
+      const owners = ["all", ...unique(state.tasks.map(task => task.owner || "Unassigned"))];
+      els.ownerNav.innerHTML = owners.map(owner => {
+        const label = owner === "all" ? "All owners" : owner;
+        const count = owner === "all" ? state.tasks.length : state.tasks.filter(task => (task.owner || "Unassigned") === owner).length;
+        return `<button class="owner-button ${filters.owner === owner ? "active" : ""}" type="button" data-owner="${escapeHtml(owner)}">
+          <span>${escapeHtml(label)}</span><span class="count">${count}</span>
+        </button>`;
+      }).join("");
+
+      els.ownerNav.querySelectorAll("button").forEach(button => {
+        button.addEventListener("click", () => {
+          filters.owner = button.dataset.owner;
+          render();
+        });
+      });
+    }
+
+    function renderMetrics() {
+      els.openMetric.textContent = state.tasks.filter(task => task.status !== "complete").length;
+      els.blockedMetric.textContent = state.tasks.filter(task => task.status === "blocked").length;
+      els.doneMetric.textContent = state.tasks.filter(task => task.status === "complete").length;
+      els.projectMetric.textContent = state.projects.length;
+    }
+
+    function renderTasks() {
+      const tasks = getFilteredTasks();
+      const grouped = groupTasks(tasks);
+
+      if (!tasks.length) {
+        els.taskSections.innerHTML = `<section class="section"><div class="empty">No tasks match the current filters.</div></section>`;
+        return;
+      }
+
+      els.taskSections.innerHTML = grouped.map(([section, sectionTasks]) => `
+        <section class="section">
+          <div class="section-header">
+            <h3>${escapeHtml(section)}</h3>
+            <span>${sectionTasks.length} item${sectionTasks.length === 1 ? "" : "s"}</span>
+          </div>
+          <div class="task-list">
+            ${sectionTasks.map(renderTask).join("")}
+          </div>
+        </section>
+      `).join("");
+
+      els.taskSections.querySelectorAll("[data-toggle]").forEach(button => {
+        button.addEventListener("click", () => toggleTask(button.dataset.toggle));
+      });
+
+      els.taskSections.querySelectorAll("[data-edit]").forEach(button => {
+        button.addEventListener("click", () => openTaskDialog(button.dataset.edit));
+      });
+    }
+
+    function renderTask(item) {
+      const project = findProject(item.projectId);
+      const blockedBy = item.dependencies
+        .map(id => state.tasks.find(task => task.id === id))
+        .filter(Boolean)
+        .filter(task => task.status !== "complete");
+      const dependencyLabel = blockedBy.length ? `${blockedBy.length} dependency${blockedBy.length === 1 ? "" : "ies"}` : "";
+      const notesText = item.notes ? `<span class="pill">${escapeHtml(item.notes)}</span>` : "";
+
+      return `
+        <article class="task ${item.status === "complete" ? "complete" : ""}">
+          <button class="check" type="button" data-toggle="${escapeHtml(item.id)}" aria-label="Toggle complete"></button>
+          <div>
+            <p class="task-title">${escapeHtml(item.title)}</p>
+            <div class="task-meta">
+              <span class="pill ${item.status === "complete" ? "done" : `status-${escapeHtml(item.status)}`}">${escapeHtml(STATUS_LABELS[item.status] || item.status)}</span>
+              <span class="pill">${escapeHtml(item.owner || "Unassigned")}</span>
+              ${project ? `<span class="pill">${escapeHtml(project.name)}</span>` : ""}
+              ${item.due ? `<span class="pill">${escapeHtml(item.due)}</span>` : ""}
+              ${dependencyLabel ? `<span class="pill warn">${escapeHtml(dependencyLabel)}</span>` : ""}
+              ${notesText}
+            </div>
+          </div>
+          <div class="task-actions">
+            <button class="icon-button" type="button" data-edit="${escapeHtml(item.id)}" aria-label="Edit task">Edit</button>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderProjects() {
+      if (!state.projects.length) {
+        els.projectList.innerHTML = `<div class="empty">No projects yet.</div>`;
+        return;
+      }
+
+      els.projectList.innerHTML = state.projects.map(project => {
+        const projectTasks = state.tasks.filter(task => task.projectId === project.id);
+        const done = projectTasks.filter(task => task.status === "complete").length;
+        const percent = projectTasks.length ? Math.round((done / projectTasks.length) * 100) : 0;
+        return `
+          <div class="project-row">
+            <strong>${escapeHtml(project.name)}</strong>
+            <div class="task-meta">
+              <span class="pill">${escapeHtml(project.owner || "Unassigned")}</span>
+              <span class="pill">${escapeHtml(project.status)}</span>
+              <span class="pill">${done}/${projectTasks.length} complete</span>
+            </div>
+            <div class="progress" aria-label="${percent}% complete"><span style="width: ${percent}%"></span></div>
+            <button class="button ghost" type="button" data-project-edit="${escapeHtml(project.id)}">Edit project</button>
+          </div>
+        `;
+      }).join("");
+
+      els.projectList.querySelectorAll("[data-project-edit]").forEach(button => {
+        button.addEventListener("click", () => openProjectDialog(button.dataset.projectEdit));
+      });
+    }
+
+    function renderDependencyWatch() {
+      const blocked = state.tasks.filter(item => {
+        return item.status !== "complete" && item.dependencies.some(id => {
+          const dependency = state.tasks.find(task => task.id === id);
+          return dependency && dependency.status !== "complete";
+        });
+      });
+
+      if (!blocked.length) {
+        els.dependencyWatch.innerHTML = `<div class="empty">No active dependency blockers.</div>`;
+        return;
+      }
+
+      els.dependencyWatch.innerHTML = blocked.map(item => {
+        const dependencies = item.dependencies
+          .map(id => state.tasks.find(task => task.id === id))
+          .filter(Boolean)
+          .filter(task => task.status !== "complete");
+        return `
+          <div class="project-row">
+            <strong>${escapeHtml(item.title)}</strong>
+            <div class="task-meta">
+              ${dependencies.map(dep => `<span class="pill warn">Waiting on: ${escapeHtml(dep.title)}</span>`).join("")}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function getFilteredTasks() {
+      let tasks = [...state.tasks];
+      if (filters.view !== "all") tasks = tasks.filter(task => task.section === filters.view);
+      if (filters.owner !== "all") tasks = tasks.filter(task => (task.owner || "Unassigned") === filters.owner);
+      if (filters.status !== "all") tasks = tasks.filter(task => task.status === filters.status);
+      if (filters.project !== "all") tasks = tasks.filter(task => task.projectId === filters.project);
+      if (filters.search) {
+        tasks = tasks.filter(task => {
+          const project = findProject(task.projectId);
+          return [task.title, task.owner, task.status, task.due, task.notes, project?.name]
+            .join(" ")
+            .toLowerCase()
+            .includes(filters.search);
+        });
+      }
+
+      return sortTasks(tasks);
+    }
+
+    function sortTasks(tasks) {
+      const sorted = [...tasks];
+      if (filters.sort === "owner") sorted.sort((a, b) => (a.owner || "").localeCompare(b.owner || "") || sectionIndex(a) - sectionIndex(b));
+      if (filters.sort === "status") sorted.sort((a, b) => a.status.localeCompare(b.status) || sectionIndex(a) - sectionIndex(b));
+      if (filters.sort === "project") sorted.sort((a, b) => (findProject(a.projectId)?.name || "").localeCompare(findProject(b.projectId)?.name || "") || sectionIndex(a) - sectionIndex(b));
+      if (filters.sort === "section") sorted.sort((a, b) => sectionIndex(a) - sectionIndex(b));
+      return sorted;
+    }
+
+    function groupTasks(tasks) {
+      if (filters.sort !== "section") return [["Filtered Tasks", tasks]];
+      return SECTION_ORDER
+        .map(section => [section, tasks.filter(task => task.section === section)])
+        .filter(([, sectionTasks]) => sectionTasks.length);
+    }
+
+    function sectionIndex(item) {
+      return SECTION_ORDER.indexOf(item.section);
+    }
+
+    function openTaskDialog(id = null) {
+      editingTaskId = id;
+      const item = id ? state.tasks.find(task => task.id === id) : null;
+      els.taskDialogTitle.textContent = item ? "Edit task" : "New task";
+      els.deleteTaskButton.style.visibility = item ? "visible" : "hidden";
+      els.taskSection.innerHTML = SECTION_ORDER.map(section => `<option value="${escapeHtml(section)}">${escapeHtml(section)}</option>`).join("");
+      els.taskProject.innerHTML = state.projects.map(project => `<option value="${escapeHtml(project.id)}">${escapeHtml(project.name)}</option>`).join("");
+      els.taskTitle.value = item?.title || "";
+      els.taskSection.value = item?.section || "To-Dos";
+      els.taskOwner.value = item?.owner || "";
+      els.taskProject.value = item?.projectId || state.projects[0]?.id || "";
+      els.taskStatus.value = item?.status || "open";
+      els.taskDue.value = item?.due || "";
+      els.taskNotes.value = item?.notes || "";
+      renderDependencyPicker(item);
+      els.taskDialog.showModal();
+    }
+
+    function renderDependencyPicker(item) {
+      const currentId = item?.id || "";
+      const selected = new Set(item?.dependencies || []);
+      const options = state.tasks.filter(task => task.id !== currentId);
+      if (!options.length) {
+        els.dependencyPicker.innerHTML = `<div class="empty">No other tasks available.</div>`;
+        return;
+      }
+      els.dependencyPicker.innerHTML = options.map(task => `
+        <label>
+          <input type="checkbox" value="${escapeHtml(task.id)}" ${selected.has(task.id) ? "checked" : ""} />
+          <span>${escapeHtml(task.title)}</span>
+        </label>
+      `).join("");
+    }
+
+    function saveTaskFromDialog() {
+      const selectedDependencies = [...els.dependencyPicker.querySelectorAll("input:checked")].map(input => input.value);
+      const payload = {
+        title: els.taskTitle.value.trim(),
+        section: els.taskSection.value,
+        owner: els.taskOwner.value.trim() || "Unassigned",
+        projectId: els.taskProject.value,
+        status: els.taskStatus.value,
+        due: els.taskDue.value.trim(),
+        notes: els.taskNotes.value.trim(),
+        dependencies: selectedDependencies
+      };
+      if (!payload.title) return;
+
+      if (editingTaskId) {
+        const item = state.tasks.find(task => task.id === editingTaskId);
+        Object.assign(item, payload);
+        item.completedAt = payload.status === "complete" ? (item.completedAt || new Date().toISOString()) : "";
+      } else {
+        state.tasks.push({
+          id: makeId("task"),
+          ...payload,
+          createdAt: new Date().toISOString(),
+          completedAt: payload.status === "complete" ? new Date().toISOString() : ""
+        });
+      }
+
+      saveState();
+      els.taskDialog.close();
+      showToast("Task saved.");
+      render();
+    }
+
+    function deleteEditingTask() {
+      if (!editingTaskId) return;
+      state.tasks = state.tasks.filter(task => task.id !== editingTaskId);
+      state.tasks.forEach(task => {
+        task.dependencies = task.dependencies.filter(id => id !== editingTaskId);
+      });
+      saveState();
+      els.taskDialog.close();
+      showToast("Task deleted.");
+      render();
+    }
+
+    function toggleTask(id) {
+      const item = state.tasks.find(task => task.id === id);
+      if (!item) return;
+      item.status = item.status === "complete" ? "open" : "complete";
+      item.completedAt = item.status === "complete" ? new Date().toISOString() : "";
+      saveState();
+      render();
+    }
+
+    function openProjectDialog(id = null) {
+      editingProjectId = id;
+      const project = id ? state.projects.find(item => item.id === id) : null;
+      els.projectDialogTitle.textContent = project ? "Edit project" : "New project";
+      els.deleteProjectButton.style.visibility = project ? "visible" : "hidden";
+      els.projectName.value = project?.name || "";
+      els.projectOwner.value = project?.owner || "";
+      els.projectStatus.value = project?.status || "active";
+      els.projectNotes.value = project?.notes || "";
+      els.projectDialog.showModal();
+    }
+
+    function saveProjectFromDialog() {
+      const payload = {
+        name: els.projectName.value.trim(),
+        owner: els.projectOwner.value.trim() || "Unassigned",
+        status: els.projectStatus.value,
+        notes: els.projectNotes.value.trim()
+      };
+      if (!payload.name) return;
+
+      if (editingProjectId) {
+        const project = state.projects.find(item => item.id === editingProjectId);
+        Object.assign(project, payload);
+      } else {
+        state.projects.push({ id: makeId("project"), ...payload });
+      }
+
+      saveState();
+      els.projectDialog.close();
+      showToast("Project saved.");
+      render();
+    }
+
+    function deleteEditingProject() {
+      if (!editingProjectId) return;
+      const fallbackProject = state.projects.find(project => project.id !== editingProjectId);
+      state.tasks.forEach(task => {
+        if (task.projectId === editingProjectId) task.projectId = fallbackProject?.id || "";
+      });
+      state.projects = state.projects.filter(project => project.id !== editingProjectId);
+      saveState();
+      els.projectDialog.close();
+      showToast("Project deleted.");
+      render();
+    }
+
+    function resetFilters() {
+      filters = { view: "all", owner: "all", search: "", status: "all", project: "all", sort: "section" };
+      els.searchInput.value = "";
+      els.statusFilter.value = "all";
+      els.sortFilter.value = "section";
+      render();
+    }
+
+    function resetData() {
+      if (!confirm("Reset this tracker to the original seed data?")) return;
+      state = structuredClone(seedData);
+      saveState();
+      resetFilters();
+      showToast("Tracker reset to seed data.");
+    }
+
+    function exportJson() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = `tsp-core-team-tasks-${new Date().toISOString().slice(0, 10)}.json`;
+      anchor.click();
+      URL.revokeObjectURL(url);
+      showToast("JSON export started.");
+    }
+
+    function importJson(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(reader.result);
+          if (!Array.isArray(parsed.tasks) || !Array.isArray(parsed.projects)) throw new Error("Invalid tracker JSON");
+          state = parsed;
+          saveState();
+          resetFilters();
+          showToast("JSON imported.");
+        } catch (error) {
+          showToast("Could not import that JSON file.");
+        } finally {
+          els.importFile.value = "";
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function findProject(id) {
+      return state.projects.find(project => project.id === id);
+    }
+
+    function unique(values) {
+      return [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b));
+    }
+
+    function makeId(prefix) {
+      return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function showToast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      window.clearTimeout(showToast.timeout);
+      showToast.timeout = window.setTimeout(() => els.toast.classList.remove("show"), 2200);
+    }
+  </script>
+</body>
+</html>
