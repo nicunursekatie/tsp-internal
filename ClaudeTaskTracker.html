@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Claude Task Tracker — TSP</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    html, body, #root { height: 100%; }
+    body { margin: 0; background: #EDF6FA; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="react">
+    const { useState, useEffect, useRef, useCallback } = React;
+
+    // Inline SVG icon components (replaces lucide-react)
+    const Icon = ({ d, size = 16, color = "currentColor", strokeWidth = 2, fill = "none", paths }) => (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" style={{ display: "block" }}>
+        {paths ? paths : <path d={d} />}
+      </svg>
+    );
+    const Plus = (p) => <Icon {...p} paths={<><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></>} />;
+    const Check = (p) => <Icon {...p} paths={<polyline points="20 6 9 17 4 12" />} />;
+    const Trash2 = (p) => <Icon {...p} paths={<><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6" /><path d="M14 11v6" /><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" /></>} />;
+    const Pencil = (p) => <Icon {...p} paths={<><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" /></>} />;
+    const User = (p) => <Icon {...p} paths={<><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></>} />;
+    const X = (p) => <Icon {...p} paths={<><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></>} />;
+
+    // localStorage-backed shim that mimics the window.storage API the component was written for
+    if (!window.storage) {
+      window.storage = {
+        get: async (key) => {
+          const v = localStorage.getItem(key);
+          return v == null ? null : { value: v };
+        },
+        set: async (key, value) => {
+          localStorage.setItem(key, value);
+        },
+      };
+    }
+
+    const STORAGE_KEY = "team-todo-v3";
+    const POLL_MS = 3000;
+
+    const C = {
+      navy:      "#236383",
+      amber:     "#FBAD3F",
+      teal:      "#007E8C",
+      sky:       "#47B3CB",
+      crimson:   "#A31C41",
+      pageBg:    "#EDF6FA",
+      cardBg:    "#FFFFFF",
+      surface:   "#F2F8FB",
+      border:    "#C5DFE9",
+      borderMid: "#9DC4D2",
+      text:      "#14364A",
+      textSub:   "#3D6B7C",
+      textMuted: "#7A9EAD",
+    };
+
+    const DOT_COLORS = ["#236383","#007E8C","#47B3CB","#A31C41","#FBAD3F","#5B6FAC","#4A8A5C","#B35A2B"];
+
+    function dotColor(name) {
+      if (!name) return C.textMuted;
+      let h = 0;
+      for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) | 0;
+      return DOT_COLORS[Math.abs(h) % DOT_COLORS.length];
+    }
+
+    function Avatar({ name, size = 22 }) {
+      const clr = dotColor(name);
+      return (
+        <div style={{ width: size, height: size, borderRadius: "50%", background: clr + "22", border: `1.5px solid ${clr}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: size * 0.38, fontWeight: 700, color: clr, flexShrink: 0, letterSpacing: "-0.5px" }}>
+          {name ? name.slice(0, 2).toUpperCase() : "?"}
+        </div>
+      );
+    }
+
+    function fmtDate(iso) {
+      const d = new Date(iso), now = new Date();
+      return d.toDateString() === now.toDateString()
+        ? d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+        : d.toLocaleDateString([], { month: "short", day: "numeric" });
+    }
+
+    function App() {
+      const [tasks, setTasks] = useState([]);
+      const [userName, setUserName] = useState("");
+      const [nameInput, setNameInput] = useState("");
+      const [editingName, setEditingName] = useState(false);
+      const [input, setInput] = useState("");
+      const [assignee, setAssignee] = useState("");
+      const [filter, setFilter] = useState("all");
+      const [syncing, setSyncing] = useState(false);
+      const [lastSync, setLastSync] = useState(null);
+      const [newIds, setNewIds] = useState(new Set());
+      const [editId, setEditId] = useState(null);
+      const [editText, setEditText] = useState("");
+      const [editAssignee, setEditAssignee] = useState("");
+      const prevRef = useRef(null);
+      const inputRef = useRef(null);
+      const editRef = useRef(null);
+
+      const knownPeople = [...new Set(tasks.flatMap(t => [t.author, t.assignee].filter(Boolean)))].sort();
+
+      const loadTasks = useCallback(async (isRefresh = false) => {
+        if (!isRefresh) setSyncing(true);
+        try {
+          const res = await window.storage.get(STORAGE_KEY, true);
+          if (res) {
+            const json = res.value;
+            if (json !== prevRef.current) {
+              const loaded = JSON.parse(json);
+              if (prevRef.current !== null && isRefresh) {
+                const prev = JSON.parse(prevRef.current);
+                const prevIds = new Set(prev.map(t => t.id));
+                const fresh = loaded.filter(t => !prevIds.has(t.id)).map(t => t.id);
+                if (fresh.length) { setNewIds(new Set(fresh)); setTimeout(() => setNewIds(new Set()), 2200); }
+              }
+              prevRef.current = json;
+              setTasks(loaded);
+            }
+          } else { prevRef.current = "[]"; setTasks([]); }
+        } catch { prevRef.current = "[]"; setTasks([]); }
+        setSyncing(false);
+        setLastSync(new Date());
+      }, []);
+
+      const persist = useCallback(async (next) => {
+        const json = JSON.stringify(next);
+        await window.storage.set(STORAGE_KEY, json, true);
+        prevRef.current = json; setTasks(next); setLastSync(new Date());
+      }, []);
+
+      useEffect(() => { loadTasks(); }, [loadTasks]);
+      useEffect(() => { const id = setInterval(() => loadTasks(true), POLL_MS); return () => clearInterval(id); }, [loadTasks]);
+
+      const addTask = async () => {
+        const text = input.trim(); if (!text) return;
+        await persist([{ id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), text, done: false, author: userName, assignee: assignee.trim() || null, at: new Date().toISOString() }, ...tasks]);
+        setInput(""); setAssignee(""); inputRef.current?.focus();
+      };
+
+      const toggle = async (id) => await persist(tasks.map(t => t.id === id ? { ...t, done: !t.done } : t));
+      const remove = async (id) => await persist(tasks.filter(t => t.id !== id));
+      const startEdit = (task) => { setEditId(task.id); setEditText(task.text); setEditAssignee(task.assignee || ""); setTimeout(() => editRef.current?.focus(), 50); };
+      const saveEdit = async () => { const text = editText.trim(); if (text) await persist(tasks.map(t => t.id === editId ? { ...t, text, assignee: editAssignee.trim() || null } : t)); setEditId(null); };
+      const clearDone = async () => await persist(tasks.filter(t => !t.done));
+
+      const active = tasks.filter(t => !t.done).length;
+      const done = tasks.filter(t => t.done).length;
+      const mine = tasks.filter(t => !t.done && ((t.assignee && t.assignee.toLowerCase() === userName.toLowerCase()) || (!t.assignee && t.author === userName))).length;
+      const shown = tasks.filter(t =>
+        filter === "active" ? !t.done :
+        filter === "done" ? t.done :
+        filter === "mine" ? !t.done && ((t.assignee && t.assignee.toLowerCase() === userName.toLowerCase()) || (!t.assignee && t.author === userName)) :
+        true
+      );
+
+      const css = `
+        @keyframes lp{0%,100%{opacity:1}50%{opacity:0.3}}
+        input::placeholder{color:${C.textMuted}} input:focus{outline:none} *{box-sizing:border-box}
+        .ib{background:transparent;border:none;cursor:pointer;padding:4px 6px;border-radius:5px;display:flex;align-items:center;color:${C.textMuted};transition:color 0.15s}
+        .ib:hover{color:${C.navy}}
+        .db{background:transparent;border:none;cursor:pointer;padding:4px 6px;border-radius:5px;display:flex;align-items:center;color:${C.textMuted};transition:color 0.15s}
+        .db:hover{color:${C.crimson}}
+        .fb{flex:1;padding:8px 10px;border:none;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.15s;font-family:inherit}
+        .pc{display:inline-flex;align-items:center;gap:4px;padding:3px 10px 3px 6px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid transparent;transition:filter 0.15s;font-weight:500}
+        .pc:hover{filter:brightness(0.9)}
+        .clr{background:transparent;border:1.5px solid ${C.border};color:${C.textSub};padding:7px 16px;border-radius:8px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit;transition:all 0.15s}
+        .clr:hover{border-color:${C.crimson};color:${C.crimson}}
+      `;
+
+      if (!userName) return (
+        <div style={{ minHeight: "100vh", background: C.pageBg, fontFamily: "system-ui,-apple-system,sans-serif" }}>
+          <style>{css}</style>
+          <div style={{ background: C.navy, padding: "16px 28px" }}>
+            <span style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.3px" }}>Team To-Do</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "calc(100vh - 58px)", padding: "40px 24px" }}>
+            <div style={{ width: "100%", maxWidth: 360, textAlign: "center" }}>
+              <div style={{ width: 58, height: 58, borderRadius: 16, background: C.navy, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", fontSize: 26 }}>📋</div>
+              <div style={{ fontSize: 22, fontWeight: 700, color: C.text, letterSpacing: "-0.5px", marginBottom: 6 }}>Welcome!</div>
+              <div style={{ fontSize: 15, color: C.textSub, marginBottom: 28 }}>What's your name?</div>
+              <div style={{ display: "flex", gap: 8 }}>
+                <input autoFocus value={nameInput} onChange={e => setNameInput(e.target.value)} onKeyDown={e => e.key === "Enter" && nameInput.trim() && setUserName(nameInput.trim())} placeholder="e.g. Katie"
+                  style={{ flex: 1, background: C.cardBg, border: `1.5px solid ${C.border}`, borderRadius: 10, padding: "12px 16px", fontSize: 15, color: C.text, fontFamily: "inherit" }} />
+                <button onClick={() => nameInput.trim() && setUserName(nameInput.trim())} disabled={!nameInput.trim()}
+                  style={{ background: nameInput.trim() ? C.navy : C.border, color: nameInput.trim() ? "#fff" : C.textMuted, border: "none", borderRadius: 10, padding: "12px 20px", fontSize: 14, fontWeight: 600, cursor: nameInput.trim() ? "pointer" : "default", fontFamily: "inherit" }}>
+                  Join →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+      return (
+        <div style={{ minHeight: "100vh", background: C.pageBg, color: C.text, fontFamily: "system-ui,-apple-system,sans-serif" }}>
+          <style>{css}</style>
+
+          <div style={{ background: C.navy, padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <span style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.3px" }}>Team To-Do</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 5, background: "rgba(255,255,255,0.12)", borderRadius: 20, padding: "3px 11px 3px 7px", fontSize: 12, color: syncing ? "#7FDDCC" : "rgba(255,255,255,0.65)" }}>
+                <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#7FDDCC", animation: "lp 2s ease-in-out infinite" }} />
+                {syncing ? "syncing…" : "live"}
+              </div>
+            </div>
+            {editingName ? (
+              <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                <input autoFocus value={nameInput} onChange={e => setNameInput(e.target.value)}
+                  onKeyDown={e => { if (e.key === "Enter" && nameInput.trim()) { setUserName(nameInput.trim()); setEditingName(false); } if (e.key === "Escape") setEditingName(false); }}
+                  style={{ background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.4)", borderRadius: 8, padding: "5px 12px", fontSize: 13, color: "#fff", width: 140, fontFamily: "inherit" }} />
+                <button onClick={() => setEditingName(false)} style={{ background: "transparent", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.6)", display: "flex", padding: "4px 6px" }}><X size={14} /></button>
+              </div>
+            ) : (
+              <div onClick={() => { setNameInput(userName); setEditingName(true); }} title="Click to change name"
+                style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.12)", borderRadius: 24, padding: "5px 14px 5px 8px", cursor: "pointer" }}>
+                <Avatar name={userName} size={22} />
+                <span style={{ fontSize: 13, color: "#fff", fontWeight: 500 }}>{userName}</span>
+                <Pencil size={11} color="rgba(255,255,255,0.5)" />
+              </div>
+            )}
+          </div>
+
+          <div style={{ maxWidth: 660, margin: "0 auto", padding: "24px 20px" }}>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 10, marginBottom: 22 }}>
+              {[["Total", tasks.length, C.sky], ["Active", active, C.amber], ["Done", done, C.teal], ["Mine", mine, C.crimson]].map(([label, val, color]) => (
+                <div key={label} style={{ background: color + "18", border: `1.5px solid ${color}40`, borderRadius: 12, padding: "13px 16px" }}>
+                  <div style={{ fontSize: 26, fontWeight: 700, color, lineHeight: 1, marginBottom: 3 }}>{val}</div>
+                  <div style={{ fontSize: 12, color, opacity: 0.8, fontWeight: 600, letterSpacing: "0.3px" }}>{label}</div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ background: C.cardBg, border: `1.5px solid ${C.border}`, borderRadius: 14, padding: 12, marginBottom: 18, boxShadow: "0 1px 4px rgba(35,99,131,0.07)" }}>
+              <input ref={inputRef} value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === "Enter" && addTask()} placeholder="Add a task for the team…"
+                style={{ width: "100%", background: "transparent", border: "none", color: C.text, fontSize: 15, padding: "4px 8px 10px", fontFamily: "inherit" }} />
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, flex: 1, background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: "6px 10px" }}>
+                  <User size={13} color={C.textMuted} />
+                  <input value={assignee} onChange={e => setAssignee(e.target.value)} onKeyDown={e => e.key === "Enter" && addTask()} placeholder="Assign to (optional)…" list="kp"
+                    style={{ flex: 1, background: "transparent", border: "none", color: C.text, fontSize: 13, fontFamily: "inherit" }} />
+                  {assignee && <button className="db" style={{ padding: "1px 2px" }} onClick={() => setAssignee("")}><X size={12} /></button>}
+                </div>
+                <button onClick={addTask} disabled={!input.trim()}
+                  style={{ display: "flex", alignItems: "center", gap: 5, background: input.trim() ? C.navy : C.border, color: input.trim() ? "#fff" : C.textMuted, border: "none", borderRadius: 9, padding: "8px 18px", fontSize: 14, fontWeight: 600, cursor: input.trim() ? "pointer" : "default", transition: "all 0.15s", fontFamily: "inherit", whiteSpace: "nowrap" }}>
+                  <Plus size={15} />Add
+                </button>
+              </div>
+              <datalist id="kp">{knownPeople.map(p => <option key={p} value={p} />)}</datalist>
+              {knownPeople.length > 0 && !assignee && (
+                <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 9, paddingTop: 9, borderTop: `1px solid ${C.border}`, alignItems: "center" }}>
+                  <span style={{ fontSize: 11, color: C.textMuted, fontWeight: 500 }}>Quick assign:</span>
+                  {knownPeople.slice(0, 8).map(p => (
+                    <div key={p} className="pc" onClick={() => setAssignee(p)} style={{ background: dotColor(p) + "18", color: dotColor(p) }}>
+                      <div style={{ width: 5, height: 5, borderRadius: "50%", background: dotColor(p) }} />{p}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div style={{ display: "flex", gap: 3, marginBottom: 16, background: C.cardBg, border: `1.5px solid ${C.border}`, borderRadius: 10, padding: 4 }}>
+              {[["all",`All (${tasks.length})`],["active",`Active (${active})`],["done",`Done (${done})`],["mine",`Mine (${mine})`]].map(([k, lbl]) => (
+                <button key={k} className="fb" onClick={() => setFilter(k)}
+                  style={{ background: filter === k ? C.navy : "transparent", color: filter === k ? "#fff" : C.textSub, fontWeight: filter === k ? 600 : 400 }}>{lbl}</button>
+              ))}
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {shown.length === 0 && (
+                <div style={{ textAlign: "center", padding: "48px 20px", color: C.textMuted, fontSize: 14 }}>
+                  <div style={{ fontSize: 36, marginBottom: 12, opacity: 0.4 }}>{filter === "done" ? "✓" : filter === "mine" ? "👤" : "☐"}</div>
+                  {filter === "done" ? "No completed tasks yet." : filter === "mine" ? `Nothing assigned to ${userName}.` : filter === "active" ? "All caught up!" : "No tasks yet — add one above."}
+                </div>
+              )}
+              {shown.map(task => (
+                <div key={task.id} style={{ background: newIds.has(task.id) ? C.sky + "14" : C.cardBg, border: `1px solid ${newIds.has(task.id) ? C.sky + "80" : C.border}`, borderLeft: `3px solid ${task.done ? C.teal : dotColor(task.author)}`, borderTopRightRadius: 12, borderBottomRightRadius: 12, padding: "13px 14px 13px 16px", display: "flex", alignItems: "flex-start", gap: 12, transition: "background 0.4s", opacity: task.done ? 0.55 : 1, boxShadow: "0 1px 3px rgba(35,99,131,0.05)" }}>
+
+                  <div onClick={() => toggle(task.id)} style={{ width: 20, height: 20, borderRadius: 6, flexShrink: 0, marginTop: editId === task.id ? 6 : 2, border: `1.5px solid ${task.done ? C.teal : C.borderMid}`, background: task.done ? C.teal + "20" : "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.15s" }}>
+                    {task.done && <Check size={12} color={C.teal} strokeWidth={3} />}
+                  </div>
+
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    {editId === task.id ? (
+                      <div>
+                        <input ref={editRef} value={editText} onChange={e => setEditText(e.target.value)} onKeyDown={e => e.key === "Escape" && setEditId(null)}
+                          style={{ width: "100%", background: C.surface, border: `1.5px solid ${C.sky}`, borderRadius: 7, padding: "6px 10px", fontSize: 15, color: C.text, fontFamily: "inherit", marginBottom: 8 }} />
+                        <div style={{ display: "flex", alignItems: "center", gap: 6, background: C.surface, border: `1px solid ${C.border}`, borderRadius: 7, padding: "6px 10px", marginBottom: 10 }}>
+                          <User size={13} color={C.textMuted} />
+                          <input value={editAssignee} onChange={e => setEditAssignee(e.target.value)} placeholder="Assign to…" list="kp"
+                            style={{ flex: 1, background: "transparent", border: "none", fontSize: 13, color: C.text, fontFamily: "inherit" }} />
+                          {editAssignee && <button className="db" style={{ padding: "1px 2px" }} onClick={() => setEditAssignee("")}><X size={12} /></button>}
+                        </div>
+                        {knownPeople.length > 0 && !editAssignee && (
+                          <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 10, alignItems: "center" }}>
+                            <span style={{ fontSize: 11, color: C.textMuted, fontWeight: 500 }}>Quick assign:</span>
+                            {knownPeople.slice(0, 6).map(p => (
+                              <div key={p} className="pc" onClick={() => setEditAssignee(p)} style={{ background: dotColor(p) + "18", color: dotColor(p) }}>
+                                <div style={{ width: 5, height: 5, borderRadius: "50%", background: dotColor(p) }} />{p}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        <div style={{ display: "flex", gap: 7 }}>
+                          <button onClick={saveEdit} style={{ background: C.navy, color: "#fff", border: "none", borderRadius: 6, padding: "6px 16px", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>Save</button>
+                          <button onClick={() => setEditId(null)} style={{ background: "transparent", color: C.textSub, border: `1px solid ${C.border}`, borderRadius: 6, padding: "6px 14px", fontSize: 13, cursor: "pointer", fontFamily: "inherit" }}>Cancel</button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div style={{ fontSize: 15, color: task.done ? C.textMuted : C.text, textDecoration: task.done ? "line-through" : "none", wordBreak: "break-word", lineHeight: 1.5 }}>{task.text}</div>
+                        <div style={{ display: "flex", alignItems: "center", gap: 7, marginTop: 6, flexWrap: "wrap" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                            <Avatar name={task.author} size={16} />
+                            <span style={{ fontSize: 12, color: C.textMuted }}>{task.author}</span>
+                          </div>
+                          {task.assignee && (<>
+                            <span style={{ fontSize: 11, color: C.textMuted }}>→</span>
+                            <div style={{ display: "flex", alignItems: "center", gap: 4, background: dotColor(task.assignee) + "18", borderRadius: 20, padding: "2px 9px 2px 5px", border: `1px solid ${dotColor(task.assignee)}35` }}>
+                              <div style={{ width: 5, height: 5, borderRadius: "50%", background: dotColor(task.assignee) }} />
+                              <span style={{ fontSize: 12, color: dotColor(task.assignee), fontWeight: 600 }}>{task.assignee}</span>
+                            </div>
+                          </>)}
+                          <span style={{ fontSize: 11, color: C.border }}>·</span>
+                          <span style={{ fontSize: 12, color: C.textMuted }}>{fmtDate(task.at)}</span>
+                        </div>
+                      </>
+                    )}
+                  </div>
+
+                  {editId !== task.id && (
+                    <div style={{ display: "flex", gap: 1, flexShrink: 0 }}>
+                      <button className="ib" title="Edit" onClick={() => startEdit(task)}><Pencil size={14} /></button>
+                      <button className="db" title="Delete" onClick={() => remove(task.id)}><Trash2 size={14} /></button>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {done > 0 && (
+              <div style={{ marginTop: 14, display: "flex", justifyContent: "flex-end" }}>
+                <button className="clr" onClick={clearDone}><Trash2 size={13} />Clear {done} completed</button>
+              </div>
+            )}
+
+            <div style={{ marginTop: 24, textAlign: "center", fontSize: 11, color: C.textMuted }}>
+              {lastSync ? `Synced ${lastSync.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}` : "Connecting…"}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
