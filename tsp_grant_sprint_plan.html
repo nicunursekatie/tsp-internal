@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grant Sprint Action Plan — The Sandwich Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --navy: #236383;
+    --navy-dark: #17465e;
+    --amber: #FBAD3F;
+    --teal: #007E8C;
+    --sky: #47B3CB;
+    --crimson: #A31C41;
+    --cream: #FAF7F0;
+    --paper: #FFFFFF;
+    --line: #E6DECD;
+    --ink: #22303A;
+    --ink-soft: #5C6C76;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+
+  .tsp-app {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.5;
+    padding-bottom: 56px;
+  }
+  .tsp-app h1, .tsp-app h2 {
+    font-family: 'Fraunces', serif;
+    color: var(--navy-dark);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  /* signature: sandwich-layer divider */
+  .sandwich { height: 10px; display: flex; }
+  .sandwich span { flex: 1; }
+  .sandwich .bread { background: #EBCA84; }
+  .sandwich .l-teal { background: var(--teal); }
+  .sandwich .l-amber { background: var(--amber); }
+  .sandwich .l-crimson { background: var(--crimson); }
+
+  /* hero */
+  .hero {
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-dark) 100%);
+    color: #fff;
+    padding: 42px 28px 32px;
+  }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--sky); margin-bottom: 10px;
+  }
+  .hero h1 { color: #fff; font-size: clamp(26px, 4vw, 40px); font-weight: 600; max-width: 760px; }
+  .hero .sub { color: #d2e5ee; max-width: 620px; margin-top: 10px; font-size: 15px; }
+  .stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+  .stat {
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18);
+    border-radius: var(--radius); padding: 13px 17px; min-width: 145px;
+  }
+  .stat .n { font-family: 'Fraunces', serif; font-size: 25px; font-weight: 600; color: var(--amber); }
+  .stat .l { font-size: 12px; color: #d2e5ee; margin-top: 2px; }
+  .progress-wrap { margin-top: 22px; max-width: 440px; }
+  .track { background: rgba(255,255,255,.18); height: 10px; border-radius: 20px; overflow: hidden; }
+  .fill { background: var(--amber); height: 100%; border-radius: 20px; width: 0%; transition: width .35s ease; }
+  .plabel { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #d2e5ee; margin-top: 6px; }
+
+  /* tabs */
+  .tabs {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--paper); border-bottom: 1px solid var(--line);
+    display: flex; gap: 4px; overflow-x: auto; padding: 10px 20px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab {
+    font: 600 13.5px 'Inter', sans-serif; color: var(--ink-soft);
+    border: none; background: transparent; padding: 9px 14px; border-radius: 999px;
+    cursor: pointer; white-space: nowrap; transition: background .15s, color .15s;
+  }
+  .tab:hover { background: #F2ECDF; }
+  .tab.active { background: var(--navy); color: #fff; }
+
+  .panel { max-width: 1060px; margin: 0 auto; padding: 36px 22px 6px; display: none; }
+  .panel.active { display: block; }
+  .head { margin-bottom: 20px; }
+  .head .kick {
+    display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--teal); margin-bottom: 6px;
+  }
+  .head h2 { font-size: 23px; }
+  .head p { color: var(--ink-soft); font-size: 14px; margin: 6px 0 0; max-width: 640px; }
+
+  /* legend */
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 18px; }
+  .legend .chip {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600;
+    color: var(--ink-soft); background: var(--paper); border: 1px solid var(--line);
+    border-radius: 999px; padding: 4px 11px;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot.teal { background: var(--teal); } .dot.crimson { background: var(--crimson); }
+  .dot.amber { background: var(--amber); } .dot.sky { background: var(--sky); }
+
+  /* funder cards */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+  .card {
+    background: var(--paper); border: 1px solid var(--line); border-left: 6px solid var(--teal);
+    border-radius: var(--radius); padding: 17px 19px; display: flex; flex-direction: column; gap: 9px;
+    transition: opacity .2s;
+  }
+  .card.capital { border-left-color: var(--crimson); }
+  .card.program { border-left-color: var(--amber); }
+  .card.tbd { border-left-color: var(--sky); }
+  .card.done { opacity: .5; }
+  .card-top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+  .fname { font-family: 'Fraunces', serif; font-size: 17.5px; font-weight: 600; color: var(--navy-dark); }
+  .method {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase;
+    letter-spacing: .05em; color: var(--ink-soft); background: #F2ECDF;
+    padding: 3px 8px; border-radius: 6px; white-space: nowrap;
+  }
+  .pill {
+    align-self: flex-start; font-size: 10.5px; font-weight: 700; letter-spacing: .05em;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 999px; color: #fff;
+  }
+  .pill.operating { background: var(--teal); }
+  .pill.capital { background: var(--crimson); }
+  .pill.program { background: var(--amber); color: #4a3300; }
+  .pill.tbd { background: var(--sky); }
+  .due { font-size: 13px; font-weight: 700; color: var(--crimson); }
+  .target { font-size: 12.5px; color: var(--ink-soft); }
+  .strat { font-size: 13.5px; }
+  .meta { font-size: 12px; color: var(--ink-soft); }
+  .meta b { color: var(--ink); }
+  .chk {
+    display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
+    cursor: pointer; user-select: none; margin-top: 3px; color: var(--navy-dark);
+  }
+  .chk input { width: 17px; height: 17px; accent-color: var(--navy); cursor: pointer; flex-shrink: 0; }
+
+  /* timeline */
+  .tl { position: relative; padding-left: 26px; }
+  .tl::before { content:''; position:absolute; left:6px; top:6px; bottom:6px; width:2px; background:var(--line); }
+  .node { position: relative; margin-bottom: 24px; }
+  .node::before {
+    content:''; position:absolute; left:-26px; top:5px; width:13px; height:13px;
+    border-radius:50%; background:var(--paper); border:3px solid var(--navy);
+  }
+  .node.hard::before { border-color: var(--crimson); }
+  .node.low::before { border-color: var(--sky); }
+  .node.past { opacity: .55; }
+  .node.past::before { background: var(--navy); border-color: var(--navy); }
+  .node.now::before { background: var(--amber); border-color: var(--amber); box-shadow: 0 0 0 4px rgba(251,173,63,.25); }
+  .node.now .tcard { border: 2px solid var(--amber); }
+  .now-tag {
+    display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:600;
+    letter-spacing:.08em; text-transform:uppercase; color:#4a3300; background:var(--amber);
+    padding:2px 9px; border-radius:999px; margin-left:8px; vertical-align:2px;
+  }
+  .past-tag {
+    display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:10.5px; font-weight:600;
+    letter-spacing:.08em; text-transform:uppercase; color:#fff; background:var(--navy);
+    padding:2px 9px; border-radius:999px; margin-left:8px; vertical-align:2px;
+  }
+  .tcard { background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:15px 18px; }
+  .tdate { font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600; color:var(--teal); }
+  .tcon { font-size:13.5px; font-weight:700; margin:3px 0 8px; }
+  .ttasks { list-style:none; margin:0 0 10px; padding:0; display:flex; flex-direction:column; gap:6px; }
+  .ttasks .chk { font-weight: 400; color: var(--ink); }
+  .trow { display:flex; align-items:flex-start; gap:8px; }
+  .trow .chk { margin-top:2px; }
+  .tlabel {
+    flex:1; display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    background:transparent; border:none; padding:2px 4px; margin:0;
+    font:400 13.5px/1.45 'Inter',sans-serif; color:var(--ink); text-align:left; cursor:pointer;
+    border-radius:8px; transition:background .12s;
+  }
+  .tlabel:hover { background:#F2F8FA; }
+  .tlabel.open { color:var(--navy-dark); font-weight:600; }
+  .caret { font-size:9px; color:var(--sky); flex-shrink:0; margin-top:4px; }
+  .tdetail {
+    margin:6px 0 4px 27px; padding:11px 14px;
+    background:#F4FAFB; border-left:3px solid var(--sky); border-radius:0 10px 10px 0;
+    font-size:12.5px; line-height:1.6; color:var(--ink);
+  }
+  .tout {
+    display:inline-block; font-size:12px; font-weight:600; color:var(--navy-dark);
+    background:#EAF4F6; padding:4px 10px; border-radius:8px;
+  }
+
+  /* checklist */
+  .list-panel { background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; }
+  .list-panel ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+  .list-panel .chk { font-size:14px; font-weight:400; color:var(--ink); }
+  .reuse-item {
+    border:1px solid transparent; border-left:4px solid var(--line);
+    border-radius:10px; padding:9px 12px; cursor:pointer; transition:background .12s, border-color .12s;
+  }
+  .reuse-item:hover { background:#F7FBFC; border-color:var(--sky); border-left-color:var(--sky); }
+  .reuse-item.has-content { border-left-color:var(--teal); }
+  .rlabel { flex:1; font-size:14px; line-height:1.45; padding-top:1px; }
+  .rlabel .lim { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-soft); }
+  .reuse-item .hint {
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--sky);
+    letter-spacing:.05em; white-space:nowrap; margin-top:3px;
+  }
+  .charcount { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-soft); }
+  .charcount.over { color:var(--crimson); font-weight:600; }
+
+  /* decisions */
+  .dec {
+    background:var(--paper); border:1px solid var(--line); border-left:5px solid var(--amber);
+    border-radius:var(--radius); padding:14px 18px; margin-bottom:11px;
+    cursor:pointer; transition:border-color .15s;
+  }
+  .dec:hover { border-color:var(--sky); border-left-color:var(--amber); }
+  .dec.resolved { border-left-color:var(--teal); }
+  .dec b { color: var(--navy-dark); font-size: 14px; }
+  .dec p { margin:4px 0 0; font-size:13.5px; color:var(--ink-soft); }
+  .dec .hint {
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--sky);
+    float:right; letter-spacing:.05em;
+  }
+  .dec-note-view {
+    margin-top:10px; padding:10px 13px; background:#F0F7F2; border-left:3px solid var(--teal);
+    border-radius:0 10px 10px 0; font-size:13px; line-height:1.55; white-space:pre-wrap; cursor:pointer;
+  }
+  .dec-note-view .nlabel {
+    display:block; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--teal); margin-bottom:4px;
+  }
+  .dec-editor { margin-top:10px; cursor:default; }
+  .dec-editor textarea {
+    width:100%; min-height:88px; resize:vertical;
+    font:400 13.5px/1.5 'Inter',sans-serif; color:var(--ink);
+    background:#FDFCF8; border:1.5px solid var(--sky); border-radius:10px; padding:10px 12px;
+    outline:none;
+  }
+  .dec-editor textarea:focus { border-color:var(--navy); }
+  .dec-actions { display:flex; gap:8px; margin-top:8px; align-items:center; }
+  .btn {
+    font:600 12.5px 'Inter',sans-serif; border:none; border-radius:999px;
+    padding:7px 16px; cursor:pointer;
+  }
+  .btn.save { background:var(--navy); color:#fff; }
+  .btn.save:hover { background:var(--navy-dark); }
+  .btn.cancel { background:transparent; color:var(--ink-soft); }
+  .btn.cancel:hover { background:#F2ECDF; }
+  .btn.clear { background:transparent; color:var(--crimson); margin-left:auto; }
+  .btn.clear:hover { background:#FBEEF2; }
+  .saved-flash { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--teal); }
+
+  /* recommenders */
+  .rgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; }
+  .rcard {
+    background:var(--paper); border:2px solid var(--line); border-radius:var(--radius);
+    padding:16px 18px; cursor:pointer; transition:border-color .15s;
+  }
+  .rcard:hover { border-color:var(--sky); }
+  .rcard.on { border-color:var(--navy); background:#F2F8FA; }
+  .rtitle { font-weight:700; font-size:14.5px; color:var(--navy-dark); }
+  .rbadge { float:right; font-size:11px; font-weight:700; color:var(--navy); visibility:hidden; }
+  .rcard.on .rbadge { visibility:visible; }
+  .rconn { font-size:12.5px; font-weight:600; color:var(--teal); margin:4px 0; }
+  .rval { font-size:12.5px; color:var(--ink-soft); margin-bottom:8px; }
+  .ract { font-size:12px; background:#F2ECDF; padding:6px 9px; border-radius:8px; }
+
+  .strike { text-decoration: line-through; color: #97a5ad; }
+  .foot {
+    max-width:1060px; margin:28px auto 0; padding:14px 22px 0; border-top:1px solid var(--line);
+    font-size:12px; color:var(--ink-soft);
+  }
+  @media (max-width:600px){ .hero{padding:28px 18px;} .panel{padding:26px 15px 6px;} }
+</style>
+<style>html, body { margin: 0; }</style>
+</head>
+<body>
+  <nav style="background:#1a4d63; padding:0.5rem 1.5rem; font-family:system-ui,sans-serif;">
+    <a href="index.html" style="color:rgba(255,255,255,0.85); text-decoration:none; font-size:0.85rem; font-weight:600;">← Back to Hub</a>
+  </nav>
+<div class="tsp-app">
+
+  <div class="hero">
+    <div class="eyebrow">The Sandwich Project · Grant Sprint · Jul 16 – Sept 15, 2026</div>
+    <h1>Five builds. Eight funders. One workback plan.</h1>
+    <p class="sub">Today is Monday, July 20. The prep window closes tomorrow, the Ida build starts Wednesday, and Marcy's review window is next week. This tracker shows what's due, what gets reused, and what still needs a decision.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">5</div><div class="l">application builds</div></div>
+      <div class="stat"><div class="n">8</div><div class="l">funders in the sprint</div></div>
+      <div class="stat"><div class="n">~$145K</div><div class="l">combined recommended ask</div></div>
+      <div class="stat"><div class="n">4</div><div class="l">share one Wells Fargo form</div></div>
+    </div>
+    <div class="progress-wrap">
+      <div class="track"><div class="fill" id="fill"></div></div>
+      <div class="plabel" id="plabel">Loading progress…</div>
+    </div>
+  </div>
+
+  <div class="sandwich">
+    <span class="bread"></span><span class="l-teal"></span><span class="l-amber"></span><span class="l-crimson"></span><span class="bread"></span>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-t="matrix">Funder Matrix</button>
+    <button class="tab" data-t="cal">Workback Calendar</button>
+    <button class="tab" data-t="reuse">Lock-Once Checklist</button>
+    <button class="tab" data-t="dec">Open Decisions</button>
+    <button class="tab" data-t="rec">Catholic Recommender</button>
+  </div>
+
+  <div class="panel active" data-p="matrix">
+    <div class="head">
+      <span class="kick">Where each ask stands</span>
+      <h2>Funder Matrix</h2>
+      <p>Each card is one application. Check "Submitted" as they go out the door.</p>
+    </div>
+    <div class="legend">
+      <span class="chip"><span class="dot teal"></span>General operating</span>
+      <span class="chip"><span class="dot crimson"></span>Capital / equipment</span>
+      <span class="chip"><span class="dot amber"></span>Defined program</span>
+      <span class="chip"><span class="dot sky"></span>Type to confirm</span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div class="panel" data-p="cal">
+    <div class="head">
+      <span class="kick">Built around Marcy's travel and the TSP party</span>
+      <h2>Workback Calendar</h2>
+      <p>It's Monday, July 20 — the first prep window ends tomorrow, and the Ida build starts Wednesday. Internal deadlines sit earlier than funder deadlines on purpose so nothing depends on a day Marcy isn't here. Crimson dots are hard internal deadlines; sky dots are low-capacity windows.</p>
+    </div>
+    <div class="tl" id="tl"></div>
+  </div>
+
+  <div class="panel" data-p="reuse">
+    <div class="head">
+      <span class="kick">Finalize once · quality-check once · reuse four times</span>
+      <h2>Lock-Once-and-Reuse Data</h2>
+      <p>Tap any item to record the actual content — paste the mission statement, the board roster, the volunteer count — so this becomes the single source of truth for all four Wells Fargo builds. Fields with a 1,000-character portal limit get a live counter. Use the checkbox to mark an item verified and final.</p>
+    </div>
+    <div class="list-panel"><ul id="reuse"></ul></div>
+  </div>
+
+  <div class="panel" data-p="dec">
+    <div class="head">
+      <span class="kick">Resolve before drafting</span>
+      <h2>Open Decisions &amp; Gaps</h2>
+      <p>Tap any card to open a note field — record the answer or findings and save. Cards with a saved note turn teal so you can see at a glance what's been resolved. Notes save automatically to this tracker.</p>
+    </div>
+    <div id="decs"></div>
+  </div>
+
+  <div class="panel" data-p="rec">
+    <div class="head">
+      <span class="kick">Catholic Foundation of North Georgia · recommendation required by Jul 24</span>
+      <h2>Choose the Strongest Recommender</h2>
+      <p>Tap a card to mark the working choice; tap again to clear. Keep a backup in case the first pick doesn't meet the current form's eligibility rules.</p>
+    </div>
+    <div class="rgrid" id="recs"></div>
+  </div>
+
+  <div class="foot">Planning consolidation — not a substitute for each funder's live 2026 application. Verify eligibility and requirements against the current form immediately before submitting.</div>
+</div>
+
+
+<script>
+  // localStorage-backed shim matching the window.storage API used by this tracker
+  if (!window.storage) {
+    window.storage = {
+      get: async (key) => {
+        const v = localStorage.getItem(key);
+        return v == null ? null : { value: v };
+      },
+      set: async (key, value) => {
+        localStorage.setItem(key, value);
+      }
+    };
+  }
+</script>
+<script>
+(function(){
+  const funders = [
+    { id:'ida', name:'Ida Alice Ryan Charitable Trust', method:'Wells Fargo common app', type:'operating',
+      due:'Due Aug 1 — submit Wed Jul 29', target:'Marcy review Jul 27–29, before travel',
+      strat:'General operating for the Fresh-Food Distribution Network. Research recommends operating even though the spreadsheet also flags capital/program.',
+      amt:'$20,000 recommended (range $10K–$25K)', contact:'Wells Fargo grants administration' },
+    { id:'mun', name:'Richard C. Munroe Foundation', method:'Short form + 1-page letter', type:'capital',
+      due:'Due Aug 15 — complete Tue Aug 11', target:'Quotes gathered while Marcy is out (Jul 30–Aug 8)',
+      strat:'Capital / defined project only — no general operating. Rolling refrigerated cold-holding units proposed; amount depends on quotes.',
+      amt:'$10,000–$15,000, subject to quotes', contact:'Jennifer Nagele — intro email encouraged' },
+    { id:'cat', name:'Catholic Foundation of North Georgia', method:'Separate application (form TBD)', type:'tbd',
+      due:'Due Aug 31 — submit Aug 27–28', target:'Recommendation requested by Jul 24',
+      strat:'Spreadsheet flags general operating; confirm final type in the current guidelines. Requires a Catholic recommender.',
+      amt:'Up to $25,000', contact:'Recommender: board member, staff, volunteer, client, donor, or parishioner' },
+    { id:'wood', name:'David, Helen & Marian Woodward Fund', method:'Wells Fargo common app', type:'tbd',
+      due:'Due Sept 1 — submit Aug 27–28', target:'Confirm 2026 guidelines + capital scope first',
+      strat:'Working title: Food-Safety Capacity Equipment. Define a discrete capital need that does not duplicate the Munroe request.',
+      amt:'$10,000–$30,000 prospect range', contact:'Wells Fargo grants administration' },
+    { id:'atl', name:'Atlanta Foundation', method:'Wells Fargo common app', type:'operating',
+      due:'Due Sept 1 — submit Aug 27–28', target:'Confirm Fulton/DeKalb legal address before drafting',
+      strat:'Working title: Fulton-DeKalb Food Access. Operating or program support; emphasize benefit to Fulton and DeKalb residents and partners.',
+      amt:'$20,000 recommended (spreadsheet avg $15K)', contact:'Wells Fargo grants administration' },
+    { id:'bran', name:'Mary Allen Lindsey Branan Foundation', method:'Wells Fargo common app', type:'operating',
+      due:'Due Sept 1 — submit Aug 27–28', target:'Draft alongside Ida build',
+      strat:'Working title: Relieving Hunger in Metro Atlanta. General operating for collection, safety, volunteer coordination, transportation, distribution.',
+      amt:'$20,000 recommended (spreadsheet avg $15K)', contact:'Wells Fargo grants administration' },
+    { id:'fww', name:'Frances Wood Wilson Foundation', method:'Mailed paper proposal', type:'program',
+      due:'Due Sept 1 — mail by Mon Aug 24', target:'Packet assembled Aug 17–21',
+      strat:'Defined fresh-food distribution program. Research recommends a program request over the spreadsheet\u2019s capital flag. Mail early; no signature required.',
+      amt:'$15,000 recommended (range $5K–$25K)', contact:'Donna Moseley — intro email encouraged' },
+    { id:'glenn', name:'Jack & Anne Glenn Charitable Foundation', method:'Truist common application', type:'program',
+      due:'Due Sept 15 — draft Sept 2–10', target:'Contact Amy Greene in July',
+      strat:'Program support tied clearly to disadvantaged youth and families TSP serves, backed by TSP data.',
+      amt:'$5,000–$25,000', contact:'Amy Greene at Truist — outreach encouraged' },
+  ];
+
+  // Each task: t = label, i = detail pulled from the original planning document (tap the label to expand)
+  const phases = [
+    { d:'Thu, Jul 16', k:'hard', when:'past', c:'Separate proposal was due — behind us', o:'No further action',
+      t:[
+        { t:'Proposal deadline has passed \u2014 confirm it went out, then move on',
+          i:'From the internal calendar constraints supplied July 16: a separate proposal was due that day, and the plan explicitly assumed no substantive Ida Alice Ryan drafting would happen alongside it. If it went out, nothing more is owed here.' },
+      ] },
+    { d:'Now \u2013 Tue Jul 21', k:'hard', when:'now', c:'Prep window closes tomorrow \u2014 these three things need to happen now', o:'Shared data sheet + recommender shortlist by end of day tomorrow',
+      t:[
+        { t:'Finalize Wells Fargo reusable organization data',
+          i:'This is the shared organization + finance profile used verbatim across all four Wells Fargo builds (Ida Alice Ryan, Atlanta, Woodward, Branan). Confirmed portal fields: mission statement (\u22641,000 chars); fiscal agent/sponsor answer; board roster with full name, board title, employer, and professional title; paid FT and PT staff counts plus volunteer count; current annual budget with category-level detail; budget changes (\u22641,000 chars); admin expenses as a % of budget; prior fiscal-year end date and tax-return filing status; prior-year revenue split into contributions/grants, program service revenue, investment income, other; prior-year expenses split into program, admin, fundraising, other; revenue less expenses, total assets, total liabilities, net assets/fund balances, endowment net assets; and finance comments (\u22641,000 chars). Key implication from the plan: finalize and quality-check this once \u2014 these are not foundation-specific narratives. Owner: Christine with finance support; treasurer reviews the tax-return mapping and admin percentage.' },
+        { t:'Confirm Atlanta legal-address eligibility (Fulton/DeKalb)',
+          i:'The Atlanta Foundation only funds organizations whose legal/IRS address is in Fulton or DeKalb County \u2014 the plan says to confirm this before investing any drafting time. If eligible: operating or program support, $20,000 recommended ask (spreadsheet average $15,000), working title \u201cFulton-DeKalb Food Access,\u201d framed around benefit to Fulton and DeKalb residents and partner organizations. The county also appears on the Lock-Once list, so record it there when confirmed.' },
+        { t:'Identify Catholic recommender candidates',
+          i:'The Catholic Foundation of North Georgia application must include a recommendation from a Catholic board member, staff member, volunteer, client, donor, or local parishioner. TSP\u2019s four candidate bases from the plan: (1) co-founder Marcy \u2014 confirm an internal organizational leader is allowed to complete the form, and that she\u2019s available before her Jul 30 departure; (2) a Catholic core volunteer \u2014 clearly fits the listed categories; (3) the Shrine of the Immaculate Conception, TSP\u2019s first and longest-standing recipient \u2014 strongest external validation, but confirm the form permits a recipient/parishioner recommender; (4) Catholic private school partners \u2014 compile names and recent examples. Selection approach: pick the strongest first-hand external voice that meets the form\u2019s rules, and keep Marcy or the core volunteer as backup.' },
+      ] },
+    { d:'Wed Jul 22 – Fri Jul 24', k:'', c:'Ida build + relationship outreach', o:'Ida first draft; outreach underway',
+      t:[
+        { t:'Draft Ida request fields',
+          i:'The foundation-specific request section of the Wells Fargo portal: requested amount ($20,000 recommended; prospect range $10,000\u2013$25,000), support type (general operating \u2014 the spreadsheet also flags capital/program as eligible, but the research recommends operating), project title \u226450 characters (working title \u201cFresh-Food Distribution Network\u201d), project/program description \u22641,000 chars, common goals \u22641,000 chars, primary program area / geographic area / population / age group selections, and demographics comments \u22641,000 chars. Framing: human services, hunger relief, safe ready-to-eat food, operational capacity. Caution from the plan: don\u2019t make the operating narrative so broad it loses the direct connection to hunger relief and weekly delivery.' },
+        { t:'Request Catholic recommendation',
+          i:'Target: recommendation requested by Fri Jul 24 so the form comes back before Marcy leaves Jul 30. Open questions to resolve first: capture the current 2026 recommendation-form instructions, and confirm whether an internal co-founder may serve as recommender. Application itself is due Aug 31 (internal submit Aug 27\u201328), up to $25,000.' },
+        { t:'Send Munroe and Frances Wood Wilson intro emails',
+          i:'Munroe: contact Jennifer Nagele \u2014 an intro email is encouraged in the research. Munroe funds capital/defined projects only (no general operating); the proposed request is rolling refrigerated cold-holding equipment, $10,000\u2013$15,000 subject to quotes, via a short online form plus a one-page letter with attachments. Frances Wood Wilson: contact Donna Moseley \u2014 intro email also encouraged. FWW takes a complete paper proposal that must be mailed; research recommends a defined fresh-food distribution program request ($15,000 recommended; range $5,000\u2013$25,000) over the spreadsheet\u2019s capital flag.' },
+        { t:'Contact Amy Greene about the Glenn process',
+          i:'Amy Greene at Truist is the contact for the Jack & Anne Glenn Charitable Foundation, which uses the Truist common application (still to capture). Outreach is encouraged; clarify fit, support type, contact process, and whether her sessions still occur. Glenn funds disadvantaged youth and families at risk of poor educational, social, and health outcomes \u2014 the final request should connect clearly to youth/families TSP serves, backed by TSP data. $5,000\u2013$25,000; due Sept 15, drafting planned Sept 2\u201310.' },
+      ] },
+    { d:'Mon Jul 27 – Wed Jul 29', k:'hard', c:'Final Marcy review window before travel', o:'Ida submitted by Jul 29',
+      t:[
+        { t:'Review Ida with Marcy',
+          i:'This is the last review window before Marcy is unavailable Jul 30\u2013Aug 8. The plan assigns Marcy review of the Ida, Atlanta, and Branan narratives; her sign-off on Ida must happen here so it can be submitted by Wed Jul 29, ahead of the Aug 1 deadline.' },
+        { t:'Lock support type, amount, and budget',
+          i:'Final decisions to freeze during review: support type = general operating (research recommendation over the spreadsheet\u2019s capital/program flags), amount = $20,000 recommended within the $10,000\u2013$25,000 prospect range, and the budget figures that flow from the locked finance profile. Rule from the plan: where spreadsheet and narrative research differ, the narrative research or explicit funder restriction controls.' },
+        { t:'Begin adapting Atlanta, Woodward, and Branan versions',
+          i:'All three reuse the same organization + finance profile \u2014 only the request section changes: amount, title, description, common goals, and demographics (plus support type and geography for some). Working titles from the plan: Atlanta \u201cFulton-DeKalb Food Access\u201d (operating/program, geography framing hinges on Fulton/DeKalb); Woodward \u201cFood-Safety Capacity Equipment\u201d (capital, pending guideline confirmation \u2014 must not duplicate Munroe); Branan \u201cRelieving Hunger in Metro Atlanta\u201d (general operating for collection, safety, volunteer coordination, transportation, distribution). One portal selection already observed for Branan: Primary Program Area = Health, geography = USA, Georgia; population and age selections still to complete.' },
+      ] },
+    { d:'Thu Jul 30 – Sat Aug 8', k:'low', c:'Marcy out — team keeps moving', o:'Munroe evidence package; Woodward strategy confirmed; draft variants',
+      t:[
+        { t:'Gather Munroe equipment quotes',
+          i:'The Munroe request is rolling refrigerated cold-holding units, temperature monitoring, and related setup \u2014 $10,000\u2013$15,000, with the final amount set by quotes. The plan requires an evidence package: quotes, specifications, quantities, a storage and use plan, and a measurable benefit, tracked separately from any other capital ask. First confirm this equipment is still TSP\u2019s highest-priority discrete capital need. Owner: Christine with the operations lead; finance confirms.' },
+        { t:'Confirm Woodward 2026 guidelines and capital scope',
+          i:'Woodward is one of the three funders whose current application was never fully researched. Capture the full 2026 foundation page and application selections, confirm whether capital is the appropriate or required support type, and define a discrete capital need that does not duplicate the Munroe equipment request. Prospect range $10,000\u2013$30,000; uses the Wells Fargo common application, so the locked org profile carries over.' },
+        { t:'Draft Catholic and Wells Fargo materials',
+          i:'This window is deliberately structured so Christine and the team can progress without Marcy: draft the Catholic Foundation narrative (up to $25,000; support type to be confirmed against current guidelines \u2014 spreadsheet flags general operating) and the Atlanta/Woodward/Branan request-section variants. Nothing here should require Marcy\u2019s approval until she returns Aug 8.' },
+      ] },
+    { d:'Mon Aug 10 – Tue Aug 11', k:'hard', c:'Final productive days before party week', o:'Munroe submitted by Aug 11',
+      t:[
+        { t:'Complete and submit Munroe',
+          i:'Submission format: short online form plus a one-page letter and attachments (the quotes/specs package from the previous window). Funder deadline is Aug 15, but the internal target is Tue Aug 11 because grant capacity drops sharply after Tuesday of party week.' },
+        { t:'Resolve any Catholic recommendation questions',
+          i:'By this point the recommendation (requested Jul 24) should be in hand or nearly so. Close out any eligibility questions \u2014 especially whether the chosen recommender category is accepted by the current form \u2014 so the Aug 17\u201321 window can be pure narrative finalization.' },
+      ] },
+    { d:'Wed Aug 12 – Sat Aug 15', k:'low', c:'TSP party week — limited capacity after Tuesday', o:'No major drafting assumed',
+      t:[
+        { t:'Only urgent corrections or confirmations',
+          i:'The TSP party is Aug 15. The plan assumes no major drafting this week \u2014 it exists as a buffer for urgent corrections or confirmations only. If something is slipping, it should surface here, not during the Aug 25\u201328 submission crunch.' },
+      ] },
+    { d:'Mon Aug 17 – Fri Aug 21', k:'', c:'Main August production window', o:'All Aug 31 / Sept 1 apps at final-review stage',
+      t:[
+        { t:'Finalize Catholic narrative and recommendation',
+          i:'Bring the Catholic Foundation application (due Aug 31, up to $25,000) to final-review state: narrative finalized against the captured 2026 guidelines, support type confirmed, recommendation attached. TSP\u2019s relationship evidence to draw on: the Shrine of the Immaculate Conception as first and longest-standing recipient, Catholic core volunteers, and Catholic private school partnerships.' },
+        { t:'Complete Atlanta, Woodward, and Branan variants',
+          i:'Each is a separate Wells Fargo application even though the org/finance sections are shared. Finish the foundation-specific request sections: Atlanta ($20,000, Fulton-DeKalb framing \u2014 only if county eligibility was confirmed), Woodward (capital request per confirmed guidelines, distinct from Munroe), Branan ($20,000 general operating, \u201cRelieving Hunger in Metro Atlanta\u201d). All three submit Aug 27\u201328 for the Sept 1 deadline.' },
+        { t:'Assemble the Frances Wood Wilson packet',
+          i:'FWW requires a complete paper proposal that must be mailed \u2014 the only non-online submission in the sprint. Assemble the defined fresh-food distribution program proposal ($15,000 recommended) plus the complete attachment checklist from the Lock-Once list. Still open: confirm whether the Sept 1 deadline means received-by; the research says mail early regardless.' },
+      ] },
+    { d:'Mon, Aug 24', k:'hard', c:'Mailing target', o:'FWW proposal mailed',
+      t:[
+        { t:'Mail Frances Wood Wilson — no signature required, with time for receipt',
+          i:'The research specifically says to mail without a signature requirement (so delivery isn\u2019t held up) and early enough to allow time for receipt before Sept 1 \u2014 hence the Aug 24 target rather than the deadline itself. Owner: Christine with administrative support; attachment check and mailing confirmation before it goes out.' },
+      ] },
+    { d:'Tue Aug 25 – Fri Aug 28', k:'hard', c:'Final review before Marcy leaves again', o:'All Aug 31 / Sept 1 online apps submitted',
+      t:[
+        { t:'Submit Catholic, Atlanta, Woodward, and Branan',
+          i:'All four online applications go out this window: Catholic Foundation (due Aug 31) and the three Wells Fargo builds (due Sept 1). The internal target of Aug 27\u201328 exists because Marcy leaves again Sun Aug 30 and the external deadlines fall on/near a weekend \u2014 no core approvals can remain outstanding past Friday.' },
+        { t:'Retain confirmations and copies',
+          i:'The plan calls for keeping submission confirmations and full copies of every application as the working source record \u2014 both for follow-up with funders and so next year\u2019s cycle starts from verified submissions rather than drafts.' },
+      ] },
+    { d:'Sun, Aug 30', k:'low', c:'Marcy leaves again', o:'Only contingency work remains',
+      t:[
+        { t:'No core approvals should be outstanding',
+          i:'Hard checkpoint from the internal calendar: Marcy departs again Aug 30. Everything except Glenn should be submitted by now; only contingency work (funder follow-up questions, corrections) should remain.' },
+      ] },
+    { d:'Wed Sept 2 – Fri Sept 11', k:'', c:'Glenn production window', o:'Submit before Sept 15',
+      t:[
+        { t:'Complete Glenn program request',
+          i:'A defined program proposal emphasizing disadvantaged youth and families at risk of poor educational, social, and health outcomes, supported by TSP data on youth/families served. $5,000\u2013$25,000 range. The plan\u2019s caution: don\u2019t rely on spreadsheet eligibility flags alone \u2014 follow the current proposal guidelines and required attachments captured in July.' },
+        { t:'Finish the Truist application',
+          i:'Glenn uses the Truist common application, which was still to be captured as of the plan date \u2014 the July outreach to Amy Greene should have surfaced the current form, fit, and support type. Owner: Christine, with a program-fit review before the Sept 15 deadline.' },
+      ] },
+  ];
+
+  // Lock-once items: t = label, lim = portal character limit if one applies
+  const reuse = [
+    { t:'Current mission statement', lim:1000 },
+    { t:'Confirmed fiscal-agent answer: Not Applicable (unless circumstances differ)' },
+    { t:'Complete board roster with employer and professional title' },
+    { t:'Paid full-time and part-time staff counts, using a consistent definition' },
+    { t:'Volunteer count and the reporting period it covers' },
+    { t:'Current fiscal-year total budget and category breakdown' },
+    { t:'Administrative expense percentage and how it\u2019s calculated' },
+    { t:'Budget-change explanation', lim:1000 },
+    { t:'Most recent tax-return figures mapped exactly to the portal\u2019s revenue, expense, asset, and liability fields' },
+    { t:'Current legal/IRS address and county (for Atlanta Foundation eligibility)' },
+    { t:'Final annual and weekly service statistics, used consistently across all applications' },
+    { t:'List of Fulton and DeKalb recipient partners with estimated reach' },
+    { t:'Catholic partners, schools, and potential recommender contacts' },
+    { t:'Munroe equipment quotes, specs, quantity, storage, and use plan' },
+    { t:'Frances Wood Wilson complete attachment checklist and mailing plan' },
+  ];
+
+  const decs = [
+    ['Atlanta Foundation','Confirm TSP\u2019s exact legal/IRS address is in Fulton or DeKalb County before investing in the application.'],
+    ['Woodward Fund','Capture the full 2026 page and application selections; confirm whether capital is the right support type; pick a need that doesn\u2019t duplicate Munroe.'],
+    ['Catholic Foundation','Capture the full 2026 application, eligible support types, and recommendation-form instructions — including whether an internal co-founder may recommend.'],
+    ['Catholic recommender','Select a primary and a backup; request the form early enough to beat Marcy\u2019s Jul 30 departure.'],
+    ['Munroe scope','Confirm rolling cold-holding equipment is still the top discrete capital need, and get quotes before setting the amount.'],
+    ['Frances Wood Wilson','Confirm whether Sept 1 means received-by. Existing research: mail early, no signature requirement.'],
+    ['Glenn / Truist','Capture the current Truist common application; clarify fit, support type, and whether Amy Greene\u2019s sessions still run.'],
+    ['Financial source of truth','Use the most recently filed return for prior-year fields and the approved current budget for current fields; document differences vs. internal statements.'],
+    ['Volunteer count','Define whether the portal expects active, annual unduplicated, or estimated volunteers — then label the figure accurately everywhere.'],
+  ];
+
+  const recs = [
+    { id:'r1', title:'Catholic organizational leader', conn:'Catholic co-founder Marcy',
+      val:'Speaks to TSP history, mission, and Catholic-community involvement.',
+      act:'Confirm an internal leader may complete the form, and that Marcy is available before Jul 30.' },
+    { id:'r2', title:'Catholic volunteer', conn:'Catholic core volunteer',
+      val:'Clearly fits the listed recommender categories; speaks to hands-on volunteer experience.',
+      act:'Identify the strongest volunteer and request the recommendation by Jul 24.' },
+    { id:'r3', title:'Catholic recipient partner', conn:'The Shrine of the Immaculate Conception — TSP\u2019s first and longest-standing recipient',
+      val:'Strong external validation of service, longevity, reliability, and impact.',
+      act:'Find the best Shrine contact; confirm the form permits a recipient/parishioner recommender.' },
+    { id:'r4', title:'Catholic education partner', conn:'Catholic private school relationships',
+      val:'Shows meaningful participation by Catholic students, families, and school communities.',
+      act:'Compile school names, recent examples, and sandwich/volunteer impact.' },
+  ];
+
+  // ---- state (in-memory first, persisted when available) ----
+  let state = { checked:{}, rec:null, notes:{} };
+  const expanded = new Set(); // timeline tasks currently showing detail (per session)
+  const openDecs = new Set(); // decision cards with an open editor (per session)
+  const KEY = 'tsp-grant-sprint-v2';
+
+  async function load() {
+    if (!window.storage) return;
+    try {
+      const r = await window.storage.get(KEY);
+      if (r && r.value) {
+        const s = JSON.parse(r.value);
+        if (s && typeof s === 'object') state = { checked: s.checked || {}, rec: s.rec || null, notes: s.notes || {} };
+      }
+    } catch(e) { /* first run — nothing saved yet */ }
+  }
+  async function save() {
+    if (!window.storage) return;
+    try { await window.storage.set(KEY, JSON.stringify(state)); }
+    catch(e) { console.error('save failed', e); }
+  }
+
+  const totalItems = funders.length + phases.reduce((a,p)=>a+p.t.length,0) + reuse.length;
+
+  function progress() {
+    const done = Object.values(state.checked).filter(Boolean).length;
+    const pct = Math.round(done/totalItems*100);
+    document.getElementById('fill').style.width = pct + '%';
+    document.getElementById('plabel').textContent = done + ' of ' + totalItems + ' action items done (' + pct + '%)';
+  }
+
+  function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+  function render() {
+    // funders
+    const grid = document.getElementById('grid');
+    grid.innerHTML = funders.map(f => {
+      const k = 'f:'+f.id, on = !!state.checked[k];
+      return '<div class="card '+f.type+(on?' done':'')+'">'
+        + '<div class="card-top"><div class="fname">'+esc(f.name)+'</div><div class="method">'+esc(f.method)+'</div></div>'
+        + '<span class="pill '+f.type+'">'+(f.type==='tbd'?'To confirm':f.type)+'</span>'
+        + '<div class="due">'+esc(f.due)+'</div>'
+        + '<div class="target">'+esc(f.target)+'</div>'
+        + '<div class="strat">'+esc(f.strat)+'</div>'
+        + '<div class="meta"><b>Amount:</b> '+esc(f.amt)+'</div>'
+        + '<div class="meta"><b>Contact:</b> '+esc(f.contact)+'</div>'
+        + '<label class="chk"><input type="checkbox" data-k="'+k+'"'+(on?' checked':'')+'> Submitted</label>'
+        + '</div>';
+    }).join('');
+
+    // timeline
+    document.getElementById('tl').innerHTML = phases.map((p,pi) => {
+      const tasks = p.t.map((task,ti)=>{
+        const k='t:'+pi+':'+ti, on=!!state.checked[k], open=expanded.has(k);
+        return '<li>'
+          + '<div class="trow">'
+          + '<label class="chk"><input type="checkbox" data-k="'+k+'"'+(on?' checked':'')+'></label>'
+          + '<button class="tlabel'+(open?' open':'')+'" data-x="'+k+'">'
+          + '<span class="'+(on?'strike':'')+'">'+esc(task.t)+'</span>'
+          + '<span class="caret">'+(open?'\u25B2':'\u25BC')+'</span>'
+          + '</button>'
+          + '</div>'
+          + (open ? '<div class="tdetail">'+esc(task.i)+'</div>' : '')
+          + '</li>';
+      }).join('');
+      const stateCls = p.when === 'past' ? ' past' : (p.when === 'now' ? ' now' : '');
+      const tag = p.when === 'past' ? '<span class="past-tag">Done / past</span>'
+                : p.when === 'now' ? '<span class="now-tag">You are here</span>' : '';
+      return '<div class="node '+p.k+stateCls+'"><div class="tcard">'
+        + '<div class="tdate">'+esc(p.d)+tag+'</div>'
+        + '<div class="tcon">'+esc(p.c)+'</div>'
+        + '<ul class="ttasks">'+tasks+'</ul>'
+        + '<span class="tout">\u2192 '+esc(p.o)+'</span>'
+        + '</div></div>';
+    }).join('');
+
+    // lock-once list — tap an item to record the actual content; checkbox = verified/final
+    document.getElementById('reuse').innerHTML = reuse.map((item,i)=>{
+      const k='r:'+i, on=!!state.checked[k];
+      const note = state.notes[k] || '';
+      const open = openDecs.has(k);
+      const limNote = item.lim ? ' <span class="lim">(portal limit: '+item.lim+' chars)</span>' : '';
+      let body = '';
+      if (open) {
+        const count = note.length;
+        const over = item.lim && count > item.lim;
+        body = '<div class="dec-editor">'
+          + '<textarea data-ta="'+k+'" data-lim="'+(item.lim||'')+'" placeholder="Paste or type the final content here \u2014 this is the version that goes into every application\u2026">'+esc(note)+'</textarea>'
+          + '<div class="dec-actions">'
+          + '<button class="btn save" data-save="'+k+'">Save</button>'
+          + '<button class="btn cancel" data-cancel="'+k+'">Cancel</button>'
+          + '<span class="charcount'+(over?' over':'')+'" data-count="'+k+'">'+(item.lim ? count+' / '+item.lim : count+' chars')+'</span>'
+          + (note ? '<button class="btn clear" data-clear="'+k+'">Clear</button>' : '')
+          + '</div></div>';
+      } else if (note) {
+        const overSaved = item.lim && note.length > item.lim;
+        body = '<div class="dec-note-view"><span class="nlabel">\u2713 Recorded ('+note.length+' chars'+(overSaved?' \u2014 over portal limit!':'')+') \u2014 tap to edit</span>'+esc(note)+'</div>';
+      }
+      return '<li><div class="reuse-item'+(note?' has-content':'')+'" data-d="'+k+'">'
+        + '<div class="trow">'
+        + '<label class="chk" title="Mark verified / final"><input type="checkbox" data-k="'+k+'"'+(on?' checked':'')+'></label>'
+        + '<span class="rlabel '+(on?'strike':'')+'">'+esc(item.t)+limNote+'</span>'
+        + '<span class="hint">'+(note?'tap to edit':'tap to record')+'</span>'
+        + '</div>'
+        + body
+        + '</div></li>';
+    }).join('');
+
+    // decisions — click to open a note editor; saved notes show inline
+    document.getElementById('decs').innerHTML = decs.map((d,di) => {
+      const k = 'd:'+di;
+      const note = state.notes[k] || '';
+      const open = openDecs.has(k);
+      let body = '';
+      if (open) {
+        body = '<div class="dec-editor">'
+          + '<textarea data-ta="'+k+'" placeholder="Type the answer, findings, or notes for this decision\u2026">'+esc(note)+'</textarea>'
+          + '<div class="dec-actions">'
+          + '<button class="btn save" data-save="'+k+'">Save note</button>'
+          + '<button class="btn cancel" data-cancel="'+k+'">Cancel</button>'
+          + (note ? '<button class="btn clear" data-clear="'+k+'">Clear note</button>' : '')
+          + '</div></div>';
+      } else if (note) {
+        body = '<div class="dec-note-view"><span class="nlabel">\u2713 Your note \u2014 tap to edit</span>'+esc(note)+'</div>';
+      }
+      return '<div class="dec'+(note?' resolved':'')+'" data-d="'+k+'">'
+        + '<span class="hint">'+(open?'':(note?'tap to edit':'tap to add note'))+'</span>'
+        + '<b>'+esc(d[0])+'</b><p>'+esc(d[1])+'</p>'
+        + body
+        + '</div>';
+    }).join('');
+
+    // recommenders
+    document.getElementById('recs').innerHTML = recs.map(r =>
+      '<div class="rcard'+(state.rec===r.id?' on':'')+'" data-r="'+r.id+'">'
+      + '<span class="rbadge">\u2713 Chosen</span>'
+      + '<div class="rtitle">'+esc(r.title)+'</div>'
+      + '<div class="rconn">'+esc(r.conn)+'</div>'
+      + '<div class="rval">'+esc(r.val)+'</div>'
+      + '<div class="ract">'+esc(r.act)+'</div>'
+      + '</div>').join('');
+
+    progress();
+  }
+
+  // live char counter while typing in a lock-once editor
+  document.addEventListener('input', e => {
+    const ta = e.target.closest('textarea[data-ta]');
+    if (!ta) return;
+    const counter = document.querySelector('[data-count="'+ta.dataset.ta+'"]');
+    if (!counter) return;
+    const lim = parseInt(ta.dataset.lim, 10);
+    const n = ta.value.length;
+    if (lim) {
+      counter.textContent = n + ' / ' + lim;
+      counter.classList.toggle('over', n > lim);
+    } else {
+      counter.textContent = n + ' chars';
+    }
+  });
+
+  // event delegation — survives re-renders
+  document.addEventListener('change', e => {
+    const box = e.target.closest('input[data-k]');
+    if (!box) return;
+    state.checked[box.dataset.k] = box.checked;
+    save();
+    render();
+  });
+  document.addEventListener('click', e => {
+    // decision note editor buttons
+    const saveBtn = e.target.closest('[data-save]');
+    if (saveBtn) {
+      const k = saveBtn.dataset.save;
+      const ta = document.querySelector('textarea[data-ta="'+k+'"]');
+      const val = ta ? ta.value.trim() : '';
+      if (val) state.notes[k] = val; else delete state.notes[k];
+      openDecs.delete(k);
+      save(); render(); return;
+    }
+    const cancelBtn = e.target.closest('[data-cancel]');
+    if (cancelBtn) { openDecs.delete(cancelBtn.dataset.cancel); render(); return; }
+    const clearBtn = e.target.closest('[data-clear]');
+    if (clearBtn) {
+      delete state.notes[clearBtn.dataset.clear];
+      openDecs.delete(clearBtn.dataset.clear);
+      save(); render(); return;
+    }
+    // clicking inside an open editor or on a checkbox shouldn't toggle the card
+    if (e.target.closest('.dec-editor') || e.target.closest('.chk')) return;
+    const noteCard = e.target.closest('[data-d]');
+    if (noteCard) {
+      const k = noteCard.dataset.d;
+      openDecs.has(k) ? openDecs.delete(k) : openDecs.add(k);
+      render();
+      const ta = document.querySelector('textarea[data-ta="'+k+'"]');
+      if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+      return;
+    }
+    const xbtn = e.target.closest('.tlabel[data-x]');
+    if (xbtn) {
+      const k = xbtn.dataset.x;
+      expanded.has(k) ? expanded.delete(k) : expanded.add(k);
+      render(); return;
+    }
+    const rc = e.target.closest('.rcard');
+    if (rc) {
+      state.rec = (state.rec === rc.dataset.r) ? null : rc.dataset.r;
+      save(); render(); return;
+    }
+    const tab = e.target.closest('.tab');
+    if (tab) {
+      document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+      document.querySelector('.panel[data-p="'+tab.dataset.t+'"]').classList.add('active');
+    }
+  });
+
+  load().then(render).catch(render);
+})();
+</script>
+</body>
+</html>
