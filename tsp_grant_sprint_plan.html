@@ -616,7 +616,7 @@
         const k='t:'+pi+':'+ti, on=!!state.checked[k], open=expanded.has(k);
         return '<li>'
           + '<div class="trow">'
-          + '<label class="chk"><input type="checkbox" data-k="'+k+'"'+(on?' checked':'')+'></label>'
+          + '<label class="chk"><input type="checkbox" aria-label="Mark task complete: '+esc(task.t)+'" data-k="'+k+'"'+(on?' checked':'')+'></label>'
           + '<button class="tlabel'+(open?' open':'')+'" data-x="'+k+'">'
           + '<span class="'+(on?'strike':'')+'">'+esc(task.t)+'</span>'
           + '<span class="caret">'+(open?'\u25B2':'\u25BC')+'</span>'
@@ -660,7 +660,7 @@
       }
       return '<li><div class="reuse-item'+(note?' has-content':'')+'" data-d="'+k+'">'
         + '<div class="trow">'
-        + '<label class="chk" title="Mark verified / final"><input type="checkbox" data-k="'+k+'"'+(on?' checked':'')+'></label>'
+        + '<label class="chk" title="Mark verified / final"><input type="checkbox" aria-label="Mark verified / final: '+esc(item.t)+'" data-k="'+k+'"'+(on?' checked':'')+'></label>'
         + '<span class="rlabel '+(on?'strike':'')+'">'+esc(item.t)+limNote+'</span>'
         + '<span class="hint">'+(note?'tap to edit':'tap to record')+'</span>'
         + '</div>'
@@ -735,8 +735,8 @@
     if (saveBtn) {
       const k = saveBtn.dataset.save;
       const ta = document.querySelector('textarea[data-ta="'+k+'"]');
-      const val = ta ? ta.value.trim() : '';
-      if (val) state.notes[k] = val; else delete state.notes[k];
+      const raw = ta ? ta.value : '';
+      if (raw.trim()) state.notes[k] = raw; else delete state.notes[k];
       openDecs.delete(k);
       save(); render(); return;
     }
